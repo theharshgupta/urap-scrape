@@ -1,14 +1,20 @@
 from selenium import webdriver
 import pickle
 from selenium.common.exceptions import NoSuchElementException
+import os
 import re
 import pandas as pd
 import time
 
+# Initialising the location for the chromedriver
 driver = webdriver.Chrome('/Users/harsh/chromedriver')
 
 
 def sleep_one():
+    """
+    Calls the time.sleep function for 1 second. The program run time pauses for 1 second
+    :return:
+    """
     time.sleep(1)
 
 
@@ -20,12 +26,15 @@ def scrape_website(source_url):
     """
     # Below part accepts the agreement popup using just the clicks
     driver.get(source_url)
-    time.sleep(3)
-    driver.find_element_by_xpath('//*[@id="acceptOverlay"]').click()
-    sleep_one()
-    driver.find_element_by_xpath('//*[@id="scrollDown"]').click()
-    sleep_one()
-    driver.find_element_by_xpath('//*[@id="acceptOverlay"]').click()
+    try:
+        time.sleep(3)
+        driver.find_element_by_xpath('//*[@id="acceptOverlay"]').click()
+        sleep_one()
+        driver.find_element_by_xpath('//*[@id="scrollDown"]').click()
+        sleep_one()
+        driver.find_element_by_xpath('//*[@id="acceptOverlay"]').click()
+    except NoSuchElementException:
+        pass
 
     # Now we click the view electric popup, fuck these popups I swear
     sleep_one()
@@ -34,7 +43,8 @@ def scrape_website(source_url):
 
     # Main table data scrape now
     full_data = []
-    for x in range(2, 150):
+    for x in range(2, 1500):
+        "Here we can put this to an arbitrary large number just for the sake of the loop"
         try:
             element_xpath = f"/html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[{x}]"
             element = driver.find_element_by_xpath(element_xpath)
@@ -58,18 +68,18 @@ def scrape_website(source_url):
                 elif 'historic-pricing' in div_class_name:
                     history_pricing = div.text
 
-            print([company_name, offer_detail, rate_detail, offer_type, green_offer_details, history_pricing])
-            full_data.append([company_name, offer_detail, rate_detail, offer_type, green_offer_details, history_pricing])
-
-
+            data_row = [company_name, offer_detail, rate_detail, offer_type, green_offer_details, history_pricing]
+            if rate_detail is not '':
+                print(data_row)
+                full_data.append(data_row)
 
         except NoSuchElementException:
             break
     df = pd.DataFrame.from_records(full_data)
-    df['columns'] = ['company_name', 'offer_details', 'rate', 'green', 'historic_pricing']
     df.to_csv('data.csv', index=False)
+    print(df.to_string())
 
-source_url = "http://documents.dps.ny.gov/PTC/zipcode/10001"
-scrape_website(source_url=source_url)
 
-# /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[4]
+for zip_code in range(10001, 10003):
+    source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zip_code}"
+    scrape_website(source_url=source_url)

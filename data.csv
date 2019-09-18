@@ -1,4 +1,4 @@
-0,1,2,3,4,5
+company_name,offer_detail,rate_detail, offer_type,green,historic_pricing
 "Consolidated Edison Company of New York, Inc.Incumbent Utility",,"[ View Details ]
 $0.0725 per kWh
 $50.75 per month",Variable,,Historic Pricing
@@ -80,8 +80,6 @@ $55.38 per month",Fixed,,Historic Pricing
 Cancellation Fee: $100","[ View Details ]
 $0.0799 per kWh
 $55.93 per month",Fixed,,Historic Pricing
-"Constellation NewEnergy, Inc.","Min Term: 36 Month(s)
-Cancellation Fee: $100",,Fixed,,Historic Pricing
 Clearview Energy,"Min Term: 12 Month(s)
 Cancellation Fee: $50","[ View Details ]
 $0.0819 per kWh
@@ -152,9 +150,6 @@ Cancellation Fee: $100","[ View Details ]
 $0.0883 per kWh
 $61.81 per month",Fixed,"30%
 Wind",Historic Pricing
-"Public Power, LLC","Min Term: 12 Month(s)
-Cancellation Fee: $100",,Fixed,"30%
-Wind",Historic Pricing
 "Starion Energy NY, Inc.","Min Term: 12 Month(s)
 Cancellation Fee: $100","[ View Details ]
 $0.0889 per kWh
@@ -211,9 +206,6 @@ View Cancellation Fee Info.","[ View Details ]
 $0.093 per kWh
 $65.10 per month",Fixed,"100%
 Wind",Historic Pricing
-"East Coast Power & Gas, LLC","Min Term: 24 Month(s)
-View Cancellation Fee Info.",,Fixed,"100%
-Wind",Historic Pricing
 Stream,Min Term: 1 Month(s),"[ View Details ]
 $0.0935 per kWh
 $65.45 per month",Variable,,Historic Pricing
@@ -268,8 +260,6 @@ Wind",Historic Pricing
 Cancellation Fee: $100","[ View Details ]
 $0.097 per kWh
 $67.90 per month",Fixed,,Historic Pricing
-"Renaissance Power & Gas, Inc.","Min Term: 12 Month(s)
-Cancellation Fee: $100",,Fixed,,Historic Pricing
 Marathon Energy,"Min Term: 24 Month(s)
 View Cancellation Fee Info.","[ View Details ]
 $0.0975 per kWh
@@ -337,8 +327,6 @@ Hydroelectric",Historic Pricing
 View Cancellation Fee Info.","[ View Details ]
 $0.1039 per kWh
 $72.73 per month",Fixed,,Historic Pricing
-"Family Energy, Inc. d/b/a MYRATE ENERGY","Min Term: 36 Month(s)
-View Cancellation Fee Info.",,Fixed,,Historic Pricing
 "Family Energy, Inc. d/b/a MYRATE ENERGY","Min Term: 24 Month(s)
 View Cancellation Fee Info.","[ View Details ]
 $0.1039 per kWh
@@ -395,8 +383,6 @@ $83.30 per month",Variable,,Historic Pricing
 View Cancellation Fee Info.","[ View Details ]
 $0.1199 per kWh
 $83.93 per month",Fixed,,Historic Pricing
-"National Gas & Electric, LLC","Min Term: 6 Month(s)
-View Cancellation Fee Info.",,Fixed,,Historic Pricing
 Greenlight Energy Inc.,Min Term: 12 Month(s),"[ View Details ]
 $0.12 per kWh
 $84 per month",Variable,,Historic Pricing
@@ -463,9 +449,6 @@ $0.125 per kWh
 $87.50 per month",Variable,"100%
 Solar,
 Wind",Historic Pricing
-"CleanChoice Energy, Ethical Electric, Clean Energy Option",Min Term: 1 Month(s),,Variable,"100%
-Solar,
-Wind",Historic Pricing
 "Kiwi Energy NY, LLC.","Min Term: 6 Month(s)
 View Cancellation Fee Info.","[ View Details ]
 $0.1276 per kWh
@@ -524,8 +507,6 @@ Wind",Historic Pricing
 "All American Power and Gas, LLC.",Min Term: 1 Month(s),"[ View Details ]
 $0.1494 per kWh
 $104.58 per month",Variable,"100%
-Wind",Historic Pricing
-"All American Power and Gas, LLC.",Min Term: 1 Month(s),,Variable,"100%
 Wind",Historic Pricing
 Pure Energy,Min Term: 1 Month(s),"[ View Details ]
 $0.1499 per kWh
