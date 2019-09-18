@@ -33,17 +33,15 @@ def scrape_website(source_url):
     # Main table data scrape now
     for x in range(3, 150):
         try:
-            element = driver.find_element_by_xpath(f"/html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[{x}]")
-            print(element.text)
+            element_xpath = f"/html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[{x}]"
+            element = driver.find_element_by_xpath(element_xpath)
+            element_id = element
+            for div in element.find_elements_by_tag_name('div'):
+                print("Div Here:", div.text)
+
         except NoSuchElementException:
             break
 
-
-
-    # data_rows = driver.find_elements_by_class_name('row dataRow')
-    # print("Data Rows:", data_rows)
-    # for element in data_rows:
-    #     print("Element:", element)
 
 
 source_url = "http://documents.dps.ny.gov/PTC/zipcode/10001"
