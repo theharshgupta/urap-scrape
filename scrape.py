@@ -12,6 +12,8 @@ import time
 # Initialising the location for the chromedriver
 driver = webdriver.Chrome('/Users/harsh/chromedriver')
 
+global company_name, offer_detail, rate_detail, offer_type, green_offer_details, history_pricing
+
 
 def today_date():
     """
@@ -23,7 +25,7 @@ def today_date():
 
 def sleep_one():
     """
-    Calls the time.sleep function for 1 second. The program run time pauses for 1 second
+    Calls the time.sleep function for 1 second. The program run time pauses for 1 sec
     :return: None
     """
     time.sleep(1)
@@ -39,6 +41,7 @@ def extract_table(inner_html):
     table = soup.find('table')
     extractor = Extractor(table)
     table_extracted = extractor.parse().return_list()
+    print(table_extracted)
     return table_extracted
 
 
@@ -86,7 +89,6 @@ def scrape_website(source_url, zipcode):
                     offer_detail = div.text
                 elif 'rateColumn' in div_class_name:
                     rate_detail = div.text
-
                 elif 'offer-type-col' in div_class_name:
                     offer_type = div.text
                 elif 'green-offer-col' in div_class_name:
@@ -128,13 +130,11 @@ for zipcode in range(10001, 10002):
 # database schema for basic data download from the website
 
 """
-Date Downloaded
-
-State
-
-Website/Provider
-TDU Service Territory
-Updated since previous pull?
+Date Downloaded - done
+State- done - manual
+Website/Provider -- done - manual
+TDU Service Territory - done
+Updated since previous pull? - check 
 Defaults to Fixed Rates Only
 Default Monthly Usage for Calculating Bills and Savings
 Price to Compare / Default Rate for Calculating Bills and Savings
