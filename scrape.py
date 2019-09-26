@@ -100,6 +100,19 @@ def scrape_website(source_url, zipcode):
                         min_term = offer_detail
                 elif 'rateColumn' in div_class_name:
                     rate_detail = div.text
+                    try:
+                        rate_per_kwh = re.search('\\n(.*)\\n', rate_detail).group(1)
+                        rate_per_kwh = float(rate_per_kwh.replace('$', '').replace('per kWh', '').strip())
+                    except Exception as e:
+                        rate_per_kwh = rate_detail
+                    try:
+                        rate_per_month = float(re.search('\\n(.*)per month', rate_detail).group(1).replace('$', '')
+                                               .strip())
+                        units_per_month = rate_per_month / rate_per_kwh
+                        units_per_month = round(units_per_month, 2)
+                    except Exception as num_months_extraction_err:
+                        units_per_month = 700
+
                 elif 'offer-type-col' in div_class_name:
                     offer_type = div.text
                 elif 'green-offer-col' in div_class_name:
@@ -111,7 +124,7 @@ def scrape_website(source_url, zipcode):
             view_details_element = driver.find_element_by_xpath(f' //*[@id="{offer_id}"]/div[4]/span[1]/a')
             view_details_element.click()
             # sleeping for 2 seconds to make sure the table opens
-            time.sleep(0.5)
+            time.sleep(0.7)
             # getting the element of the popup to be sent to the extract_table function
             popup = driver.find_element_by_xpath('//*[@id="detailContent"]')
             # table_data is a list of list from the extracted table from the popup
@@ -119,21 +132,22 @@ def scrape_website(source_url, zipcode):
             table_data_dict = {x[0]: str(x[1]).strip().replace('\n', '') for x in table_data}
             # Extracting cancellation fee and the EDP Compliant
             cancellation_fee = table_data_dict['Cancellation Fee']
+            guaranteed_savings = table_data_dict['Guaranteed Saving']
             edp_compliant = table_data_dict['EDP Compliant']
 
             # closing the popup, here we use offer-table
             popup.find_element_by_class_name('close-button').click()
 
-            data_row = [company_name,  min_term, rate_detail, offer_type, green_offer_details, history_pricing,
-                        today_date(), source_url, "New York", zipcode, "Default Fixed Only NO", cancellation_fee,
-                        edp_compliant]
+            data_row = [company_name, min_term, rate_per_kwh, units_per_month, guaranteed_savings, offer_type,
+                        green_offer_details, history_pricing, today_date(), source_url, "New York", zipcode,
+                        "Default Fixed Only NO", cancellation_fee, edp_compliant]
             if rate_detail is not '':
                 print(data_row)
                 full_data.append(data_row)
         # This is to catch if there is no element present, so it breaks out of the loop and just exits
         except NoSuchElementException or Exception as e:
             print("ERROR\n", e)
-            break
+            pass
     df = pd.DataFrame.from_records(full_data)
     df.to_csv('data.csv', index=False)
 

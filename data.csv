@@ -1,26 +1,14 @@
-0,1,2,3,4,5,6,7,8,9,10,11,12
-"Consolidated Edison Company of New York, Inc.Incumbent Utility",,"[ View Details ]
-$0.0725 per kWh
-$50.75 per month",Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Abest Power & Gas, LLC", 1 Month(s),"[ View Details ]
-$0.048 per kWh
-$33.59 per month",Variable,"100%
-Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Agway Energy Services, LLC.", 1 Month(s),"[ View Details ]
-$0.049 per kWh
-$34.30 per month",Variable,"100%
+0,1,2,3,4,5,6,7,8,9,10,11,12,13,14
+"Consolidated Edison Company of New York, Inc.Incumbent Utility",,0.0725,700.0,No,Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+"Abest Power & Gas, LLC", 1 Month(s),0.048,699.79,No,Variable,"100%
+Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+"Agway Energy Services, LLC.", 1 Month(s),0.049,700.0,No,Variable,"100%
 Biomass,
 Hydroelectric,
-Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Agway Energy Services, LLC.", 1 Month(s),"[ View Details ]
-$0.049 per kWh
-$34.30 per month",Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Eligo Energy NY, LLC", 3 Month(s),"[ View Details ]
-$0.0499 per kWh
-$34.93 per month",Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Eligo Energy NY, LLC", 3 Month(s),"[ View Details ]
-$0.0519 per kWh
-$36.33 per month",Fixed,"100%
+Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+"Agway Energy Services, LLC.", 1 Month(s),0.049,700.0,No,Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+"Eligo Energy NY, LLC", 3 Month(s),0.0499,700.0,No,Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+"Eligo Energy NY, LLC", 3 Month(s),0.0519,700.0,No,Fixed,"100%
 Biogas,
 Biomass,
 Fuel Cells,
@@ -28,17 +16,11 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
-"Eligo Energy NY, LLC", 6 Month(s),"[ View Details ]
-$0.0665 per kWh
-$46.55 per month",Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
-Clearview Energy, 5 Month(s),"[ View Details ]
-$0.0669 per kWh
-$46.83 per month",Variable,"100%
-Hydroelectric",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
-"Eligo Energy NY, LLC", 6 Month(s),"[ View Details ]
-$0.0685 per kWh
-$47.95 per month",Fixed,"100%
+Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,$20/month up to $100,No
+"Eligo Energy NY, LLC", 6 Month(s),0.0665,700.0,No,Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,$20/month up to $100,No
+Clearview Energy, 5 Month(s),0.0669,700.0,No,Variable,"100%
+Hydroelectric",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,Yes
+"Eligo Energy NY, LLC", 6 Month(s),0.0685,700.0,No,Fixed,"100%
 Biogas,
 Biomass,
 Fuel Cells,
@@ -46,10 +28,8 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
-"American Power & Gas, LLC", 1 Month(s),"[ View Details ]
-$0.0699 per kWh
-$48.93 per month",Variable,"100%
+Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,$20/month up to $100,No
+"American Power & Gas, LLC", 1 Month(s),0.0699,700.0,No,Variable,"100%
 Biogas,
 Biomass,
 Fuel Cells,
@@ -57,20 +37,10 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Ambit New York, LLC", 1 Month(s),"[ View Details ]
-$0.07 per kWh
-$49 per month",Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Zone One Energy LLC, 1 Month(s),"[ View Details ]
-$0.0735 per kWh
-$51.45 per month",Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Clearview Energy, 12 Month(s),"[ View Details ]
-$0.0789 per kWh
-$55.23 per month",Fixed,"100%
-Hydroelectric",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,Yes
-"City Power & Gas, LLC", 3 Month(s),"[ View Details ]
-$0.0791 per kWh
-$55.38 per month",Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Constellation NewEnergy, Inc.", 36 Month(s),"[ View Details ]
-$0.0799 per kWh
-$55.93 per month",Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+Wind",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+"Ambit New York, LLC", 1 Month(s),0.07,700.0,No,Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+Zone One Energy LLC, 1 Month(s),0.0735,700.0,Yes,Variable,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+Clearview Energy, 12 Month(s),0.0789,700.0,No,Fixed,"100%
+Hydroelectric",Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,$50,Yes
+"City Power & Gas, LLC", 3 Month(s),0.0791,700.13,No,Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,None,No
+"Constellation NewEnergy, Inc.", 36 Month(s),0.0799,700.0,No,Fixed,,Historic Pricing,09/26/19,http://documents.dps.ny.gov/PTC/zipcode/10452,New York,10452,Default Fixed Only NO,$100,No
