@@ -17,7 +17,7 @@ global company_name, offer_detail, rate_detail, offer_type, green_offer_details,
 
 
 def get_zipcodes(state):
-    zipcodes_list_dict = zipcodes.filter_by(state='NY')
+    zipcodes_list_dict = zipcodes.filter_by(state=state)
     return [int(x['zip_code']) for x in zipcodes_list_dict]
 
 
@@ -83,7 +83,6 @@ def scrape_website(source_url, zipcode):
             element = driver.find_element_by_xpath(element_xpath)
             element_id = element
             divs = element.find_elements_by_tag_name('div')
-            # print('\t', len(divs))
             offer_id = element.get_attribute('id')
 
             for div in element.find_elements_by_tag_name('div'):
@@ -152,9 +151,9 @@ def scrape_website(source_url, zipcode):
     df.to_csv('data.csv', index=False)
 
 
-for zipcode in get_zipcodes('NY')[0:3]:
-    source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zipcode}"
-    scrape_website(source_url=source_url, zipcode=zipcode)
+# for zipcode in get_zipcodes('NY')[0:3]:
+#     source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zipcode}"
+#     scrape_website(source_url=source_url, zipcode=zipcode)
 
 # database schema for basic data download from the website
 
