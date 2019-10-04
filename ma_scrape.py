@@ -1,22 +1,67 @@
-from scrape import get_zipcodes
-from scrape import driver
+from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
+from datetime import datetime
+import time
+import os
 
 zipcodes_ma = get_zipcodes('MA')
 zipcodes_ma = list(map(lambda x: '0' + str(x), zipcodes_ma))
 print(zipcodes_ma)
+url_ma = 'http://www.energyswitchma.gov/#/'
 
+def new_main_scrape(zipcode):
+    url_ma_recur = f'http://www.energyswitchma.gov/#/compare/2/2/{zipcode}/'
+    driver.get(url_ma_recur)
+    time.sleep(2)
+    download_to_csv_button = driver.find_element_by_xpath('/html/body/div[2]/ui-view/product-compare/div[2]/div/div[4]/button')
+    download_to_csv_button.click()
+    time.sleep(2)
+    os.rename(ma_download_dir + f'EnergySwitchMass_{datetime.today().month}{datetime.today().day}{datetime.today().year}.csv',
+              ma_download_dir + f'EnergySwitchMass_{zipcode}.csv')
 
 def main_scrape(zipcode):
-    driver.get('http://www.energyswitchma.gov/#/')
+    driver.get(url_ma)
 
     driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
                                  '1]/div/div[2]/label/input').click()
-    driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
-                                 '2]/div/input').send_keys(zipcode)
+    zipcode_input = driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
+                                 '2]/div/input')
+    zipcode_input.clear()
+    zipcode_input.send_keys(zipcode)
     driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div['
                                  '2]/div/fieldset/form/div[2]/div/button').click()
 
+    time.sleep(1)
+    try:
+        dropdown = driver.find_element_by_xpath('//*[@id="distributionCompanyId"]')
+        for dropdown_option in dropdown.find_elements_by_tag_name('option'):
+            if 'Select' not in dropdown_option.get_attribute('label'):
+                driver.get(url_ma)
+
+                driver.find_element_by_xpath(
+                    '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
+                    '1]/div/div[2]/label/input').click()
+                zipcode_input = driver.find_element_by_xpath(
+                    '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
+                    '2]/div/input')
+                zipcode_input.clear()
+                zipcode_input.send_keys(zipcode)
+                driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div['
+                                             '2]/div/fieldset/form/div[2]/div/button').click()
+
+                dropdown_option.click()
+                driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div['
+                                             '2]/div/fieldset/form/div[4]/div/button').click()
+                time.sleep(1)
+    except Exception as e:
+        pass
+
+    try:
+        municipal_ex = driver.find_element_by_xpath(
+            '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[3]/label')
+        return 'Municipal Data not Available'
+    except NoSuchElementException:
+        pass
 
 
 for zipcode in zipcodes_ma:
-    main_scrape(zipcode=zipcode)
+    new_main_scrape(zipcode=zipcode)

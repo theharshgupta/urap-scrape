@@ -10,8 +10,12 @@ import bs4 as bs
 import pandas as pd
 import time
 
+ma_download_dir = "/Users/harsh/Desktop/coding/urap-scrape/ma_downloads/"
 # Initialising the location for the chromedriver
-driver = webdriver.Chrome('/Users/harsh/chromedriver')
+chrome_options = webdriver.ChromeOptions()
+prefs = {"download.default_directory": ma_download_dir}
+chrome_options.add_experimental_option("prefs",prefs)
+driver = webdriver.Chrome(executable_path='/Users/harsh/chromedriver', chrome_options=chrome_options)
 
 global company_name, offer_detail, rate_detail, offer_type, green_offer_details, history_pricing
 
