@@ -1,4 +1,5 @@
 import requests, sys, json
+from pdfReader import isPDFFile
 from bs4 import BeautifulSoup
 
 def getCurrentDate():
@@ -34,5 +35,6 @@ def downloadPDF(link, fileName, folderName):
     with open(folderName + fileName + ".pdf", 'wb') as f:
         try:
             f.write(requests.get(link).content)
+            print(fileName, "downloaded")
         except requests.exceptions.ConnectionError:
-            print("HTTP Connection error when downloading", fileName)
+            print("HTTP Connection error:", link)

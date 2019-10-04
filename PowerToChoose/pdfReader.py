@@ -53,7 +53,7 @@ def getTerminationFee(txt):
         if fee_match:
             return fee_match.group("amount")
 
-    return "not found"
+    return "N/A"
     
 
 if __name__ == "__main__":

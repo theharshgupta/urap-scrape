@@ -1,4 +1,4 @@
-from scrapeHelpers import *
+from scrapeHelper import *
 from pdfReader import *
 import sys
 
@@ -6,7 +6,8 @@ def generateCSVTemplate(fileNameWithExtension):
     file = open(fileNameWithExtension, "w+")
     file.write("Date Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
         "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
-        "Rate Type,Contract Term,URL,Fact Sheet,Terms of Service")
+        "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable,Renewable Description," +
+        "URL,Fact Sheet,Terms of Service")
         #"TDU_Charges_Incl,TDU_Fixed_Charge,TDU_Variable_Charge,Low_Usage_Fee," +
         #"Low_Usage_Fee_Cutoff,Usage_Bill_Credit1,Usage_Bill_Credit1_Cutoff_L,Usage_Bill_Credit1_Cutoff_H," +
         #"Usage_Bill_Credit2,Usage_Bill_Credit2_Cutoff_L,Usage_Bill_Credit2_Cutoff_H," +
@@ -27,6 +28,7 @@ def writeToCSV(csv, data):
     """
 
     def write(txt):
+        txt = str(txt).replace(",", "")
         csv.write(str(txt) + ",")
 
     write(getCurrentDate())
@@ -40,7 +42,10 @@ def writeToCSV(csv, data):
     write(data["price_kwh2000"])
     write(data["rate_type"])
     write(str(data["term_value"]) + " months")
+    write("$" + data["pricing_details"].split("$")[1])
     write(getTerminationFee(getPDFasText("PDFs/" + data["company_name"] + ".pdf")))
+    write(str(data["renewable_energy_id"]) + "%")
+    write(data["renewable_energy_description"])
     write(data["go_to_plan"])
     write(data["fact_sheet"])
     write(data["terms_of_service"])
@@ -55,7 +60,7 @@ if json["success"]:
     for i in range(sample_count):
         plan = json["data"][i]
         downloadPDF(plan["fact_sheet"], plan["company_name"], "PDFs/")
-        downloadPDF(plan["terms_of_service"], plan["company_name"], "Terms of Services/")
+        #downloadPDF(plan["terms_of_service"], plan["company_name"], "Terms of Services/")
         file.write("\n")
         writeToCSV(file, plan)
 else:
