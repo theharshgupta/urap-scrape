@@ -21,7 +21,7 @@ def generateCSVTemplate(fileNameWithExtension):
         #"Complaints_Discont_Lag6,Supplier_Stars,Intro_Price,Intro_Time_Period,Incentives_Special_Terms,Pre_Pay,Purchase_DG,Plan_Updated")
     return file
 
-def writeToCSV(csv, data):
+def writeToCSV(csv, data, fact_sheet_paths):
     """
     given a JSON object containing the data,
     write the data to the csv file
@@ -43,7 +43,8 @@ def writeToCSV(csv, data):
     write(data["rate_type"])
     write(str(data["term_value"]) + " months")
     write("$" + data["pricing_details"].split("$")[1])
-    write(getTerminationFee(getPDFasText("PDFs/" + data["company_name"] + ".pdf")))
+    print("Reading,", fact_sheet_paths[data["fact_sheet"]], "\n") 
+    write(getTerminationFee(getPDFasText(fact_sheet_paths[data["fact_sheet"]])))
     write(str(data["renewable_energy_id"]) + "%")
     write(data["renewable_energy_description"])
     write(data["go_to_plan"])
@@ -55,13 +56,18 @@ zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
 json = getJsonFromZIP(zip_code)
 sample_count = len(json["data"]) if len(sys.argv) < 2 else int(sys.argv[2])
 
+# when downloading a PDF, sometimes 2 plans from the same company end up overriding each other
+# and we end up with 1 pdf file, so we will save them with different names and store them here
+fact_sheet_paths = {}
+
 if json["success"]:
     file = generateCSVTemplate("powertochoose.csv")
     for i in range(sample_count):
         plan = json["data"][i]
-        downloadPDF(plan["fact_sheet"], plan["company_name"], "PDFs/")
-        #downloadPDF(plan["terms_of_service"], plan["company_name"], "Terms of Services/")
+
+        # downloadPDf returns the file name of the saved pdf file
+        fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(plan["fact_sheet"], plan["company_name"], "PDFs/")
         file.write("\n")
-        writeToCSV(file, plan)
+        writeToCSV(file, plan, fact_sheet_paths)
 else:
     print("API response fail")
