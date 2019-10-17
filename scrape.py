@@ -10,6 +10,7 @@ import bs4 as bs
 import pandas as pd
 import smtplib, ssl
 import time
+from email_service import send_email
 
 ma_download_dir = "/Users/harsh/Desktop/coding/urap-scrape/ma_downloads/"
 # Initialising the location for the chromedriver
@@ -151,6 +152,8 @@ def scrape_website(source_url, zipcode):
         # This is to catch if there is no element present, so it breaks out of the loop and just exits
         except NoSuchElementException or Exception as e:
             print("ERROR\n", e)
+            error_message = f"Error occurred while running the scrape for New York: \n\n {e}"
+            send_email(body=error_message)
             pass
     df = pd.DataFrame.from_records(full_data)
     df.to_csv('data.csv', index=False)

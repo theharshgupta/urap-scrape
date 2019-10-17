@@ -1,7 +1,8 @@
 import smtplib, ssl
 import json
 
-def send():
+
+def send_email(body):
     import smtplib
     with open('credentials.json') as f:
         credentials = json.load(f)
@@ -10,8 +11,8 @@ def send():
 
     sent_from = gmail_user
     to = ['harsh@berkeley.edu']
-    SUBJECT = 'Pythonic Email Bru'
-    TEXT = 'Hey, whaddup dawg?'
+    SUBJECT = '[URGENT] Utility Scrape Error'
+    TEXT = body + "\n\n\n Sent from Harsh's laptop."
 
     email_text = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
 
@@ -27,5 +28,4 @@ def send():
         print("Err, something went wrong \n ", e)
 
 
-
-send()
+send_email()

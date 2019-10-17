@@ -2,6 +2,7 @@ from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
 from datetime import datetime
 import time
 import os
+from email_service import send_email
 
 zipcodes_ma = get_zipcodes('MA')
 zipcodes_ma = list(map(lambda x: '0' + str(x), zipcodes_ma))
@@ -58,6 +59,9 @@ def main_scrape(zipcode):
                                              '2]/div/fieldset/form/div[4]/div/button').click()
                 time.sleep(1)
     except Exception as e:
+        print("Error during execution and scrape fro MA")
+        error_message = f"Error occurred while running the scrape for MA: \n\n {e}"
+        send_email(body=error_message)
         pass
 
     try:
