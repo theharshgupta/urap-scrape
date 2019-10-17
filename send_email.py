@@ -5,7 +5,7 @@ def send():
     import smtplib
 
     gmail_user = "hmgcapital@gmail.com"
-    gmail_password = 'S1ll1c0nv@ll3y'
+    gmail_password = 'nope'
 
     sent_from = gmail_user
     to = ['harsh@berkeley.edu']

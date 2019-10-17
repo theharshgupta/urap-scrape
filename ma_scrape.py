@@ -8,23 +8,28 @@ zipcodes_ma = list(map(lambda x: '0' + str(x), zipcodes_ma))
 print(zipcodes_ma)
 url_ma = 'http://www.energyswitchma.gov/#/'
 
+
 def new_main_scrape(zipcode):
     url_ma_recur = f'http://www.energyswitchma.gov/#/compare/2/2/{zipcode}/'
     driver.get(url_ma_recur)
     time.sleep(2)
-    download_to_csv_button = driver.find_element_by_xpath('/html/body/div[2]/ui-view/product-compare/div[2]/div/div[4]/button')
+    download_to_csv_button = driver.find_element_by_xpath(
+        '/html/body/div[2]/ui-view/product-compare/div[2]/div/div[4]/button')
     download_to_csv_button.click()
     time.sleep(2)
-    os.rename(ma_download_dir + f'EnergySwitchMass_{datetime.today().month}{datetime.today().day}{datetime.today().year}.csv',
-              ma_download_dir + f'EnergySwitchMass_{zipcode}.csv')
+    os.rename(
+        ma_download_dir + f'EnergySwitchMass_{datetime.today().month}{datetime.today().day}{datetime.today().year}.csv',
+        ma_download_dir + f'EnergySwitchMass_{zipcode}.csv')
+
 
 def main_scrape(zipcode):
     driver.get(url_ma)
 
     driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
                                  '1]/div/div[2]/label/input').click()
-    zipcode_input = driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
-                                 '2]/div/input')
+    zipcode_input = driver.find_element_by_xpath(
+        '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
+        '2]/div/input')
     zipcode_input.clear()
     zipcode_input.send_keys(zipcode)
     driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div['

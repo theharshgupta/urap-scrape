@@ -8,13 +8,14 @@ from datetime import date
 import zipcodes
 import bs4 as bs
 import pandas as pd
+import smtplib, ssl
 import time
 
 ma_download_dir = "/Users/harsh/Desktop/coding/urap-scrape/ma_downloads/"
 # Initialising the location for the chromedriver
 chrome_options = webdriver.ChromeOptions()
 prefs = {"download.default_directory": ma_download_dir}
-chrome_options.add_experimental_option("prefs",prefs)
+chrome_options.add_experimental_option("prefs", prefs)
 driver = webdriver.Chrome(executable_path='/Users/harsh/chromedriver', chrome_options=chrome_options)
 
 global company_name, offer_detail, rate_detail, offer_type, green_offer_details, history_pricing
@@ -153,7 +154,6 @@ def scrape_website(source_url, zipcode):
             pass
     df = pd.DataFrame.from_records(full_data)
     df.to_csv('data.csv', index=False)
-
 
 # for zipcode in get_zipcodes('NY')[0:3]:
 #     source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zipcode}"
