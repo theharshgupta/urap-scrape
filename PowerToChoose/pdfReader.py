@@ -28,10 +28,10 @@ def getPDFasText(path):
             output += page.extractText()
     except PyPDF2.utils.PdfReadError:
         pass
-        #print(path, "is a malformed PDF")
+        print(path, "is a malformed PDF")
     except OSError:
         pass
-        #print("OSError when reading", path)
+        print("OSError when reading", path)
 
     noNewLines = " ".join(output.split("\n")) # replace new lines with space
     return noNewLines
@@ -41,28 +41,31 @@ def getTerminationFee(txt):
     """
         extract a termination fee from the PDF
     """
+    if len(txt) < 5:
+        print("PDF is empty")
+        return "N/A"
     pattern = "[Tt]ermination [Ff]ee.*"
     match = re.search(pattern, txt)
     if match:
         # searching for the closest dollar value where 'termination fee' was found
-        fee_with_details = re.search(r"(?P<amount>\$\d+ [a-z]+[^.!?]*[.!?])", match.group())
+        fee_with_details = re.search(r"\$\d+\s*[A-Za-z]+[^.!?]*[.!?]", match.group())
         if fee_with_details:
             return fee_with_details.group()
         
-        fee_match = re.search(r"(?P<amount>\$\d+)", match.group())
+        fee_match = re.search(r"(?P<amount>\$\s*\d+)", match.group())
         if fee_match:
             return fee_match.group("amount")
 
     return "N/A"
     
-
+"""
 if __name__ == "__main__":
     all_pdfs = [f for f in os.listdir("PDFs/") if os.path.isfile("PDFs/" + f) and isPDFFile(f)]
 
     for pdf in all_pdfs:
         txt = getPDFasText("PDFs/" + pdf)
         print("Termination fee:", getTerminationFee(txt))
-
+"""
 
 """ Example 1 of a unreadable PDF
 txt = getPDFasText("PDFs/Texans Energy.pdf")
@@ -76,3 +79,5 @@ print("Length of PDF:", len(txt2))
 fee2 = getTerminationFee(txt2)
 print(fee2)
 """
+
+print(getTerminationFee(getPDFasText("PDFs/CHARIOT ENERGY.pdf")))
