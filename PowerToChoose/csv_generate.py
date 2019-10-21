@@ -6,19 +6,19 @@ def generateCSVTemplate(fileNameWithExtension):
     file = open(fileNameWithExtension, "w+")
     file.write("Date Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
         "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
-        "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable,Renewable Description," +
-        "URL,Fact Sheet,Terms of Service")
+        "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
+        "URL,Rating,Fact Sheet,Terms of Service, Enroll Phone, 500kWh Usage Details, 1000kWh Usage Details, 2000kWh Usage Details")
         #"TDU_Charges_Incl,TDU_Fixed_Charge,TDU_Variable_Charge,Low_Usage_Fee," +
         #"Low_Usage_Fee_Cutoff,Usage_Bill_Credit1,Usage_Bill_Credit1_Cutoff_L,Usage_Bill_Credit1_Cutoff_H," +
         #"Usage_Bill_Credit2,Usage_Bill_Credit2_Cutoff_L,Usage_Bill_Credit2_Cutoff_H," +
-        #"Early_Termination_Fee,Early_Termination_Fee_Type,Automatic_Renewal,Percent_Renewable,Renewable_Certification," +
+        #"Early_Termination_Fee,Early_Termination_Fee_Type,Automatic_Renewal,Renewable_Certification," +
         #"Renewable_Description,Other_Fees,Price_Lag1,Price_Lag2,Price_Lag3," +
         #"Price_Lag4,Price_Lag5,Price_Lag6,Price_Lag7,Price_Lag8,Complaints_Tot_Lag1,Complaints_Tot_Lag2,Complaints_Tot_Lag3," +
         #"Complaints_Tot_Lag4,Complaints_Tot_Lag5,Complaints_Tot_Lag6,Complaints_Billing_Lag1,Complaints_Billing_Lag2," +
         #"Complaints_Billing_Lag3,Complaints_Billing_Lag4,Complaints_Billing_Lag5,Complaints_Billing_Lag6,Complaints_Cramming_Lag1," +
         #"Complaints_Cramming_Lag2,Complaints_Cramming_Lag3,Complaints_Cramming_Lag4,Complaints_Cramming_Lag5,Complaints_Cramming_Lag6," +
         #"Complaints_Discont_Lag1,Complaints_Discont_Lag2,Complaints_Discont_Lag3,Complaints_Discont_Lag4,Complaints_Discont_Lag5," +
-        #"Complaints_Discont_Lag6,Supplier_Stars,Intro_Price,Intro_Time_Period,Incentives_Special_Terms,Pre_Pay,Purchase_DG,Plan_Updated")
+        #"Complaints_Discont_Lag6, Supplier_Stars, Intro_Price,Intro_Time_Period,Incentives_Special_Terms,Pre_Pay,Purchase_DG,Plan_Updated")
     return file
 
 def writeToCSV(csv, data, fact_sheet_paths):
@@ -46,14 +46,18 @@ def writeToCSV(csv, data, fact_sheet_paths):
     print("Reading,", fact_sheet_paths[data["fact_sheet"]], "\n") 
     write(getTerminationFee(getPDFasText(fact_sheet_paths[data["fact_sheet"]]), data["pricing_details"].split("$")[1]))
     write(str(data["renewable_energy_id"]) + "%")
-    write(data["renewable_energy_description"])
     write(data["go_to_plan"])
+    write(data["rating_count"])
     write(data["fact_sheet"])
     write(data["terms_of_service"])
+    write(data["enroll_phone"])
+    write(data["detail_kwh500"])
+    write(data["detail_kwh1000"])
+    write(data["detail_kwh2000"])
 
 
 zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
-json = getJsonFromZIP(zip_code)
+json = getJSON(zip_code)
 sample_count = len(json["data"]) if len(sys.argv) < 2 else int(sys.argv[2])
 
 if sample_count > len(json["data"]):
