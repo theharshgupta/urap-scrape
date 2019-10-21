@@ -1,4 +1,5 @@
 import PyPDF2, re, os
+import scrapeHelper
 
 def isPDFFile(fileName):
     """
@@ -20,20 +21,34 @@ def getPDFasText(path):
         It reads the PDF file using PyPDF2 library and gets the PDF file as a string
     """
 
+    def getAsStr(reader):
+        out = ""
+        for i in range(pdfReader.numPages):
+            page = pdfReader.getPage(i)
+            out += page.extractText()
+        return out
+    
+    def readPDF():
+        try:
+            pdfReader = PyPDF2.PdfFileReader(open(path, 'rb'))
+            return getAsStr(pdfReader)
+        except Exception:
+            pass
+
     output = ""
     try:
         pdfReader = PyPDF2.PdfFileReader(open(path, 'rb'))
-        for i in range(pdfReader.numPages):
-            page = pdfReader.getPage(i)
-            output += page.extractText()
+        output = getAsStr(pdfReader)
     except PyPDF2.utils.PdfReadError:
-        pass
-        print(path, "is a malformed PDF")
+        #print(path, "is a malformed PDF")
+        scrapeHelper.redownloadPDF(path)
+        readPDF()
     except OSError:
-        pass
-        print("OSError when reading", path)
-
-    noNewLines = " ".join(output.split("\n")) # replace new lines with space
+        #print("OSError when reading", path)
+        scrapeHelper.redownloadPDF(path)
+        readPDF()
+        
+    noNewLines = " ".join(output.split("\n") if output else "") # replace new lines with space
     return noNewLines
 
 
@@ -42,9 +57,12 @@ def getTerminationFee(txt, fee):
         extract a termination fee from the PDF
     """    
 
-    # sometimes fee is passed in format like "$20/month remaining"
-    fee = fee.split("/")[0]
-    fee = int(fee.split(".")[0])
+    # sometimes fee is passed in format like "20/month remaining" or "20.00 month remaining"
+    fee = fee.split(".")[0]
+    try:
+        fee = int(float(fee))
+    except ValueError:
+        fee = re.search("\d+", fee).group()
 
     match = re.search("[Tt]ermination [Ff]ee\s*[A-Za-z.,\s]*\?.*", txt)
     if match:
@@ -62,7 +80,7 @@ def getTerminationFee(txt, fee):
             return match.group()
     return "N/A"
 
- 
+
 """
 if __name__ == "__main__":
     all_pdfs = [f for f in os.listdir("PDFs/") if os.path.isfile("PDFs/" + f) and isPDFFile(f)]
@@ -84,5 +102,3 @@ print("Length of PDF:", len(txt2))
 fee2 = getTerminationFee(txt2)
 print(fee2)
 """
-
-print(getTerminationFee(getPDFasText("PDFs/TARA ENERGY-1.pdf"), "0"))
