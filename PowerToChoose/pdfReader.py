@@ -37,34 +37,39 @@ def getPDFasText(path):
     return noNewLines
 
 
-def getTerminationFee(txt):
+def getTerminationFee(txt, fee):
     """
         extract a termination fee from the PDF
-    """
-    if len(txt) < 5:
-        print("PDF is empty")
-        return "N/A"
-    pattern = "[Tt]ermination [Ff]ee.*"
-    match = re.search(pattern, txt)
-    if match:
-        # searching for the closest dollar value where 'termination fee' was found
-        fee_with_details = re.search(r"\$\d+\s*[A-Za-z]+[^.!?]*[.!?]", match.group())
-        if fee_with_details:
-            return fee_with_details.group()
-        
-        fee_match = re.search(r"(?P<amount>\$\s*\d+)", match.group())
-        if fee_match:
-            return fee_match.group("amount")
+    """    
 
-    return "N/A"
+    # sometimes fee is passed in format like "$20/month remaining"
+    fee = fee.split("/")[0]
+    fee = int(fee.split(".")[0])
+
+    match = re.search("[Tt]ermination [Ff]ee\s*[A-Za-z.,\s]*\?.*", txt)
+    if match:
+        match = re.search("[A-Z]?[a-z]*[.,!?]*\s*\$\s*" + str(fee) + "\.*\d*\s*[A-Za-z\s,'()\$\d]*[.!]*", match.group())
+        if match:
+            return match.group()
     
+    # if we still haven't found the details, then use these regular expressions
+    patterns = ["[A-Z]?[a-z]*[.,!?]*\s*\$\s*" + str(fee) + "\.*\d*\s*[A-Za-z\s,']*[.!]*",
+                "\?\s*[A-Za-z.,\s]*\$\s*" + str(fee) + "\.*\d*\s*[A-Za-z\s,']*[.!]*", 
+                "\?\s*[A-Za-z.,\s\$\d]*[A-Z]?[a-z]*[.,!?]*\s*[Tt]ermination [Ff]ee\s*[A-Za-z\s,']*[.!]*"]
+    for pattern in patterns:
+        match = re.search(pattern, txt)
+        if match:
+            return match.group()
+    return "N/A"
+
+ 
 """
 if __name__ == "__main__":
     all_pdfs = [f for f in os.listdir("PDFs/") if os.path.isfile("PDFs/" + f) and isPDFFile(f)]
 
     for pdf in all_pdfs:
         txt = getPDFasText("PDFs/" + pdf)
-        print("Termination fee:", getTerminationFee(txt))
+        print(pdf, getTerminationFee(txt), "\n\n")
 """
 
 """ Example 1 of a unreadable PDF
@@ -80,4 +85,4 @@ fee2 = getTerminationFee(txt2)
 print(fee2)
 """
 
-print(getTerminationFee(getPDFasText("PDFs/CHARIOT ENERGY.pdf")))
+print(getTerminationFee(getPDFasText("PDFs/TARA ENERGY-1.pdf"), "0"))

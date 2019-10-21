@@ -82,3 +82,4 @@ if __name__ == "__main__":
     downloadUsingPDFKit("https://docs.championenergyservices.com/ExternalDocs?planname=PN2402&state=TX&language=EN", "./PDFs/doesnt_work.pdf")
     # it works in all other cases
     downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=672&BrandID=5&PromoCodeID=446", "./PDFs/works.pdf")
+

@@ -44,7 +44,7 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(str(data["term_value"]) + " months")
     write("$" + data["pricing_details"].split("$")[1])
     print("Reading,", fact_sheet_paths[data["fact_sheet"]], "\n") 
-    write(getTerminationFee(getPDFasText(fact_sheet_paths[data["fact_sheet"]])))
+    write(getTerminationFee(getPDFasText(fact_sheet_paths[data["fact_sheet"]]), data["pricing_details"].split("$")[1]))
     write(str(data["renewable_energy_id"]) + "%")
     write(data["renewable_energy_description"])
     write(data["go_to_plan"])
@@ -55,6 +55,9 @@ def writeToCSV(csv, data, fact_sheet_paths):
 zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
 json = getJsonFromZIP(zip_code)
 sample_count = len(json["data"]) if len(sys.argv) < 2 else int(sys.argv[2])
+
+if sample_count > len(json["data"]):
+    sample_count = len(json["data"])
 
 # when downloading a PDF, sometimes 2 plans from the same company end up overriding each other
 # and we end up with 1 pdf file, so we will save them with different names and store them here
