@@ -21,7 +21,7 @@ def getResponseText(zip_code):
     response = requests.get(link, verify=False)
     return response.text
 
-def getJsonFromZIP(zip_code):
+def getJSON(zip_code):
     """
         return a JSON object containing data from the given zip code
     """
@@ -60,6 +60,13 @@ def downloadPDF(link, preferred_file_name, folderName):
         downloadUsingPDFKit(link, path)
     return path
 
+def redownloadPDF(downloadedPath):
+    print("redownloading")
+    from csv_generate import fact_sheet_paths
+    for key in fact_sheet_paths:
+        if fact_sheet_paths[key] == downloadedPath:
+            downloadUsingPDFKit(key, downloadedPath)
+            return
 
 def downloadUsingPDFKit(link, path):
     """
