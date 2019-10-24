@@ -57,7 +57,8 @@ def main_scrape(zipcode):
                 dropdown_option.click()
                 driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div['
                                              '2]/div/fieldset/form/div[4]/div/button').click()
-                time.sleep(1)
+                print(f"Downloaded for zipcode {zipcode}")
+                time.sleep(0.5)
     except Exception as e:
         print("Error during execution and scrape fro MA")
         error_message = f"Error occurred while running the scrape for MA: \n\n {e}"
@@ -72,5 +73,6 @@ def main_scrape(zipcode):
         pass
 
 
-for zipcode in zipcodes_ma:
-    new_main_scrape(zipcode=zipcode)
+if __name__ == '__main__':
+    for zipcode in zipcodes_ma:
+        new_main_scrape(zipcode=zipcode)

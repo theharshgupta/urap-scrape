@@ -4,11 +4,16 @@ A repository for web scraping for URAP research project.
 
 1. Working on data cleaning for NY and set up easy script for MA
 
-# Video - Demo - New York
+# Video Demos
+### Video - Demo - New York
 
 ![](demo_videos/urap_scrape_demo.gif)
 
-## Power to Choose
+### Video - Demo - MA
+
+![](demo_videos/output_ma.gif)
+
+## Power to Choose  
 
 ### Run
 
