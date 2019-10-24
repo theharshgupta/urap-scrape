@@ -6,7 +6,7 @@ A repository for web scraping for URAP research project - Investigationg residen
 ## Downloading the dependencies 
 
 1. Download Chromedriver 76 or before (for Mac/Windows/Linux) [here](https://chromedriver.storage.googleapis.com/index.html?path=76.0.3809.126/)
-  1.1. Unzip this, and make sure to add this to your project directory's root
+    1. Unzip this, and make sure to add this to your project directory's root
 
 ### New York 
 
