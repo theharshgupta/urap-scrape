@@ -158,9 +158,10 @@ def scrape_website(source_url, zipcode):
     df = pd.DataFrame.from_records(full_data)
     df.to_csv('data.csv', index=False)
 
-# for zipcode in get_zipcodes('NY')[0:3]:
-#     source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zipcode}"
-#     scrape_website(source_url=source_url, zipcode=zipcode)
+
+for zipcode in get_zipcodes('NY')[0:3]:
+    source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zipcode}"
+    scrape_website(source_url=source_url, zipcode=zipcode)
 
 # database schema for basic data download from the website
 
