@@ -6,7 +6,7 @@ A repository for web scraping for URAP research project.
 
 # Current Scrape Mechanism 
 
-Video 
+Video - Demo 
 
 ![](urap_scrape_demo.gif)
 
