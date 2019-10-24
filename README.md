@@ -11,7 +11,7 @@ A repository for web scraping for URAP research project.
 
 ### Video - Demo - MA
 
-![](demo_videos/output_ma.gif)
+![](demo_videos/ma.gif)
 
 ## Power to Choose  
 
