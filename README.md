@@ -4,6 +4,11 @@ A repository for web scraping for URAP research project.
 
 1. Working on data cleaning for NY and set up easy script for MA
 
+# Current Scrape Mechanism 
+
+Video 
+
+[![](http://img.youtube.com/vi/k2D35oqVsXc/0.jpg)](http://www.youtube.com/watch?v=k2D35oqVsXc "Scrape Demo New York")
 
 ## Power to Choose
 
