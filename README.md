@@ -3,13 +3,18 @@ A repository for web scraping for URAP research project - Investigationg residen
 
 # How to Run 
 
+Make sure you have Python 3 set up on your machine [Download Python](https://www.python.org/downloads/)
+
 ## Downloading the dependencies 
 
 1. Download Chromedriver 76 or before (for Mac/Windows/Linux) [here](https://chromedriver.storage.googleapis.com/index.html?path=76.0.3809.126/)
 
     1. Unzip this, and make sure to add this to your project directory's root
     
-2. Install all the project dependencies from `requirements.txt`
+2. Install all the project dependencies from `requirements.txt` using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
+
+    1. If your termninal does not recognize `pip`, try using `pip3` with the same command
+
 
 ### New York 
 
