@@ -1,8 +1,10 @@
 # urap-scrape
-A repository for web scraping for URAP research project. 
-## Harsh's current work
+A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
 
-1. Working on data cleaning for NY and set up easy script for MA
+# How to Run 
+### New York 
+
+[1] Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 
 # Video Demos
 ### Video - Demo - New York
