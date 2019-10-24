@@ -8,7 +8,7 @@ A repository for web scraping for URAP research project.
 
 Video 
 
-[![](http://img.youtube.com/vi/k2D35oqVsXc/0.jpg)](http://www.youtube.com/watch?v=k2D35oqVsXc "Scrape Demo New York")
+[![](http://img.youtube.com/vi/yp8ZQmz_cJQ/0.jpg)](http://www.youtube.com/watch?v=yp8ZQmz_cJQ "URAP Scrape Demo - NY ")
 
 ## Power to Choose
 
