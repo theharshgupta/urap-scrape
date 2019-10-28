@@ -4,6 +4,10 @@ import pytesseract
 from PIL import Image 
 from pdf2image import convert_from_path
 
+rest_of_sentence = "['’`\dA-Za-z\s,_:\(\);\-\"\$\%]*"
+sentence_ending = "[.!]*"
+decimal_points = "\.*\d*"
+
 def isPDFFile(fileName):
     """
         checks whether fileName is a pdf file
@@ -112,19 +116,19 @@ def getTerminationFee(txt, fee):
     # TODO: use this "['’`\dA-Za-z\s,_:\(\);\-\"\$\%]+"
     match = re.search("[Tt]ermination [Ff]ee\s*[A-Za-z.,\s]*\?.*", txt)
     if match:
-        match = re.search("[A-Z]?[a-z]*[.,!;]*[\sA-Za-z]*\$\s*" + str(fee) + "\.*\d*\s*[A-Za-z\s,'()\$\d]*[.!]*", match.group())
+        match = re.search("[A-Z]?[a-z]*[.,!;]*[\sA-Za-z]*\$\s*" + str(fee) + decimal_points + rest_of_sentence + sentence_ending, match.group())
         if match:
             # many PDFs have "Can my price change during contract pediod?" in common, not separated from the termination feein common
-            return "1: " + match.group().split("Can my price")[0]
+            return match.group().strip().split("Can my price")[0]
     
     # if we still haven't found the details, then use these regular expressions
-    patterns = ["[A-Z]?[a-z]*[.,!;]*[\sA-Za-z]*\$\s*" + str(fee) + "\.*\d*\s*[A-Za-z\s,'()\$\d]*[.!]*",
-                "\?\s*[A-Za-z.,\s]*\$\s*" + str(fee) + "\.*\d*\s*[A-Za-z\s,']*[.!]*", 
-                "\?\s*[A-Za-z.,\s\$\d]*[A-Z]?[a-z]*[.,!?]*\s*[Tt]ermination [Ff]ee\s*[A-Za-z\s,']*[.!]*"]
+    patterns = ["[A-Z]?[a-z]*[.,!;]*[\sA-Za-z]*\$\s*" + str(fee) + decimal_points + rest_of_sentence + sentence_ending,
+                "\?\s*[A-Za-z.,\s]*\$\s*" + str(fee) + decimal_points + rest_of_sentence + sentence_ending, 
+                "\?\s*[A-Za-z.,\s\$\d]*[A-Z]?[a-z]*[.,!?]*\s*[Tt]ermination [Ff]ee" + rest_of_sentence + sentence_ending]
     for pattern in range(len(patterns)):
         match = re.search(patterns[pattern], txt)
         if match:
-            return str(pattern+2) + ": " + match.group().split("Can my price")[0]
+            return match.group().strip().split("Can my price")[0]
     return "N/A"
 
 
@@ -132,9 +136,7 @@ def getAdditionalFees(txt):
     # assuming the PDf file is empty, 10 is arbitrary
     if len(txt) < 10:
         return "PDF corrupted"
-
-    match = re.findall("[;.!?\n](['’`\dA-Za-z\s,_:\(\);\-\"\$\%]*(?:[Aa]dditional|[Oo]ther|[Rr]ecurring)\s*(?:fees?|charges?)\s*['’`\dA-Za-z\s,_:\(\);\-\"\$\%]+\.)", txt)
-
+    match = re.findall("[;.!?\n](" + rest_of_sentence + "(?:[Aa]dditional|[Oo]ther|[Rr]ecurring)\s*(?:fees?|charges?)" + rest_of_sentence + "\.)", txt)
     return "not found" if not match else "".join(match)
 
 

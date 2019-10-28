@@ -62,9 +62,11 @@ def downloadPDF(link, preferred_file_name, folderName):
 
 def redownloadPDF(downloadedPath):
     print("redownloading", downloadedPath)
-    from csv_generate import fact_sheet_paths
-    for key in fact_sheet_paths:
-        if fact_sheet_paths[key] == downloadedPath:
+    from csv_generate import fact_sheet_paths, terms_of_service_paths
+
+    m = fact_sheet_paths if downloadedPath.split("/")[0] == "PDFs" else terms_of_service_paths
+    for key in m:
+        if m[key] == downloadedPath:
             downloadUsingPDFKit(key, downloadedPath)
             return
 
