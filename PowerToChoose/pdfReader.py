@@ -68,22 +68,20 @@ def getPDFasText(path):
     try:
         pdfReader = PyPDF2.PdfFileReader(open(path, 'rb'))
         output = getAsStr(pdfReader)
-    except PyPDF2.utils.PdfReadError:
-        #print(path, "is a malformed PDF")
-        scrapeHelper.redownloadPDF(path)
-        output = readPDF()
-    except OSError:
-        #print("OSError when reading", path)
+    except Exception:
         scrapeHelper.redownloadPDF(path)
         output = readPDF()
     
-    if output == "":
+    # assuming if length is < 50, then the pdf library failed
+    # so then we try OCR on it
+    if len(output) < 10:
+        print("PDF library most likely failed, running OCR on", path)
         try:
             output = ocr(path)
         except Image.DecompressionBombError:
             print("error")
         except Image.DecompressionBombWarning:
-            print("error2")
+            print("error")
 
     output = output.replace('-\n', '')
     noNewLines = " ".join(output.split("\n")) # replace new lines with space
@@ -111,7 +109,7 @@ def getTerminationFee(txt, fee):
         else:
             print("fee not found", fee)
 
-
+    # TODO: use this "['’`\dA-Za-z\s,_:\(\);\-\"\$\%]+"
     match = re.search("[Tt]ermination [Ff]ee\s*[A-Za-z.,\s]*\?.*", txt)
     if match:
         match = re.search("[A-Z]?[a-z]*[.,!;]*[\sA-Za-z]*\$\s*" + str(fee) + "\.*\d*\s*[A-Za-z\s,'()\$\d]*[.!]*", match.group())
@@ -128,6 +126,16 @@ def getTerminationFee(txt, fee):
         if match:
             return str(pattern+2) + ": " + match.group().split("Can my price")[0]
     return "N/A"
+
+
+def getAdditionalFees(txt):
+    # assuming the PDf file is empty, 10 is arbitrary
+    if len(txt) < 10:
+        return "PDF corrupted"
+
+    match = re.findall("[;.!?\n](['’`\dA-Za-z\s,_:\(\);\-\"\$\%]*(?:[Aa]dditional|[Oo]ther|[Rr]ecurring)\s*(?:fees?|charges?)\s*['’`\dA-Za-z\s,_:\(\);\-\"\$\%]+\.)", txt)
+
+    return "not found" if not match else "".join(match)
 
 
 """
@@ -158,10 +166,9 @@ if __name__ == "__main__":
 """
 
 if __name__ == "__main__":
-    pdfContent = getPDFasText("PDFs/FIRST CHOICE POWER .pdf")
+    pdfContent = getPDFasText("Terms of Services/SOUTHERN FEDERAL POWER LLC.pdf")
     if len(pdfContent) < 10:
-        print("emptyyy")
-    print(pdfContent)
-    termination_fee = getTerminationFee(pdfContent, "135")
-    if termination_fee:
-        print(termination_fee.replace(",", "").split("Can my price")[0])
+        print("emptyyy", len(pdfContent))
+    print(len(pdfContent),"content:",pdfContent, "\n\n")
+    fees = getAdditionalFees(pdfContent)
+    print(fees)

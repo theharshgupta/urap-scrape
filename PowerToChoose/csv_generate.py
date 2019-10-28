@@ -59,26 +59,26 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(data["detail_kwh1000"].replace(",", ""))
     write(data["detail_kwh2000"].replace(",", ""))
 
-
-zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
-json = getJSON(zip_code)
-sample_count = len(json["data"]) if len(sys.argv) < 2 else int(sys.argv[2])
-
-if sample_count > len(json["data"]):
-    sample_count = len(json["data"])
-
 # when downloading a PDF, sometimes 2 plans from the same company end up overriding each other
 # and we end up with 1 pdf file, so we will save them with different names and store them here
 fact_sheet_paths = {}
 
-if json["success"]:
-    file = generateCSVTemplate("powertochoose.csv", "w+")
-    for i in range(sample_count):
-        plan = json["data"][i]
+if __name__ == "__main__":
+    zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
+    json = getJSON(zip_code)
+    sample_count = len(json["data"]) if len(sys.argv) < 2 else int(sys.argv[2])
 
-        # downloadPDf returns the file name of the saved pdf file
-        fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(plan["fact_sheet"], plan["company_name"], "PDFs/")
-        file.write("\n")
-        writeToCSV(file, plan, fact_sheet_paths)
-else:
-    print("API response fail")
+    if sample_count > len(json["data"]):
+        sample_count = len(json["data"])
+
+    if json["success"]:
+        file = generateCSVTemplate("powertochoose.csv", "w+")
+        for i in range(sample_count):
+            plan = json["data"][i]
+
+            # downloadPDf returns the file name of the saved pdf file
+            fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(plan["fact_sheet"], plan["company_name"], "PDFs/")
+            file.write("\n")
+            writeToCSV(file, plan, fact_sheet_paths)
+    else:
+        print("API response fail")
