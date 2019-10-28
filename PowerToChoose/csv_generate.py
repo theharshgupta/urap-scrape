@@ -2,9 +2,9 @@ from scrapeHelper import *
 from pdfReader import *
 import sys
 
-def generateCSVTemplate(fileNameWithExtension):
-    file = open(fileNameWithExtension, "w+")
-    file.write("Date Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
+def generateCSVTemplate(fileNameWithExtension, mode):
+    file = open(fileNameWithExtension, mode)
+    file.write("\nDate Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
         "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
         "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
         "URL,Rating,Fact Sheet,Terms of Service, Enroll Phone, 500kWh Usage Details, 1000kWh Usage Details, 2000kWh Usage Details")
@@ -43,17 +43,21 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(data["rate_type"])
     write(str(data["term_value"]) + " months")
     write("$" + data["pricing_details"].split("$")[1])
-    print("Reading,", fact_sheet_paths[data["fact_sheet"]], "\n") 
-    write(getTerminationFee(getPDFasText(fact_sheet_paths[data["fact_sheet"]]), data["pricing_details"].split("$")[1]))
+    #print("Reading,", fact_sheet_paths[data["fact_sheet"]], "\n") 
+    pdfContent = getPDFasText(fact_sheet_paths[data["fact_sheet"]])
+    if len(pdfContent) < 10:
+        print("empty:", fact_sheet_paths[data["fact_sheet"]])
+    termination_fee = getTerminationFee(pdfContent, data["pricing_details"].split("$")[1])
+    write(termination_fee.replace(",", "") if termination_fee else "")
     write(str(data["renewable_energy_id"]) + "%")
     write(data["go_to_plan"])
     write(data["rating_count"])
     write(data["fact_sheet"])
     write(data["terms_of_service"])
     write(data["enroll_phone"])
-    write(data["detail_kwh500"])
-    write(data["detail_kwh1000"])
-    write(data["detail_kwh2000"])
+    write(data["detail_kwh500"].replace(",", ""))
+    write(data["detail_kwh1000"].replace(",", ""))
+    write(data["detail_kwh2000"].replace(",", ""))
 
 
 zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
@@ -68,7 +72,7 @@ if sample_count > len(json["data"]):
 fact_sheet_paths = {}
 
 if json["success"]:
-    file = generateCSVTemplate("powertochoose.csv")
+    file = generateCSVTemplate("powertochoose.csv", "w+")
     for i in range(sample_count):
         plan = json["data"][i]
 

@@ -54,14 +54,14 @@ def downloadPDF(link, preferred_file_name, folderName):
         f = open(path, 'wb')
         f.write(content)
         f.close()
-        print(preferred_file_name, link)
+        #print(preferred_file_name, link)
     except requests.exceptions.ConnectionError:
         print("HTTP Connection error:", link)
         downloadUsingPDFKit(link, path)
     return path
 
 def redownloadPDF(downloadedPath):
-    print("redownloading")
+    print("redownloading", downloadedPath)
     from csv_generate import fact_sheet_paths
     for key in fact_sheet_paths:
         if fact_sheet_paths[key] == downloadedPath:
