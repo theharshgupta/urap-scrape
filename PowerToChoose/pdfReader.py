@@ -140,6 +140,22 @@ def getAdditionalFees(txt):
     return "not found" if not match else "".join(match)
 
 
+def getRenewalType(txt):
+    # assuming the PDf file is empty, 10 is arbitrary
+    if len(txt) < 10:
+        return "PDF corrupted"
+    match = re.findall("[;.!?\n](" + rest_of_sentence + "(?:[Rr]enewal|[Aa]utomatic|[Ee]xpir)" + rest_of_sentence + "\.)", txt)
+    return "not found" if not match else "".join(match)
+
+
+def getMinimumUsageFees(txt):
+    # assuming the PDf file is empty, 10 is arbitrary
+    if len(txt) < 10:
+        return "PDF corrupted"
+    match = re.findall("[;.!?\n](" + rest_of_sentence + "[Mm]inimum" + rest_of_sentence + "[Uu]sage" + rest_of_sentence + "\.)", txt)
+    return "not found" if not match else "".join(match)
+
+
 """
 if __name__ == "__main__":
     all_pdfs = [f for f in os.listdir("PDFs/") if os.path.isfile("PDFs/" + f) and isPDFFile(f)]
@@ -168,9 +184,10 @@ if __name__ == "__main__":
 """
 
 if __name__ == "__main__":
-    pdfContent = getPDFasText("Terms of Services/SOUTHERN FEDERAL POWER LLC.pdf")
+    pdfContent = getPDFasText("Terms of Services/GREEN MOUNTAIN ENERGY COMPANY-1.pdf")
     if len(pdfContent) < 10:
         print("emptyyy", len(pdfContent))
-    print(len(pdfContent),"content:",pdfContent, "\n\n")
-    fees = getAdditionalFees(pdfContent)
-    print(fees)
+    #print(len(pdfContent),"content:",pdfContent, "\n\n")
+    fees = getRenewalType(pdfContent)
+    print(getMinimumUsageFees(pdfContent))
+    #print(fees)
