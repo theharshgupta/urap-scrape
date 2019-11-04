@@ -38,9 +38,10 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 
 ### Dependencies
 
-poppler https://poppler.freedesktop.org
-
-wkhtmltopdf https://wkhtmltopdf.org/downloads.html
+| Name          | Installation Link                             | Purpose                                   |
+| :---          |    :----:                                     |          ---:                             |
+| Poppler       | https://poppler.freedesktop.org               | Used to perform OCR on PDfs               |
+| wkhtmltopdf   | https://wkhtmltopdf.org/downloads.html        | Used to convert HTML pages into PDFs      |
 
 ### Run
 
