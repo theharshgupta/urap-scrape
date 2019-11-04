@@ -2,6 +2,7 @@ from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
 from datetime import datetime
 import time
 import os
+import pandas as pd
 from email_service import send_email
 
 zipcodes_ma = get_zipcodes('MA')
@@ -10,8 +11,47 @@ print(zipcodes_ma)
 url_ma = 'http://www.energyswitchma.gov/#/'
 
 
+def format_csv():
+    global service_territory, customer_class, product_filter, contract_term, min_monthly_cost, max_monthly_cost, min_contract_term, max_contract_term, product_sorting, supplier_list
+    import csv
+    for file in os.listdir('ma_downloads'):
+        with open('ma_downloads/' + file) as csv_file:
+            reader = csv.reader(csv_file)
+            csv_list = list(reader)
+        if csv_list:
+            for index, line in enumerate(csv_list):
+                if len(line) > 0:
+                    if 'Service Territory' in line[0]:
+                        service_territory = line[-1]
+                    elif 'Customer Class' in line[0]:
+                        customer_class = line[-1]
+                    elif 'Product Filter' in line[0]:
+                        product_filter = line[-1]
+                    elif 'Contract Term' in line[0]:
+                        contract_term = line[-1]
+                    elif 'Minimum Monthly cost' in line[0]:
+                        min_monthly_cost = line[-1]
+                    elif 'Maximum Monthly cost' in line[0]:
+                        max_monthly_cost = line[-1]
+                    elif 'Minimum Contract Term' in line[0]:
+                        min_contract_term = line[-1]
+                    elif 'Maximum Contract Term' in line[0]:
+                        max_contract_term = line[-1]
+                    elif 'Product Sorting' in line[0]:
+                        product_sorting = line[-1]
+                    if len(line) > 0:
+                        if line[0] == 'Supplier Name':
+                            supplier_list = csv_list[index:]
+                            break
+            print([service_territory, customer_class, product_filter, contract_term, min_monthly_cost, max_monthly_cost,
+                  product_sorting])
+            df = pd.DataFrame.from_records(supplier_list)
+            df.columns = list(df.values.tolist())[0]
+            df = df[1:]
+            df.to_csv(f'ma_csvs/{file}', index=False)
+
 def new_main_scrape(zipcode):
-    url_ma_recur = f'http://www.energyswitchma.gov/#/compare/2/2/{zipcode}/'
+    url_ma_recur = f'http://www.energyswitchma.gov/#/compare/4/1/{zipcode}/'
     driver.get(url_ma_recur)
     time.sleep(2)
     download_to_csv_button = driver.find_element_by_xpath(
@@ -62,7 +102,7 @@ def main_scrape(zipcode):
     except Exception as e:
         print("Error during execution and scrape fro MA")
         error_message = f"Error occurred while running the scrape for MA: \n\n {e}"
-        send_email(body=error_message)
+        # send_email(body=error_message)
         pass
 
     try:
@@ -74,5 +114,7 @@ def main_scrape(zipcode):
 
 
 if __name__ == '__main__':
-    for zipcode in zipcodes_ma:
-        new_main_scrape(zipcode=zipcode)
+    format_csv()
+
+    # for zipcode in zipcodes_ma:
+    #     new_main_scrape(zipcode=zipcode)

@@ -17,7 +17,7 @@ ma_download_dir = "/Users/harsh/Desktop/coding/urap-scrape/ma_downloads/"
 chrome_options = webdriver.ChromeOptions()
 prefs = {"download.default_directory": ma_download_dir}
 chrome_options.add_experimental_option("prefs", prefs)
-driver = webdriver.Chrome(executable_path='/Users/harsh/chromedriver', chrome_options=chrome_options)
+driver = webdriver.Chrome(executable_path='/Users/harsh/Downloads/chromedriver', chrome_options=chrome_options)
 
 global company_name, offer_detail, rate_detail, offer_type, green_offer_details, history_pricing
 
@@ -49,11 +49,15 @@ def extract_table(inner_html):
     :param inner_html: inner HTML code for the popup
     :return: table_extracted of type list of lists
     """
-    soup = bs.BeautifulSoup(inner_html, 'html.parser')
-    table = soup.find('table')
-    extractor = Extractor(table)
-    table_extracted = extractor.parse().return_list()
-    return table_extracted
+    try:
+        soup = bs.BeautifulSoup(inner_html, 'html.parser')
+        table = soup.find('table')
+        extractor = Extractor(table)
+        table_extracted = extractor.parse().return_list()
+        return table_extracted
+
+    except Exception as e:
+        pass
 
 
 def scrape_website(source_url, zipcode):
@@ -126,42 +130,58 @@ def scrape_website(source_url, zipcode):
                     history_pricing = div.text
 
             # clicking the view details button
-            view_details_element = driver.find_element_by_xpath(f' //*[@id="{offer_id}"]/div[4]/span[1]/a')
-            view_details_element.click()
-            # sleeping for 2 seconds to make sure the table opens
-            time.sleep(0.7)
-            # getting the element of the popup to be sent to the extract_table function
-            popup = driver.find_element_by_xpath('//*[@id="detailContent"]')
-            # table_data is a list of list from the extracted table from the popup
-            table_data = extract_table(inner_html=popup.get_attribute('innerHTML'))
-            table_data_dict = {x[0]: str(x[1]).strip().replace('\n', '') for x in table_data}
-            # Extracting cancellation fee and the EDP Compliant
-            cancellation_fee = table_data_dict['Cancellation Fee']
-            guaranteed_savings = table_data_dict['Guaranteed Saving']
-            edp_compliant = table_data_dict['EDP Compliant']
+            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[2]/div[4]/span[1]/a
+            # //*[@id="offer288893"]/div[4]/span[1]/a
+            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[3]/div[4]/span[1]/a
+            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[4]/div[4]/span[1]/a
+            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[19]/div[4]/span[1]/a
+            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[17]/div[4]/span[1]/a
+            # //*[@id="offer288833"]/div[4]/span[1]/a
+            # //*[@id="offer287432"]/div[4]/span[1]/a
+            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[15]/div[4]/span[1]/a
+            print(offer_id)
+            if offer_id != "":
 
-            # closing the popup, here we use offer-table
-            popup.find_element_by_class_name('close-button').click()
+                view_details_element = driver.find_element_by_xpath(f'//*[@id="{offer_id}"]/div[4]/span[1]/a')
+                view_details_element.click()
+                # sleeping for 2 seconds to make sure the table opens
+                time.sleep(0.7)
+                # getting the element of the popup to be sent to the extract_table function
+                popup = driver.find_element_by_xpath('//*[@id="detailContent"]')
+                # table_data is a list of list from the extracted table from the popup
+                table_data = extract_table(inner_html=popup.get_attribute('innerHTML'))
+                table_data_dict = {x[0]: str(x[1]).strip().replace('\n', '') for x in table_data}
+                # Extracting cancellation fee and the EDP Compliant
+                cancellation_fee = table_data_dict['Cancellation Fee']
+                guaranteed_savings = table_data_dict['Guaranteed Saving']
+                edp_compliant = table_data_dict['EDP Compliant']
 
-            data_row = [company_name, min_term, rate_per_kwh, units_per_month, guaranteed_savings, offer_type,
-                        green_offer_details, history_pricing, today_date(), source_url, "New York", zipcode,
-                        "Default Fixed Only NO", cancellation_fee, edp_compliant]
-            if rate_detail is not '':
-                print(data_row)
-                full_data.append(data_row)
+                # closing the popup, here we use offer-table
+                popup.find_element_by_class_name('close-button').click()
+
+                data_row = [company_name, min_term, rate_per_kwh, units_per_month, guaranteed_savings, offer_type,
+                            green_offer_details, history_pricing, today_date(), source_url, "New York", zipcode,
+                            "Default Fixed Only NO", cancellation_fee, edp_compliant]
+                if rate_detail is not '':
+                    print(data_row)
+                    full_data.append(data_row)
         # This is to catch if there is no element present, so it breaks out of the loop and just exits
         except NoSuchElementException or Exception as e:
             print("ERROR\n", e)
-            error_message = f"Error occurred while running the scrape for New York: \n\n {e}"
-            send_email(body=error_message)
+            if '"method":"xpath","selector":"/html/body/app-root/offer-search' in str(e) and f'div[{x}]' in str(e):
+                break
             pass
+
+            # else:
+            #     # send_email(body=error_message)
+            #     break
+
     df = pd.DataFrame.from_records(full_data)
     df.to_csv('data.csv', index=False)
 
 
 if __name__ == '__main__':
-
-    for zipcode in get_zipcodes('NY')[0:3]:
+    for zipcode in get_zipcodes('NY')[0:100]:
         source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zipcode}"
         scrape_website(source_url=source_url, zipcode=zipcode)
 

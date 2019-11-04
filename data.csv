@@ -1,13 +1,13 @@
 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14
-"Consolidated Edison Company of New York, Inc.Incumbent Utility",,0.0833,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Consolidated Edison Company of New York, Inc.Incumbent Utility",,0.0833,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Abest Power & Gas, LLC", 1 Month(s),0.048,699.79,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Agway Energy Services, LLC.", 1 Month(s),0.049,700.0,No,Variable,"100%
 Biomass,
 Hydroelectric,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Agway Energy Services, LLC.", 1 Month(s),0.049,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Eligo Energy NY, LLC", 3 Month(s),0.0499,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Agway Energy Services, LLC.", 1 Month(s),0.049,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Eligo Energy NY, LLC", 3 Month(s),0.0499,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Eligo Energy NY, LLC", 3 Month(s),0.0519,700.0,No,Fixed,"100%
 Biogas,
 Biomass,
@@ -16,8 +16,9 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Eligo Energy NY, LLC", 6 Month(s),0.0644,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Eligo Energy NY, LLC", 6 Month(s),0.0644,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
+"City Power & Gas, LLC", 1 Month(s),0.0652,700.31,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Eligo Energy NY, LLC", 6 Month(s),0.0664,700.0,No,Fixed,"100%
 Biogas,
 Biomass,
@@ -26,10 +27,12 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
 Clearview Energy, 3 Month(s),0.0669,700.0,No,Variable,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
-"Columbia Utilities Power, LLC", 1 Month(s),0.07,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+"Columbia Utilities Power, LLC", 1 Month(s),0.07,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Zone One Energy LLC, 1 Month(s),0.0723,700.0,Yes,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Stream, 1 Month(s),0.0725,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "American Power & Gas, LLC", 1 Month(s),0.0739,700.0,No,Variable,"100%
 Biogas,
 Biomass,
@@ -38,30 +41,21 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Zone One Energy LLC, 1 Month(s),0.0741,700.0,Yes,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"City Power & Gas, LLC", 3 Month(s),0.0754,699.87,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Ambit New York, LLC", 1 Month(s),0.078,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 Clearview Energy, 12 Month(s),0.0789,700.0,No,Fixed,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,Yes
-"Constellation NewEnergy, Inc.", 36 Month(s),0.0799,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"Family Energy, Inc. d/b/a MYRATE ENERGY", 12 Month(s),0.0799,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Ambit New York, LLC", 1 Month(s),0.08,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Constellation NewEnergy, Inc.", 12 Month(s),0.0809,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-Think Energy, 12 Month(s),0.081,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$45,No
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,Yes
+"Constellation NewEnergy, Inc.", 36 Month(s),0.0799,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"Family Energy, Inc. d/b/a MYRATE ENERGY", 12 Month(s),0.0799,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Constellation NewEnergy, Inc.", 12 Month(s),0.0809,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
 Clearview Energy, 12 Month(s),0.0819,700.0,No,Fixed,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,Yes
-Think Energy, 24 Month(s),0.082,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$45,No
-"Eligo Energy NY, LLC", 12 Month(s),0.0821,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
-"Drift Marketplace, Inc.", 1 Month(s),0.0822,700.0,No,Variable,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Think Energy, 18 Month(s),0.083,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$45,No
-Think Energy, 6 Month(s),0.083,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$45,No
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,Yes
+"Public Power, LLC", 24 Month(s),0.082,700.0,No,Fixed,"30%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"City Power & Gas, LLC", 3 Month(s),0.082,700.12,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Eligo Energy NY, LLC", 12 Month(s),0.0821,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
 Clearview Energy, 6 Month(s),0.0839,700.0,No,Fixed,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,Yes
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,Yes
 "Eligo Energy NY, LLC", 12 Month(s),0.0841,700.0,No,Fixed,"100%
 Biogas,
 Biomass,
@@ -70,64 +64,61 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
-"Public Power, LLC", 24 Month(s),0.0849,700.0,No,Fixed,"30%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"Residents Energy, LLC", 12 Month(s),0.0863,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Renaissance Power & Gas, Inc.", 12 Month(s),0.087,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"City Power & Gas, LLC", 1 Month(s),0.0879,700.11,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Direct Energy Services, LLC", 9 Month(s),0.0889,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Starion Energy NY, Inc.", 12 Month(s),0.0889,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"Public Power, LLC", 12 Month(s),0.089,700.0,No,Fixed,"30%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-Quantum Power Corp., 1 Month(s),0.089,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"S.J. Energy Partners, Inc.", 12 Month(s),0.089,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"IDT Energy, Inc.", 12 Month(s),0.0893,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Chief Energy Power, LLC", 6 Month(s),0.0899,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Chief Energy Power, LLC", 1 Month(s),0.0899,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Residents Energy, LLC", 24 Month(s),0.0899,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"XOOM Energy New York, LLC", 36 Month(s),0.0899,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Direct Energy Services, LLC", 18 Month(s),0.0919,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Direct Energy Services, LLC", 12 Month(s),0.0919,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Public Power, LLC", 4 Month(s),0.0919,700.0,No,Fixed,"30%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$20/month up to $100,No
+"Drift Marketplace, Inc.", 1 Month(s),0.0851,700.0,No,Variable,"100%
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Public Power, LLC", 12 Month(s),0.086,700.0,No,Fixed,"30%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"Renaissance Power & Gas, Inc.", 12 Month(s),0.087,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"Residents Energy, LLC", 12 Month(s),0.0886,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Direct Energy Services, LLC", 9 Month(s),0.0889,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Starion Energy NY, Inc.", 12 Month(s),0.0889,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"Viridian Energy NY, LLC", 24 Month(s),0.0889,700.0,No,Fixed,"50%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$150,No
+Quantum Power Corp., 1 Month(s),0.089,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"S.J. Energy Partners, Inc.", 12 Month(s),0.089,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"IDT Energy, Inc.", 12 Month(s),0.0893,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Chief Energy Power, LLC", 6 Month(s),0.0899,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Chief Energy Power, LLC", 1 Month(s),0.0899,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"XOOM Energy New York, LLC", 36 Month(s),0.0899,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Greenlight Energy Inc., 1 Month(s),0.09,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Public Power, LLC", 4 Month(s),0.0904,700.0,No,Fixed,"30%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"Direct Energy Services, LLC", 18 Month(s),0.0919,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Direct Energy Services, LLC", 12 Month(s),0.0919,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Starion Energy NY, Inc.", 12 Month(s),0.0919,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"Viridian Energy NY, LLC", 24 Month(s),0.0919,700.0,No,Fixed,"50%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$150,No
-"East Coast Power & Gas, LLC", 24 Month(s),0.092,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,No
-"East Coast Power & Gas, LLC", 12 Month(s),0.092,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,No
-"IDT Energy, Inc.", 24 Month(s),0.0929,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"East Coast Power & Gas, LLC", 12 Month(s),0.093,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,Yes
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"East Coast Power & Gas, LLC", 12 Month(s),0.092,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,No
+"East Coast Power & Gas, LLC", 24 Month(s),0.092,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,No
+"IDT Energy, Inc.", 24 Month(s),0.0929,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Viridian Energy NY, LLC", 12 Month(s),0.0929,700.0,No,Fixed,"50%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
 "East Coast Power & Gas, LLC", 24 Month(s),0.093,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,Yes
-Stream, 1 Month(s),0.0935,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Marathon Energy, 6 Month(s),0.0949,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,CALCULATED UPON CANCELLATION,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,Yes
+"East Coast Power & Gas, LLC", 12 Month(s),0.093,700.0,No,Fixed,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100 for 1 year contracts and $200 for 2 year contracts.,Yes
+"Residents Energy, LLC", 24 Month(s),0.0933,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Constellation NewEnergy, Inc.", 1 Month(s),0.0949,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+New York Gas & Electric, 12 Month(s),0.0949,700.0,No,Fixed,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
 Green Mountain Energy Company, 12 Month(s),0.095,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Green Mountain Energy Company, 12 Month(s),0.095,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Pay Less Energy, LLC", 1 Month(s),0.095,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Chief Energy Power, LLC", 12 Month(s),0.0959,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Viridian Energy NY, LLC", 12 Month(s),0.0959,700.0,No,Fixed,"50%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"XOOM Energy New York, LLC", 12 Month(s),0.0959,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$75,No
-"CleanChoice Energy, Ethical Electric, Clean Energy Option", 12 Month(s),0.096,700.0,No,Fixed,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Pay Less Energy, LLC", 1 Month(s),0.095,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Chief Energy Power, LLC", 12 Month(s),0.0959,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"XOOM Energy New York, LLC", 12 Month(s),0.0959,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$75,No
+"Renaissance Power & Gas, Inc.", 12 Month(s),0.097,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"Renaissance Power & Gas, Inc.", 12 Month(s),0.097,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"Ambit New York, LLC", 1 Month(s),0.098,700.0,No,Variable,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"CleanChoice Energy, Ethical Electric, Clean Energy Option", 12 Month(s),0.098,700.0,No,Fixed,"100%
 Solar,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
-"Renaissance Power & Gas, Inc.", 12 Month(s),0.097,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"Renaissance Power & Gas, Inc.", 12 Month(s),0.097,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-New York Gas & Electric, 12 Month(s),0.0979,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-Marathon Energy, 12 Month(s),0.0985,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,CALCULATED UPON CANCELLATION,No
-Stream, 24 Month(s),0.0988,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$150,No
-"NRG Home, NRG Business and NRG Retail Solutions", 12 Month(s),0.099,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Pro-Rated $100,No
-Marathon Energy, 24 Month(s),0.0993,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,CALCULATED UPON CANCELLATION,No
-"Constellation NewEnergy, Inc.", 1 Month(s),0.0999,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Verde Energy USA New York LLC, 24 Month(s),0.0999,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Ambit New York, LLC", 1 Month(s),0.1,700.0,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+Marathon Energy, 6 Month(s),0.0984,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,CALCULATED UPON CANCELLATION,No
+Stream, 24 Month(s),0.0988,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$150,No
+Greenlight Energy Inc., 12 Month(s),0.099,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,No
+"NRG Home, NRG Business and NRG Retail Solutions", 12 Month(s),0.099,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Pro-Rated $100,No
+Marathon Energy, 12 Month(s),0.0991,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,CALCULATED UPON CANCELLATION,No
+Verde Energy USA New York LLC, 24 Month(s),0.0999,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Brown's Energy Services, LLC", 12 Month(s),0.1,700.0,No,Fixed,"100%
 Biogas,
 Biomass,
@@ -136,91 +127,96 @@ Hydroelectric,
 Liquid Biofuel,
 Solar,
 Tidal - Ocean,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,Yes
-Greenlight Energy Inc., 12 Month(s),0.1,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,No
-"Robison Energy, LLC", 12 Month(s),0.1,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"XOOM Energy New York, LLC", 12 Month(s),0.1019,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$75,No
-"Family Energy, Inc. d/b/a MYRATE ENERGY", 36 Month(s),0.1039,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
-"Family Energy, Inc. d/b/a MYRATE ENERGY", 24 Month(s),0.1039,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
-"NRG Home, NRG Business and NRG Retail Solutions", 18 Month(s),0.104,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Pro-Rated $100,No
-"Renaissance Power & Gas, Inc.", 12 Month(s),0.104,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-New York Gas & Electric, 36 Month(s),0.1049,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$200,No
-"XOOM Energy New York, LLC", 24 Month(s),0.1049,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-New York Gas & Electric, 24 Month(s),0.1059,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$200,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,Yes
+"Robison Energy, LLC", 12 Month(s),0.1,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Marathon Energy, 24 Month(s),0.1017,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,CALCULATED UPON CANCELLATION,No
+New York Gas & Electric, 36 Month(s),0.1019,700.0,No,Fixed,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$200,No
+"XOOM Energy New York, LLC", 12 Month(s),0.1019,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$75,No
+New York Gas & Electric, 24 Month(s),0.1029,700.0,No,Fixed,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$200,No
+"Family Energy, Inc. d/b/a MYRATE ENERGY", 36 Month(s),0.1039,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
+"Family Energy, Inc. d/b/a MYRATE ENERGY", 24 Month(s),0.1039,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
+"NRG Home, NRG Business and NRG Retail Solutions", 18 Month(s),0.104,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Pro-Rated $100,No
+"Renaissance Power & Gas, Inc.", 12 Month(s),0.104,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"XOOM Energy New York, LLC", 24 Month(s),0.1049,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+Green Mountain Energy Company, 12 Month(s),0.105,700.0,No,Fixed,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "XOOM Energy New York, LLC", 24 Month(s),0.1069,700.0,No,Fixed,"50%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-"NRG Home, NRG Business and NRG Retail Solutions", 24 Month(s),0.108,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Pro-Rated $100,No
-"Renaissance Power & Gas, Inc.", 12 Month(s),0.109,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
-Verde Energy USA New York LLC, 12 Month(s),0.1099,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Verde Energy USA New York LLC, 6 Month(s),0.1109,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Verde Energy USA New York LLC, 12 Month(s),0.1139,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"All Choice Energy, LLC", 1 Month(s),0.114,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Renaissance Power & Gas, Inc.", 1 Month(s),0.114,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"NRG Home, NRG Business and NRG Retail Solutions", 24 Month(s),0.108,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Pro-Rated $100,No
+"Renaissance Power & Gas, Inc.", 12 Month(s),0.109,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+Verde Energy USA New York LLC, 12 Month(s),0.1099,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Verde Energy USA New York LLC, 6 Month(s),0.1109,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Verde Energy USA New York LLC, 12 Month(s),0.1139,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"All Choice Energy, LLC", 1 Month(s),0.114,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Renaissance Power & Gas, Inc.", 1 Month(s),0.114,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Green Mountain Energy Company, 12 Month(s),0.115,700.0,No,Fixed,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Mpower Energy, LLC", 12 Month(s),0.115,700.0,No,Fixed,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Liberty Power Holdings, LLC", 12 Month(s),0.1154,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Cancellation Fee: $50,No
-"Renaissance Power & Gas, Inc.", 1 Month(s),0.117,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"North American Power & Gas, LLC", 14 Month(s),0.1189,700.0,No,Fixed,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on the contact,No
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Liberty Power Holdings, LLC", 12 Month(s),0.1155,699.83,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Cancellation Fee: $50,No
+"Renaissance Power & Gas, Inc.", 1 Month(s),0.117,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "North American Power & Gas, LLC", 12 Month(s),0.1189,700.0,No,Fixed,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on the contract,No
-"Renaissance Power & Gas, Inc.", 1 Month(s),0.119,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Liberty Power Holdings, LLC", 24 Month(s),0.1199,699.92,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Cancellation Fee: $100,No
-Greenlight Energy Inc., 12 Month(s),0.12,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Greenlight Energy Inc., 12 Month(s),0.12,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Liberty Power Holdings, LLC", 36 Month(s),0.121,699.83,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Cancellation Fee: $100,No
-"Family Energy, Inc. d/b/a MYRATE ENERGY", 24 Month(s),0.1237,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
-"Family Energy, Inc. d/b/a MYRATE ENERGY", 36 Month(s),0.1237,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
-"CleanChoice Energy, Ethical Electric, Clean Energy Option", 1 Month(s),0.124,700.0,No,Variable,"100%
-Solar,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on the contract,No
+"North American Power & Gas, LLC", 14 Month(s),0.1189,700.0,No,Fixed,"100%
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on the contact,No
+"Renaissance Power & Gas, Inc.", 1 Month(s),0.119,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Liberty Power Holdings, LLC", 36 Month(s),0.1199,699.75,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Cancellation Fee: $100,No
+"Liberty Power Holdings, LLC", 24 Month(s),0.1199,699.92,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,Cancellation Fee: $100,No
+Approved Energy, 12 Month(s),0.1199,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+"National Gas & Electric, LLC", 6 Month(s),0.1199,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50 Early Termination Fee,No
+"Family Energy, Inc. d/b/a MYRATE ENERGY", 36 Month(s),0.1237,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
+"Family Energy, Inc. d/b/a MYRATE ENERGY", 24 Month(s),0.1237,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,An early cancellation fee of $2.50 plus applicable taxes for each month or partial month remaining on the electricity supply Agreement Term will apply if the Agreement is terminated prior to the end of the Term selected.,No
 "Kiwi Energy NY, LLC.", 12 Month(s),0.1243,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on contract.,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on contract.,No
 "Inspire Energy Holdings, LLC", 36 Month(s),0.1249,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,"$100 if the remaining term is less than 12 months, and $200 if the remaining term is 12 months or more.",No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,"$100 if the remaining term is less than 12 months, and $200 if the remaining term is 12 months or more.",No
 "Inspire Energy Holdings, LLC", 12 Month(s),0.1249,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,"$100 if the remaining term is less than 12 months, and $200 if the remaining term is 12 months or more.",No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,"$100 if the remaining term is less than 12 months, and $200 if the remaining term is 12 months or more.",No
+"National Gas & Electric, LLC", 12 Month(s),0.1249,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,No
 "Kiwi Energy NY, LLC.", 6 Month(s),0.1276,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on contract.,No
-Just Energy, 36 Month(s),0.1279,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50.00 Cancellation Fee if you called the utility- it will be waived if you called Just Energy,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on contract.,No
+Just Energy, 36 Month(s),0.1279,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50.00 Cancellation Fee if you called the utility- it will be waived if you called Just Energy,No
 "Kiwi Energy NY, LLC.", 9 Month(s),0.128,700.0,No,Fixed,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on contract.,No
-Just Energy, 24 Month(s),0.1289,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50.00 Cancellation Fee if you called the utility- it will be waived if you called Just Energy,No
-APG&E (TX), 1 Month(s),0.129,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-APG&E NY, 1 Month(s),0.129,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$10 for each month remaining on contract.,No
+Just Energy, 24 Month(s),0.1289,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50.00 Cancellation Fee if you called the utility- it will be waived if you called Just Energy,No
+APG&E (TX), 1 Month(s),0.129,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+APG&E NY, 1 Month(s),0.129,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"National Gas & Electric, LLC", 18 Month(s),0.1299,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$50,No
+"CleanChoice Energy, Ethical Electric, Clean Energy Option", 1 Month(s),0.13,700.0,No,Variable,"100%
+Solar,
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
 South Bay Energy Corp., 1 Month(s),0.13,700.0,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Atlantic Energy, LLC", 12 Month(s),0.139,700.0,No,Fixed,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Atlantic Energy, LLC", 12 Month(s),0.139,700.0,No,Fixed,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,$100,No
 "East Coast Power & Gas, LLC", 12 Month(s),0.141,700.0,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
-"ABN Energy, LLC", 1 Month(s),0.1478,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+"ABN Energy, LLC", 1 Month(s),0.1478,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "All American Power and Gas, LLC.", 1 Month(s),0.1494,700.0,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 JOSCO Energy Corp., 36 Month(s),0.1499,700.0,No,Variable,"30%
 Hydroelectric,
 Solar,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 Pure Energy, 1 Month(s),0.1499,700.0,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Kiwi Energy NY, LLC.", 36 Month(s),0.1549,700.0,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Citizens Choice Energy, LLC dba AmeriChoice Energy", 1 Month(s),0.171,700.06,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"IDT Energy, Inc.", 1 Month(s),0.171,700.06,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-"Residents Energy, LLC", 1 Month(s),0.171,700.06,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Alpha Gas and Electric, LLC", 24 Month(s),0.169,700.0,No,Variable,"100%
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+"Citizens Choice Energy, LLC dba AmeriChoice Energy", 1 Month(s),0.171,700.06,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"IDT Energy, Inc.", 1 Month(s),0.171,700.06,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+"Residents Energy, LLC", 1 Month(s),0.171,700.06,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 SunSea Energy LLC, 1 Month(s),0.1799,700.0,No,Variable,"100%
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-JOSCO Energy Corp., 36 Month(s),0.199,700.0,No,Variable,"30%
-Hydroelectric,
-Solar,
-Wind",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Median Energy Corp., 24 Month(s),0.199,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
-Next Utility Energy LLC, 1 Month(s),0.199,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Wind",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+JOSCO Energy Corp., 36 Month(s),0.199,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Median Energy Corp., 24 Month(s),0.199,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Next Utility Energy LLC, 1 Month(s),0.199,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
 "Citizens Choice Energy, LLC dba AmeriChoice Energy", 1 Month(s),0.2009,700.05,No,Variable,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
 "IDT Energy, Inc.", 1 Month(s),0.2009,700.05,No,Variable,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
 "Residents Energy, LLC", 1 Month(s),0.2009,700.05,No,Variable,"100%
-Hydroelectric",Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
-"Smart One Energy, LLC", 1 Month(s),0.21,700.0,No,Variable,,Historic Pricing,10/23/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
+Hydroelectric",Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,Yes
+"Smart One Energy, LLC", 1 Month(s),0.21,700.0,No,Variable,,Historic Pricing,11/03/19,http://documents.dps.ny.gov/PTC/zipcode/10451,New York,10451,Default Fixed Only NO,None,No
