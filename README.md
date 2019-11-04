@@ -36,6 +36,12 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 
 ## Power to Choose  
 
+### Dependencies
+
+poppler https://poppler.freedesktop.org
+
+wkhtmltopdf https://wkhtmltopdf.org/downloads.html
+
 ### Run
 
 from the project folder, run:
