@@ -11,12 +11,11 @@ from email_service import send_email
 zipcodes_ma = get_zipcodes('MA')
 state = 'Massachusetts'
 zipcodes_ma = list(map(lambda x: '0' + str(x), zipcodes_ma))
-print(zipcodes_ma)
 ma_zipcode_level = 'ma_zipcode_level.csv'
 
 ma_zipcode_level_headers = ['State', 'Zipcode', 'Website', 'Service Territory', 'Customer Class', 'Pricing',
                             'Contract Term', 'Minimum Monthly Cost',
-                            'Maximum Monthly Cost', 'Minimum Contract Term', 'Maximum Contract Term', 'Date Downloaded']
+                            'Maximum Monthly Cost', 'Minimum Contract Term', 'Maximum Contract Term', 'Date Downloaded', 'Default_Monthly_kWh']
 url_ma = 'http://www.energyswitchma.gov/#/'
 
 min_contract_term = None
@@ -51,11 +50,13 @@ def format_csv():
     global service_territory, customer_class, contract_term, min_monthly_cost, max_monthly_cost, min_contract_term, max_contract_term, product_sorting, supplier_list, pricing
     for file in os.listdir('ma_downloads'):
         data_zipcode_level = None
-        print(file)
         with open('ma_downloads/' + file) as csv_file:
             reader = csv.reader(csv_file)
             csv_list = list(reader)
+
         if csv_list:
+            if 'zckharsh' in csv_list[-1]:
+                default_monthly_kWh = csv_list[-1][-1]
             for index, line in enumerate(csv_list):
                 if len(line) > 0:
                     if 'Service Territory' in line[0]:
@@ -80,7 +81,7 @@ def format_csv():
                             break
             data_zipcode_level = [state, str(file).split('.')[0], url_ma, service_territory, customer_class, pricing,
                                   contract_term, min_monthly_cost,
-                                  max_monthly_cost, min_contract_term, max_contract_term, get_datetime()]
+                                  max_monthly_cost, min_contract_term, max_contract_term, get_datetime(), default_monthly_kWh]
 
         # Saving the things to the CSV
         header_exists = False
@@ -98,10 +99,15 @@ def format_csv():
         df = pd.DataFrame.from_records(supplier_list)
         df.columns = list(df.values.tolist())[0]
         df = df[1:]
-        df.columns = ['Supplier_Name', 'Pricing Structure', 'TDU_Fixed_Charge', '' ]
+        df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge', 'Variable_Rate',
+                      'Introductory_Rate', 'Enrollment_Fee', 'Contract_Term',
+                      'Early_Termination_Fee', 'Automatic_Renewal_Type',
+                      'Percent_Renewable', 'New_Regional_Resources', 'Incentives_Special_Terms',
+                      'Est_Monthly_Bill_Default']
         df['Date_Downloaded'] = get_datetime()
-        df['Incumbent_Flag'] = True
-
+        df['Incumbent_Flag'] = False
+        df.at[1, 'Incumbent_Flag'] = True
+        df['Plan_Order_Rank'] = df.index
         df.to_csv(f'ma_csvs/{file}', index=False)
 
 
@@ -118,6 +124,13 @@ def new_main_scrape(zipcode):
     driver.get(url_ma_recur)
     # waiting for the page to load
     time.sleep(1)
+    # Getting the Default_Monthly_kWh
+    try:
+        default_monthly_kWh = driver.find_element_by_xpath('/html/body/div[2]/ui-view/product-compare/div[1]/div[2]/div/div[2]/div/div/input').get_attribute('value')
+    except NoSuchElementException as element_not_found:
+        default_monthly_kWh = None
+        pass
+    print(default_monthly_kWh)
     # clicking on the download button
     download_to_csv_button = driver.find_element_by_xpath(
         '/html/body/div[2]/ui-view/product-compare/div[2]/div/div[4]/button')
@@ -130,9 +143,14 @@ def new_main_scrape(zipcode):
         print(f"ERROR: File already exists in the downloaded folder for the zipcode {zipcode}")
 
     # otherwise we rename the downloaded file
-    os.rename(
-        ma_download_dir + f'EnergySwitchMass_{datetime.today().month}{datetime.today().day}{datetime.today().year}.csv',
-        ma_download_dir + f'ma_{zipcode}.csv')
+    downloaded_filename = ma_download_dir + f'EnergySwitchMass_{datetime.today().month}{datetime.today().day}{datetime.today().year}.csv'
+    if Path(downloaded_filename).is_file():
+        os.rename(
+            ma_download_dir + f'EnergySwitchMass_{datetime.today().month}{datetime.today().day}{datetime.today().year}.csv',
+            ma_download_dir + f'ma_{zipcode}.csv')
+
+        with open(ma_download_dir + f'ma_{zipcode}.csv', 'a') as update_file:
+            update_file.write(f'zckharsh, {default_monthly_kWh}')
     print(f"Successfully downloaded for {zipcode}")
 
 
@@ -195,8 +213,9 @@ def main_scrape(zipcode):
 
 
 if __name__ == '__main__':
-    check_unqiue()
-    driver.quit()
+    format_csv()
 
     # for zipcode in zipcodes_ma[:50]:
     #     new_main_scrape(zipcode=zipcode)
+
+    driver.quit()
