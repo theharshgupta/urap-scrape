@@ -45,6 +45,8 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 
 ### Run
 
+**NOTE: the scripts need to be executed from the PowerToChoose folder or else it will fail**
+
 from the project folder, run:
 ```
 cd PowerToChoose
