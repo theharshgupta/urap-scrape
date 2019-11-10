@@ -36,7 +36,16 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 
 ## Power to Choose  
 
+### Dependencies
+
+| Name          | Installation Link                             | Purpose                                   |
+| :---          |    :----:                                     |          ---:                             |
+| Poppler       | https://poppler.freedesktop.org               | Used to perform OCR on PDfs               |
+| wkhtmltopdf   | https://docs.bitnami.com/installer/apps/odoo/configuration/install-wkhtmltopdf/        | Used to convert HTML pages into PDFs      |
+
 ### Run
+
+**NOTE: the scripts need to be executed from the PowerToChoose folder or else it will fail**
 
 from the project folder, run:
 ```
