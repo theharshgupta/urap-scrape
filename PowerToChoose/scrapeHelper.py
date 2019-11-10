@@ -31,10 +31,10 @@ def getEmbeddedPDFLink(link):
     try:
         txt = requests.get(link)
         match = re.search("http.+\.pdf", txt.text)
-        return match.group() if match else ""
+        return match.group() if match else link
     except Exception as e:
         print("failed to get embedded link:", e)
-        return ""
+        return link
 
 def isFileExists(folder_name, file_name_with_extension):
     return os.path.exists(folder_name + file_name_with_extension)
