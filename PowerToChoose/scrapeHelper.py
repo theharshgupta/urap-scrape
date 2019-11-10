@@ -1,6 +1,5 @@
 import requests, sys, json
-import time, os, pdfkit
-from pdfReader import isPDFFile
+import time, os, pdfkit, re
 from bs4 import BeautifulSoup
 
 def getCurrentDate():
@@ -27,6 +26,15 @@ def getJSON(zip_code):
     """
     response = getResponseText(zip_code)
     return json.loads(response)
+
+def getEmbeddedPDFLink(link):
+    try:
+        txt = requests.get(link)
+        match = re.search("http.+\.pdf", txt.text)
+        return match.group() if match else ""
+    except Exception as e:
+        print("failed to get embedded link:", e)
+        return ""
 
 def isFileExists(folder_name, file_name_with_extension):
     return os.path.exists(folder_name + file_name_with_extension)
@@ -82,13 +90,15 @@ def downloadUsingPDFKit(link, path):
     """
     try:
         pdfkit.from_url(link, path)
-    except Exception:
+    except Exception as e:
         print("pdfkit was not able download,", link)
+        print(e)
 
 if __name__ == "__main__":
     # this is example of a webpage that this method doesn't work on
     #downloadUsingPDFKit("https://www.4changeenergy.com/viewpdf.aspx/?Docs/efl_budsva12gad_o.pdf", "./PDFs/", "doesnt_work.pdf")
-    downloadUsingPDFKit("https://docs.championenergyservices.com/ExternalDocs?planname=PN2402&state=TX&language=EN", "./PDFs/doesnt_work.pdf")
+    downloadPDF(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"), "doesnt_work", "PDFs/")
     # it works in all other cases
-    downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=672&BrandID=5&PromoCodeID=446", "./PDFs/works.pdf")
+    #downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=672&BrandID=5&PromoCodeID=446", "./PDFs/works.pdf", "PDFs/")
 
+    print(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"))
