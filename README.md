@@ -25,6 +25,8 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 
 ### Massachussets 
 
+1. Go to the root directory and run the `ma_scrape.py`
+
 # Video Demos
 ### Video - Demo - New York
 
