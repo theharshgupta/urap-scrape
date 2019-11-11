@@ -1,0 +1,70 @@
+Service Territory ,NSTAR d/b/a Eversource Energy
+Customer Class,Residential
+
+Product Filter
+Pricing,$0 to $500
+Contract Term,3 months to 60 months
+Minimum Monthly cost,0
+Maximum Monthly cost,500
+Minimum Contract Term,3
+Maximum Contract Term,60
+
+Product Sorting,Monthly Cost: Low to High
+Supplier Name,Pricing Structure,Price $/month,Price (cents/kWh),Introductory Price,Enrollment Fee,Contract Term,Cancellation Fee,Automatic Renewal,Renewable Energy Content %,100% New Regional Resources,Additional Products/Services,Estimated Monthly Cost
+"NSTAR d/b/a Eversource Energy"," "," ","10.836 cents/kWh|TBD"," "," ","Jul '19 through Dec '19 |Jan '20 through Jun '20 "," "," "," "," "," ","$65.02"
+"Town Square Energy","Fixed"," ","10.420 cents/kWh"," "," ","12 months"," ","Variable-price product"," ","No","","$62.52"
+"Residents Energy","Fixed"," ","10.470 cents/kWh"," "," ","12 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$62.82"
+"Starion Energy","Fixed"," ","10.490 cents/kWh"," "," ","12 months"," ","Variable-price product"," ","No","Gift Card,Rewards Programs","$62.94"
+"Starion Energy","Fixed"," ","10.790 cents/kWh"," "," ","12 months"," ","Variable-price product","100%","No","Gift Card,Rewards Programs","$64.74"
+"Town Square Energy","Fixed"," ","10.970 cents/kWh"," "," ","36 months","$50.00","Variable-price product"," ","No","","$65.82"
+"Liberty Power Holdings","Fixed"," ","10.988 cents/kWh"," "," ","36 months","$10.00 per month remaining on term","Variable-price product"," ","No","Gift Card","$65.93"
+"Starion Energy","Fixed"," ","10.990 cents/kWh"," "," ","8 months"," ","Variable-price product"," ","No","Gift Card,Rewards Programs","$65.94"
+"Constellation New Energy","Fixed"," ","11.090 cents/kWh"," "," ","12 months","$150.00","Variable-price product"," ","No","","$66.54"
+"Liberty Power Holdings","Fixed"," ","11.188 cents/kWh"," "," ","36 months","$10.00 per month remaining on term","Variable-price product","100%","No","Gift Card","$67.13"
+"Starion Energy","Fixed"," ","11.290 cents/kWh"," "," ","8 months"," ","Variable-price product","100%","No","Gift Card,Rewards Programs","$67.74"
+"Town Square Energy","Fixed"," ","11.570 cents/kWh"," "," ","24 months","$50.00","Variable-price product"," ","No","","$69.42"
+"Liberty Power Holdings","Fixed"," ","11.588 cents/kWh"," "," ","24 months","$10.00 per month remaining on term","Variable-price product","100%","No","Gift Card","$69.53"
+"Think Energy","Fixed"," ","11.600 cents/kWh"," "," ","24 months","$45.00","No automatic renewal","100%","No","","$69.60"
+"Energy Rewards","Fixed"," ","11.890 cents/kWh"," "," ","6 months","$50.00","Fixed-price product"," ","No","","$71.34"
+"Residents Energy","Fixed"," ","11.990 cents/kWh"," "," ","24 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$71.94"
+"Think Energy","Fixed"," ","12.000 cents/kWh"," "," ","12 months","$45.00","No automatic renewal","100%","No","","$72.00"
+"Direct Energy Services","Fixed"," ","12.190 cents/kWh"," "," ","14 months"," ","Variable-price product","100%","No","","$73.14"
+"Just Energy Massachusetts","Fixed"," ","12.390 cents/kWh"," "," ","36 months","$50.00","Variable-price product"," ","No","Rewards Programs","$74.34"
+"Just Energy Massachusetts","Fixed"," ","12.490 cents/kWh"," "," ","24 months","$50.00","Variable-price product"," ","No","Rewards Programs","$74.94"
+"Constellation New Energy","Fixed"," ","12.490 cents/kWh"," "," ","6 months","$150.00","Variable-price product"," ","No","","$74.94"
+"Massachusetts Gas & Electric","Fixed"," ","12.490 cents/kWh"," "," ","12 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$74.94"
+"Ambit Energy","Fixed"," ","12.500 cents/kWh"," "," ","12 months"," ","Variable-price product"," ","No","","$75.00"
+"Sunwave Gas & Power","Fixed"," ","12.570 cents/kWh"," "," ","12 months","$50.00","Fixed-price product"," ","No","","$75.42"
+"Direct Energy Services","Fixed"," ","12.690 cents/kWh"," "," ","18 months"," ","No automatic renewal","100%","No","","$76.14"
+"Discount Power","Fixed"," ","12.000 cents/kWh"," ","$50.00","12 months","$50.00","Variable-price product","100%","No","","$76.17"
+"IGS Energy","Fixed"," ","12.790 cents/kWh"," "," ","36 months","$99.00","Variable-price product","100%","No","","$76.74"
+"Constellation New Energy","Fixed"," ","12.790 cents/kWh"," "," ","24 months","$150.00","Fixed-price product","100%","No","","$76.74"
+"CleanChoice Energy","Fixed"," ","12.800 cents/kWh"," "," ","12 months"," ","Fixed-price product","100%","No","Rewards Programs,Sponsored Promotions","$76.80"
+"Discount Power","Fixed"," ","12.800 cents/kWh"," "," ","36 months","$200.00","Variable-price product","100%","No","Rewards Programs","$76.80"
+"IGS Energy","Fixed"," ","12.890 cents/kWh"," "," ","12 months","$99.00","Variable-price product"," ","No","","$77.34"
+"Verde Energy USA","Fixed"," ","12.990 cents/kWh"," "," ","24 months"," ","Variable-price product","100%","No","Cash Back","$77.94"
+"Constellation New Energy","Fixed"," ","12.990 cents/kWh"," "," ","12 months","$150.00","Fixed-price product","100%","No","","$77.94"
+"Verde Energy USA","Fixed"," ","12.990 cents/kWh"," "," ","12 months"," ","Variable-price product","100%","No","Cash Back","$77.94"
+"Discount Power","Fixed"," ","13.000 cents/kWh"," "," ","24 months","$100.00","Variable-price product","100%","No","Rewards Programs","$78.00"
+"Massachusetts Gas & Electric","Fixed"," ","13.090 cents/kWh"," "," ","24 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$78.54"
+"Think Energy","Fixed"," ","13.200 cents/kWh"," "," ","6 months","$45.00","No automatic renewal","100%","No","","$79.20"
+"Think Energy","Fixed"," ","13.200 cents/kWh"," "," ","18 months","$45.00","No automatic renewal","100%","No","","$79.20"
+"Discount Power","Fixed","$4.95","12.500 cents/kWh"," "," ","12 months","$50.00","Variable-price product","100%","No","Rewards Programs","$79.95"
+"NRG Home","Fixed"," ","13.500 cents/kWh"," "," ","12 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$81.00"
+"SFE Energy Massachusetts","Fixed"," ","13.690 cents/kWh","12.32 cents/kWh for initial 1 months"," ","36 months","$2.50 per month remaining on term","Fixed-price product"," ","No","","$81.91"
+"Green Mountain Energy","Fixed"," ","13.700 cents/kWh"," "," ","12 months"," ","Variable-price product","100%","No","","$82.20"
+"Town Square Energy","Fixed"," ","13.970 cents/kWh"," "," ","12 months"," ","Variable-price product","100%","No","","$83.82"
+"Eligo Energy MA","Fixed"," ","14.200 cents/kWh"," "," ","6 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$85.20"
+"Sunwave Gas & Power","Fixed"," ","14.390 cents/kWh"," "," ","6 months","$50.00","Fixed-price product"," ","No","","$86.34"
+"Eligo Energy MA","Fixed"," ","14.400 cents/kWh"," "," ","6 months","$10.00 per month remaining on term","Variable-price product","100%","No","","$86.40"
+"Ambit Energy","Fixed"," ","14.500 cents/kWh"," "," ","12 months"," ","Variable-price product","100%","No","","$87.00"
+"Ambit Energy","Fixed"," ","14.750 cents/kWh"," "," ","6 months"," ","Variable-price product"," ","No","","$88.50"
+"NRG Home","Fixed"," ","14.900 cents/kWh"," "," ","6 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$89.40"
+"SmartEnergy","Fixed"," ","14.900 cents/kWh"," "," ","6 months"," ","Variable-price product","100%","No","","$89.40"
+"Verde Energy USA","Fixed"," ","14.990 cents/kWh"," "," ","6 months"," ","Variable-price product","100%","No","","$89.94"
+"SFE Energy Massachusetts","Fixed"," ","15.670 cents/kWh","14.30 cents/kWh for initial 1 months"," ","36 months","$2.50 per month remaining on term","Fixed-price product"," ","No","Carbon Offset,Cash Back","$93.79"
+"Indra Energy MA","Fixed"," ","16.200 cents/kWh","13.40 cents/kWh for initial 1 months"," ","14 months"," ","Variable-price product"," ","No","","$96.00"
+"Eligo Energy MA","Fixed"," ","16.030 cents/kWh"," "," ","12 months","$10.00 per month remaining on term","Variable-price product"," ","No","","$96.18"
+"Eligo Energy MA","Fixed"," ","16.230 cents/kWh"," "," ","12 months","$10.00 per month remaining on term","Variable-price product","100%","No","","$97.38"
+"Indra Energy MA","Fixed"," ","16.400 cents/kWh","13.40 cents/kWh for initial 1 months"," ","18 months"," ","Variable-price product","100%","No","","$97.40"
+zckharsh, 600

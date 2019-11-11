@@ -173,14 +173,3 @@ if __name__ == '__main__':
     for zipcode in get_zipcodes('NY')[0:100]:
         source_url = f"http://documents.dps.ny.gov/PTC/zipcode/{zipcode}"
         scrape_website(source_url=source_url, zipcode=zipcode)
-
-"""
-Date Downloaded - done
-State- done - manual
-Website/Provider -- done - manual
-TDU Service Territory - done
-Updated since previous pull? - check 
-Defaults to Fixed Rates Only
-Default Monthly Usage for Calculating Bills and Savings
-Price to Compare / Default Rate for Calculating Bills and Savings
-"""
