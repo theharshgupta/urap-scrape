@@ -7,19 +7,8 @@ def generateCSVTemplate(fileNameWithExtension, mode):
     file.write("\nDate Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
         "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
         "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
-        "URL,Rating,Fact Sheet,Terms of Service,Enroll Phone," +
+        "URL,Fact Sheet,Terms of Service,Enroll Phone," +
         "Additional Fees,Renewal Details")
-        #"TDU_Charges_Incl,TDU_Fixed_Charge,TDU_Variable_Charge,Low_Usage_Fee," +
-        #"Low_Usage_Fee_Cutoff,Usage_Bill_Credit1,Usage_Bill_Credit1_Cutoff_L,Usage_Bill_Credit1_Cutoff_H," +
-        #"Usage_Bill_Credit2,Usage_Bill_Credit2_Cutoff_L,Usage_Bill_Credit2_Cutoff_H," +
-        #"Early_Termination_Fee,Early_Termination_Fee_Type,Automatic_Renewal,Renewable_Certification," +
-        #"Price_Lag1,Price_Lag2,Price_Lag3," +
-        #"Price_Lag4,Price_Lag5,Price_Lag6,Price_Lag7,Price_Lag8,Complaints_Tot_Lag1,Complaints_Tot_Lag2,Complaints_Tot_Lag3," +
-        #"Complaints_Tot_Lag4,Complaints_Tot_Lag5,Complaints_Tot_Lag6,Complaints_Billing_Lag1,Complaints_Billing_Lag2," +
-        #"Complaints_Billing_Lag3,Complaints_Billing_Lag4,Complaints_Billing_Lag5,Complaints_Billing_Lag6,Complaints_Cramming_Lag1," +
-        #"Complaints_Cramming_Lag2,Complaints_Cramming_Lag3,Complaints_Cramming_Lag4,Complaints_Cramming_Lag5,Complaints_Cramming_Lag6," +
-        #"Complaints_Discont_Lag1,Complaints_Discont_Lag2,Complaints_Discont_Lag3,Complaints_Discont_Lag4,Complaints_Discont_Lag5," +
-        #"Complaints_Discont_Lag6, Supplier_Stars, Intro_Price,Intro_Time_Period,Incentives_Special_Terms,Pre_Pay,Purchase_DG,Plan_Updated")
     return file
 
 def writeToCSV(csv, data, fact_sheet_paths):
@@ -44,27 +33,17 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(data["rate_type"])
     write(str(data["term_value"]) + " months")
     write("$" + data["pricing_details"].split("$")[1])
-    #print("Reading,", fact_sheet_paths[data["fact_sheet"]], "\n") 
+    
     pdfContent = getPDFasText(fact_sheet_paths[data["fact_sheet"]])
-    if len(pdfContent) < 10:
-        fact_sheet_paths[data["fact_sheet"]] = downloadPDF(getEmbeddedPDFLink(data["fact_sheet"]), data["company_name"], "PDFs/")
-        pdfContent = getPDFasText(fact_sheet_paths[data["fact_sheet"]])
-        print("empty:", fact_sheet_paths[data["fact_sheet"]])
-        print("link:", data["fact_sheet"])
     termination_fee = getTerminationFee(pdfContent, data["pricing_details"].split("$")[1])
-    write(termination_fee.replace(",", "") if termination_fee else "")
+    write(termination_fee)
     write(str(data["renewable_energy_id"]) + "%")
     write(data["go_to_plan"])
-    write(data["rating_count"])
     write(data["fact_sheet"])
     write(data["terms_of_service"])
     write(data["enroll_phone"])
+
     terms_of_service_content = getPDFasText(terms_of_service_paths[data["terms_of_service"]])
-    if len(terms_of_service_content) < 10:
-        terms_of_service_paths[data["terms_of_service"]] = downloadPDF(getEmbeddedPDFLink(data["terms_of_service"]), data["company_name"], "Terms of Services/")
-        terms_of_service_content = getPDFasText(terms_of_service_paths[data["terms_of_service"]])
-        print("empty:", terms_of_service_paths[data["terms_of_service"]])
-        print("link:", data["terms_of_service"])
     write(getAdditionalFees(terms_of_service_content))
     #write(getMinimumUsageFees(terms_of_service_content))
     write(getRenewalType(terms_of_service_content))
@@ -89,8 +68,8 @@ if __name__ == "__main__":
             plan = json["data"][i]
 
             # downloadPDf returns the file name of the saved pdf file
-            fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(plan["fact_sheet"], plan["company_name"], "PDFs/")
-            terms_of_service_paths[plan["terms_of_service"]] = downloadPDF(plan["terms_of_service"], plan["company_name"], "Terms of Services/")
+            fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(getEmbeddedPDFLink(plan["fact_sheet"]), plan["company_name"], "PDFs/")
+            terms_of_service_paths[plan["terms_of_service"]] = downloadPDF(getEmbeddedPDFLink(plan["terms_of_service"]), plan["company_name"], "Terms of Services/")
             file.write("\n")
             writeToCSV(file, plan, fact_sheet_paths)
     else:
