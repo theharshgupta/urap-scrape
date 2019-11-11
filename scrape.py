@@ -55,7 +55,6 @@ def extract_table(inner_html):
         extractor = Extractor(table)
         table_extracted = extractor.parse().return_list()
         return table_extracted
-
     except Exception as e:
         pass
 
@@ -129,16 +128,6 @@ def scrape_website(source_url, zipcode):
                 elif 'historic-pricing' in div_class_name:
                     history_pricing = div.text
 
-            # clicking the view details button
-            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[2]/div[4]/span[1]/a
-            # //*[@id="offer288893"]/div[4]/span[1]/a
-            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[3]/div[4]/span[1]/a
-            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[4]/div[4]/span[1]/a
-            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[19]/div[4]/span[1]/a
-            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[17]/div[4]/span[1]/a
-            # //*[@id="offer288833"]/div[4]/span[1]/a
-            # //*[@id="offer287432"]/div[4]/span[1]/a
-            # /html/body/app-root/offer-search-component/div[2]/div[4]/main/div/div/div[15]/div[4]/span[1]/a
             print(offer_id)
             if offer_id != "":
 
