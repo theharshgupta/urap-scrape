@@ -26,6 +26,12 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 ### Massachussets 
 
 1. Go to the root directory and run the `ma_scrape.py`
+2. To download the raw csv from the website, comment the `format_csv()` function in the main run in the file 
+3. To just format the downloaded csvs, comment the `new_main_scrape()` function loop
+4. To run everything in sync, run the `new_main_scrape()` loop and then the `format_csv()` function
+5. To run for more than 50 zipcode change the following line in `ma_scrape.py` :
+    1. `for zipcode in zipcodes_ma[:<number of zipcodes to run>]:`
+    2. If you want to run for all the zipcodes (may take a long time), just change the line to `for zipcode in zipcodes_ma[:]:`
 
 # Video Demos
 ### Video - Demo - New York
