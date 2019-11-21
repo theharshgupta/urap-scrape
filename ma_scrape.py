@@ -176,6 +176,7 @@ def new_main_scrape(zipcode):
     driver.get(url_ma_recur)
     # waiting for the page to load
     time.sleep(1)
+    return 0
     # Getting the Default_Monthly_kWh
     try:
         default_monthly_kWh = driver.find_element_by_xpath(
@@ -209,12 +210,74 @@ def new_main_scrape(zipcode):
     print(f"Successfully downloaded for {zipcode}")
 
 
+def old_mainsite_scrape(zipcode):
+    driver.get(url_ma)
+    print("Zipcode: ", zipcode)
+
+    # clicking the home radio button
+    driver.find_element_by_xpath(
+        '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[1]/div/div[1]/label/input').click()
+    zipcode_input = driver.find_element_by_xpath(
+        '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
+        '2]/div/input')
+
+    # we clear the input field where we have to put the zipcode
+    zipcode_input.clear()
+    # we input the zipcode into the field
+    zipcode_input.send_keys(zipcode)
+    # we click the START SHOPPING button
+    driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div['
+                                 '2]/div/fieldset/form/div[2]/div/button').click()
+    time.sleep(1)
+    # now checking if 'my electric company is' thing pops up
+    try:
+        try:
+            button_continue_shopping = driver.find_element_by_xpath(
+                '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[4]/div/button')
+            dropdown_options = driver.find_element_by_xpath('//*[@id="distributionCompanyId"]').find_elements_by_tag_name('option')
+            print('\t Dropdown options:', dropdown_options)
+
+            for index, option in enumerate(dropdown_options):
+                if '<Select>' != option.get_attribute('label'):
+                    print("\t Option:", option)
+                    print("\t Clicking the option ...")
+                    option.click()
+                    time.sleep(1)
+                    button_continue_shopping.click()
+                    driver.get(url_ma)
+
+                    driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[1]/div/div[1]/label/input').click()
+                    zipcode_input = driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[2]/div/input')
+
+                    # we clear the input field where we have to put the zipcode
+                    zipcode_input.clear()
+                    # we input the zipcode into the field
+                    zipcode_input.send_keys(zipcode)
+                    # we click the START SHOPPING button
+                    driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div['
+                                                 '2]/div/fieldset/form/div[2]/div/button').click()
+                    time.sleep(1)
+
+
+
+        except NoSuchElementException as no_dropdown_error:
+            print("\t The dropdown is not present, hence proceeding ...")
+
+    except Exception as e:
+        print("\t Error during execution and scrape fro MA")
+        error_message = f"Error occurred while running the scrape for MA: \n\n {e}"
+        raise e
+        # send_email(body=error_message)
+        pass
+
+
 # We use __name__ == '__main__' to make sure that the functions dont run even when something from this file is imported
 # in some other py file
 if __name__ == '__main__':
-    for zipcode in zipcodes_ma[:50]:
-        new_main_scrape(zipcode=zipcode)
-    format_csv()
+    for zipcode in zipcodes_ma[:]:
+        old_mainsite_scrape(zipcode=zipcode)
 
     # Due to importing from the scrape.py file, the browser/driver for chrome opens, below statement closes it
     driver.quit()
+
+# right now we want to test whether or not the radio buttons show up and their frequency.
