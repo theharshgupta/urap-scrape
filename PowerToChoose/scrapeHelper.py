@@ -1,6 +1,10 @@
 import requests, sys, json
 import time, os, pdfkit, re
 from bs4 import BeautifulSoup
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import pdfReader
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 def getCurrentDate():
     """
@@ -28,9 +32,12 @@ def getJSON(zip_code):
     return json.loads(response)
 
 def getEmbeddedPDFLink(link):
+    """
+        if there's any embedded links to PDFs, get it
+    """
     try:
-        txt = requests.get(link)
-        match = re.search("http.+\.pdf", txt.text)
+        txt = requests.get(link, verify=False)
+        match = re.search("https?://.{10,100}\.pdf", txt.text)
         return match.group() if match else link
     except Exception as e:
         print("failed to get embedded link:", e)
@@ -58,25 +65,37 @@ def downloadPDF(link, preferred_file_name, folderName):
     """
     path = getUniquePath(folderName, preferred_file_name)
     try:
-        content = requests.get(link).content
+        # verify basically bypasses SSl verification
+        # there are times where setting it to True will prevent
+        # certain PDFs from downloading
+        content = requests.get(link, verify=False).content
         f = open(path, 'wb')
         f.write(content)
         f.close()
-        #print(preferred_file_name, link)
     except requests.exceptions.ConnectionError:
         print("HTTP Connection error:", link)
         downloadUsingPDFKit(link, path)
+    
+    # check if the pdf was downloaded successfully
+    if len(pdfReader.getPDFasText(path, False)) < 10:
+        downloadUsingPDFKit(link, path)
     return path
 
-def redownloadPDF(downloadedPath):
+def redownloadPDF(downloadedPath, link=""):
     print("redownloading", downloadedPath)
-    from csv_generate import fact_sheet_paths, terms_of_service_paths
 
-    m = fact_sheet_paths if downloadedPath.split("/")[0] == "PDFs" else terms_of_service_paths
-    for key in m:
-        if m[key] == downloadedPath:
-            downloadUsingPDFKit(key, downloadedPath)
-            return
+    # finding the associated URL to the pdf file
+    # the reason we have this is because redownloadPDF is called from pdfReader without knowing the URL
+    if link == "":
+        from csv_generate import fact_sheet_paths, terms_of_service_paths
+        # determining if it's a fact sheet or a terms of service 
+        m = fact_sheet_paths if downloadedPath.split("/")[0] == "PDFs" else terms_of_service_paths
+        for key in m:
+            if m[key] == downloadedPath:
+                link = key
+                break
+    # override the currently downloaded (most likely corrupted) pdf file
+    downloadUsingPDFKit(link, downloadedPath)
 
 def downloadUsingPDFKit(link, path):
     """
@@ -97,8 +116,11 @@ def downloadUsingPDFKit(link, path):
 if __name__ == "__main__":
     # this is example of a webpage that this method doesn't work on
     #downloadUsingPDFKit("https://www.4changeenergy.com/viewpdf.aspx/?Docs/efl_budsva12gad_o.pdf", "./PDFs/", "doesnt_work.pdf")
-    downloadPDF(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"), "doesnt_work", "PDFs/")
+    #downloadPDF(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"), "doesnt_work", "PDFs/")
     # it works in all other cases
     #downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=672&BrandID=5&PromoCodeID=446", "./PDFs/works.pdf", "PDFs/")
-
-    print(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"))
+    #downloadPDF(getEmbeddedPDFLink("https://www.libertypowercorp.com/wp-content/uploads/2018/07/TCC_TX.pdf"), "works", "PDFs/")
+    #print(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"))
+    #downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=677&BrandID=5&PromoCodeID=447", "PDFs/hello.pdf")
+    #redownloadPDF("PDFs/New Power Texas-1.pdf", "https://newpowertx.com/EmailHTML/efl.aspx?RateID=662&BrandID=5&PromoCodeID=446")
+    downloadPDF(getEmbeddedPDFLink("https://newpowertx.com/EmailHTML/efl.aspx?RateID=662&BrandID=5&PromoCodeID=446"), "w", "PDFs/")

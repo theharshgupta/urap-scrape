@@ -42,7 +42,7 @@ def ocr(pdfPath):
     return text
     
 
-def getPDFasText(path):
+def getPDFasText(path, ocrEnabled=True):
     """
         path: must be in the format parentFolder + fileName + extension
         example of valid paths:
@@ -54,31 +54,18 @@ def getPDFasText(path):
         It reads the PDF file using PyPDF2 library and gets the PDF file as a string
     """
 
-    def getAsStr(reader):
-        out = ""
-        for i in range(pdfReader.numPages):
-            page = pdfReader.getPage(i)
-            out += page.extractText()
-        return out
-    
-    def readPDF():
-        try:
-            pdfReader = PyPDF2.PdfFileReader(open(path, 'rb'))
-            return getAsStr(pdfReader)
-        except Exception:
-            return ""
-
     output = ""
     try:
         pdfReader = PyPDF2.PdfFileReader(open(path, 'rb'))
-        output = getAsStr(pdfReader)
-    except Exception:
-        scrapeHelper.redownloadPDF(path)
-        output = readPDF()
+        for i in range(pdfReader.numPages):
+            page = pdfReader.getPage(i)
+            output += page.extractText()
+    except Exception as e:
+        print(e)
     
     # assuming if length is < 50, then the pdf library failed
     # so then we try OCR on it
-    if len(output) < 10:
+    if len(output) < 10 and ocrEnabled:
         print("PDF library most likely failed, running OCR on", path)
         try:
             output = ocr(path)
@@ -87,7 +74,6 @@ def getPDFasText(path):
         except Image.DecompressionBombWarning:
             print("error")
 
-    output = output.replace('-\n', '')
     noNewLines = " ".join(output.split("\n")) # replace new lines with space
     return noNewLines
 
