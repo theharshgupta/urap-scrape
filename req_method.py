@@ -55,17 +55,19 @@ def get_suppliers(zipcode):
         # print(f"\t {json.dumps(data)}")
         return data
 
+
 if __name__ == '__main__':
     massachusetts = {}
     zipcodes_ma = get_zipcodes('MA')
     zipcodes_ma = list(map(lambda x: '0' + str(x), zipcodes_ma))
     all_zipcodes_data = []
-    for zipcode in zipcodes_ma[:5]:
+    for zipcode in zipcodes_ma[:3]:
         datum = get_suppliers(zipcode=str(zipcode))
         all_zipcodes_data.append(datum)
     massachusetts["data"] = all_zipcodes_data
     newjson = json.dumps(massachusetts)
     print(newjson)
-    with open('data.json', 'w', encoding='utf-8') as f:
+    with open('data_3.json', 'w', encoding='utf-8') as f:
         json.dump(massachusetts, f)
-
+    from datetime import datetime
+    print(datetime.today())
