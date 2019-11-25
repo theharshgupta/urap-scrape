@@ -84,7 +84,7 @@ def check_unique():
     all_files = glob.glob(path + "/*.csv")
 
     li = []
-
+    print(f"The number of zipcodes checking for unique are :: ", len(all_files))
     for filename in all_files:
         df = pd.read_csv(filename, index_col=None, header=0)
         li.append(df)
@@ -95,11 +95,13 @@ def check_unique():
     df.__delitem__('Date_Downloaded')
     # Changing NaN values in the df to None python
     df = df.where((pd.notnull(df)), None)
+    print(df.drop_duplicates().to_string())
     # Number of rows merged
     all_df_shape = df.shape[0]
     # Number of rows unique
     unique_df_shape = df.drop_duplicates().shape[0]
-
+    print(f"\nMerged {len(all_files)} zipcodes rows :: ", all_df_shape)
+    print(f"Unqiue {len(all_files)} zipcodes rows :: ", unique_df_shape)
     return all_df_shape, unique_df_shape
 
 
@@ -167,8 +169,7 @@ def get_suppliers(zipcode):
                           'Estimated_Cost', 'Other_Product_Services', 'Zipcode', 'Date_Downloaded']
             df['Variable_Rate'] = df['Variable_Rate'].apply(convert_cents_to_dollars)
             df['Introductory_Rate'] = df['Introductory_Price_Value'].apply(lambda x: True if x else False)
-            # print(df['Introductory_Rate'])
-            print(df.head(n=3))
+
             if Path(f'results_MA/{zipcode}.csv').is_file():
                 print("Appending to the existing CSV file ...")
                 with open(f'results_MA/{zipcode}.csv', 'a') as f:
@@ -187,7 +188,7 @@ def scrape():
         os.remove(f'results_MA/{file}')
     zipcodes_ma_0 = list(map(lambda x: '0' + str(x), ma_zipcodes))
     print("The number of zipcodes we will run the script for is:", len(zipcodes_ma_0))
-    for zip in zipcodes_ma_0[:50]:
+    for zip in zipcodes_ma_0[:150]:
         if get_suppliers(zipcode=str(zip)):
             success += 1
     print(f'The number of zipcodes successfully scraped are: {success}')
