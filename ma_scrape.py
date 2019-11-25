@@ -1,4 +1,5 @@
-from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
+# from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
+from scrape import get_zipcodes
 from datetime import datetime
 from pathlib import Path
 from datetime import datetime
@@ -274,10 +275,11 @@ def old_mainsite_scrape(zipcode):
 # We use __name__ == '__main__' to make sure that the functions dont run even when something from this file is imported
 # in some other py file
 if __name__ == '__main__':
-    for zipcode in zipcodes_ma[:]:
-        old_mainsite_scrape(zipcode=zipcode)
+    pass
+    # for zipcode in zipcodes_ma[:]:
+    #     old_mainsite_scrape(zipcode=zipcode)
 
     # Due to importing from the scrape.py file, the browser/driver for chrome opens, below statement closes it
-    driver.quit()
+    # driver.quit()
 
 # right now we want to test whether or not the radio buttons show up and their frequency.
