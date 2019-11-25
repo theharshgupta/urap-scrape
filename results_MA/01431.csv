@@ -1,0 +1,12 @@
+Supplier_Name,Rate_Type,Fixed_Charge,Variable_Rate,Introductory_Rate,Introductory_Price_Value,Enrollment_Fee,Contract_Term,Early_Termination_Fee,Automatic_Renewal_Type,Automatic_Renewal_Detail,Percent_Renewable,Renewable_Description,Incentives_Special_Terms,Incumbent_Flag,Estimated_Cost,Other_Product_Services,Zipcode,Date_Downloaded
+Unitil,,,0.09998,False,,,Jun '19 through Nov '19 |Dec '19 through May '20 ,,False,,0.0,,,True,59.988,,01431,11/25/19 15:13
+Residents Energy,Fixed,,0.10289999999999999,False,,,12 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,61.74,,01431,11/25/19 15:13
+Residents Energy,Fixed,,0.1199,False,,,24 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,71.94,,01431,11/25/19 15:13
+Think Energy,Fixed,,0.11599999999999999,False,,,24 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,69.6,,01431,11/25/19 15:13
+Town Square Energy,Fixed,,0.1159,False,,,24 months,$50.00,True,Automatic renewal: Variable-price product,0.0,,,False,69.54,,01431,11/25/19 15:13
+Town Square Energy,Fixed,,0.13970000000000002,False,,,12 months,,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,,False,83.82,,01431,11/25/19 15:13
+Think Energy,Fixed,,0.11800000000000001,False,,,18 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,70.8,,01431,11/25/19 15:13
+Town Square Energy,Fixed,,0.12480000000000001,False,,,36 months,$50.00,True,Automatic renewal: Variable-price product,0.0,,,False,74.88,,01431,11/25/19 15:13
+Think Energy,Fixed,,0.132,False,,,6 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,79.2,,01431,11/25/19 15:13
+Town Square Energy,Fixed,,0.1042,False,,,12 months,,True,Automatic renewal: Variable-price product,0.0,,,False,62.52,,01431,11/25/19 15:13
+Think Energy,Fixed,,0.12,False,,,12 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,72.0,,01431,11/25/19 15:13

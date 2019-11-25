@@ -2,7 +2,10 @@ import requests
 import json
 import zipcodes
 import pandas as pd
+import os
+from pathlib import Path
 from datetime import datetime
+import glob
 
 ma_zipcodes = [2351, 2018, 1718, 1719, 1720, 2743, 2745, 1220, 2344, 1001, 1230, 1266, 1201, 1653, 2134, 1913, 1002,
                1003, 1004, 1059, 1810, 1812, 1899, 5501, 5544, 2535, 2474, 2475, 2476, 2475, 1430, 1431, 1330, 1721,
@@ -71,15 +74,46 @@ ma_zipcodes = [2351, 2018, 1718, 1719, 1720, 2743, 2745, 1220, 2344, 1001, 1230,
                1098, 2093, 2675, 2675, 1367]
 
 
-def parse_json():
-    from pandas.io.json import json_normalize
-    import pandas as pd
-    with open('ma_jsons/data.json') as json_file:
-        json_data = json.load(json_file)
-    data = json_data['data']
-    for _1 in data:
-        if _1:
-            print(_1)
+def check_unique():
+    """
+    Returns a tuple with the original merged zipcode supplier companies and the number of unique suppliers
+    :return:
+    """
+
+    path = r'results_MA'  # use your path
+    all_files = glob.glob(path + "/*.csv")
+
+    li = []
+
+    for filename in all_files:
+        df = pd.read_csv(filename, index_col=None, header=0)
+        li.append(df)
+
+    df = pd.concat(li, axis=0, ignore_index=True)
+    # Deleting Zipcode and Date_Downloaded columns from the Dataframe
+    df.__delitem__('Zipcode')
+    df.__delitem__('Date_Downloaded')
+    # Changing NaN values in the df to None python
+    df = df.where((pd.notnull(df)), None)
+    # Number of rows merged
+    all_df_shape = df.shape[0]
+    # Number of rows unique
+    unique_df_shape = df.drop_duplicates().shape[0]
+
+    return all_df_shape, unique_df_shape
+
+
+def convert_cents_to_dollars(x):
+    """
+    :param x: the string value in cents
+    :return: a float value in dollars
+    """
+    # Finding all the text before the first space
+    str_val = str(x).split(' ')[0]
+    if str_val == 'None':
+        return 0
+    if str_val:
+        return float(str_val) / 100
 
 
 def get_distribution_companies(zipcode):
@@ -99,9 +133,11 @@ def get_suppliers(zipcode):
     """
     This function loops through each of the companies returned from the get_distribution_companies and gets the
     supplier's list for each of them
+    :param production: to make sure CSV are not appended while testing the code
     :param zipcode: zipcode from massachusets
     :return: A csv file is saved
     """
+    print("Performing scrape for ZIPCODE", zipcode)
     for dist_company in get_distribution_companies(zipcode=zipcode):
         company_id = dist_company['distributionCompanyId']
         company_name = dist_company['distributionCompanyName']
@@ -115,36 +151,50 @@ def get_suppliers(zipcode):
             r2 = requests.post("http://www.energyswitchma.gov/consumers/compare", data=post_data)
             suppliers_list = json.loads(r2.text)
             df = pd.DataFrame.from_dict(suppliers_list)
-
             df = df[['supplierName', 'pricingStructureDescription', 'pricePerMonth', 'pricePerUnit',
                      'introductoryPrice', 'introductoryPrice', 'enrollmentFee', 'contractTerm',
-                     'earlyTerminationDetailExport', 'hasAutomaticRenewal', 'automaticRenewalDetail',
+                     'earlyTerminationDetailExport',
+                     'hasAutomaticRenewal', 'automaticRenewalDetail',
                      'renewableEnergyProductPercentage', 'renewableEnergyProductDetail', 'otherProductServicesDetail',
-                     'isDistributionCompany']]
+                     'isDistributionCompany', 'estimatedCost', 'otherProductServices']]
             df["Zipcode"] = zipcode
             df["Date_Downloaded"] = datetime.today().strftime('%m/%d/%y %H:%M')
 
-            # suppliers_df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge', 'Variable_Rate',
-            #                         'Introductory_Rate', 'Introductory_Price_Value', 'Enrollment_Fee', 'Contract_Term',
-            #                         'Early_Termination_Fee', 'Automatic_Renewal_Type', Automatic_Renewal_Detail,
-            #                         'Percent_Renewable', 'Renewable_Description', 'Incentives_Special_Terms',
-            #                         'Est_Monthly_Bill_Default', 'New_Regional_Resources']
-            print(df.to_string())
-            # for supplier in suppliers_list:
-            #     print(list(supplier.values()))
+            df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge', 'Variable_Rate', 'Introductory_Rate',
+                          'Introductory_Price_Value', 'Enrollment_Fee', 'Contract_Term',
+                          'Early_Termination_Fee', 'Automatic_Renewal_Type', 'Automatic_Renewal_Detail',
+                          'Percent_Renewable', 'Renewable_Description', 'Incentives_Special_Terms', 'Incumbent_Flag',
+                          'Estimated_Cost', 'Other_Product_Services', 'Zipcode', 'Date_Downloaded']
+            df['Variable_Rate'] = df['Variable_Rate'].apply(convert_cents_to_dollars)
+            df['Introductory_Rate'] = df['Introductory_Price_Value'].apply(lambda x: True if x else False)
+            # print(df['Introductory_Rate'])
+            print(df.head(n=3))
+            if Path(f'results_MA/{zipcode}.csv').is_file():
+                print("Appending to the existing CSV file ...")
+                with open(f'results_MA/{zipcode}.csv', 'a') as f:
+                    df.to_csv(f, index=False, header=False)
+            else:
+                print("Writing to a new CSV file ...")
+                df.to_csv(f'results_MA/{zipcode}.csv', index=False)
+            return True
+    return False
+
+
+def scrape():
+    print(datetime.today(), '\n\n\n')
+    success = 0
+    for file in os.listdir('results_MA'):
+        os.remove(f'results_MA/{file}')
+    zipcodes_ma_0 = list(map(lambda x: '0' + str(x), ma_zipcodes))
+    print("The number of zipcodes we will run the script for is:", len(zipcodes_ma_0))
+    for zip in zipcodes_ma_0[:50]:
+        if get_suppliers(zipcode=str(zip)):
+            success += 1
+    print(f'The number of zipcodes successfully scraped are: {success}')
+
+    print(datetime.today())
 
 
 if __name__ == '__main__':
-    print(datetime.today())
-    massachusetts = {}
-    zipcodes_ma_0 = list(map(lambda x: '0' + str(x), ma_zipcodes))
-
-    for zip in zipcodes_ma_0[:5]:
-        get_suppliers(zipcode=str(zip))
-    # newjson = json.dumps(massachusetts)
-    # print(newjson)
-
-    # with open('ma_jsons/data_10.json', 'w', encoding='utf-8') as f:
-    #     json.dump(massachusetts, f)
-
-    print(datetime.today())
+    # scrape()
+    check_unique()
