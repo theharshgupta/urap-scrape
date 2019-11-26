@@ -24,14 +24,27 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 3. Run `python3 scrape.py`
 
 ### Massachussets 
+Set up: 
+1. Make sure you have a folder called `result_MA` in the root directory. The project will not work if it not present there.
+In the new script, a POST request is made to the website in form like data. I found this while looking at the Networks Tab on the website and the request and responses from the server. 
+To run scrape for all the zipcode for Massachussets: 
+1. Go the root directory of the project and then look for the `req_method.py` file. 
+2. Open that file in any text editor of choice and go to the block of code where it says `if __name__ == __main ` ...
+3. Under that block of code, you can run two different piece of code. The code to check for unique entries can only be run after the zipcode level data is downloaded. 
 
-1. Go to the root directory and run the `ma_scrape.py`
-2. To download the raw csv from the website, comment the `format_csv()` function in the main run in the file 
-3. To just format the downloaded csvs, comment the `new_main_scrape()` function loop
-4. To run everything in sync, run the `new_main_scrape()` loop and then the `format_csv()` function
-5. To run for more than 50 zipcode change the following line in `ma_scrape.py` :
-    1. `for zipcode in zipcodes_ma[:<number of zipcodes to run>]:`
-    2. If you want to run for all the zipcodes (may take a long time), just change the line to `for zipcode in zipcodes_ma[:]:`
+### Scraping the data                                           
+4. You can just call the function `scrape` by writing `scrape()` in the main code block as mentioned in the previous step. 
+5. After the zipcode level csv have been downloaded in the result_MA folder, you can now replace the main code block to call the function `check_unique()` and can comment out `scrape`. 
+## Packages required for running MA
+
+1. requests module 
+2. pandas (if you dont have pandas, just run pip3 install pandas)
+3. pathlib
+4. json 
+5. glob
+6. datetime 
+
+By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed. 
 
 # Video Demos
 ### Video - Demo - New York
@@ -39,7 +52,7 @@ Make sure you have Python 3 set up on your machine [Download Python](https://www
 ![](demo_videos/urap_scrape_demo.gif)
 
 ### Video - Demo - MA
-
+HAS TO BE UPDATED FOR THE NEW AJAX REQUEST WAY 
 ![](demo_videos/ma.gif)
 
 ## Power to Choose  
