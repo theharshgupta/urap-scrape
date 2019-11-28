@@ -7,8 +7,8 @@ def generateCSVTemplate(fileNameWithExtension, mode):
     file.write("\nDate Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
         "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
         "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
-        "URL,Fact Sheet,Terms of Service,Enroll Phone," +
-        "Additional Fees,Renewal Details")
+        "Fact Sheet Name,Terms of Services Name,URL,Fact Sheet,Terms of Service,Enroll Phone," +
+        "Additional Fees,Minimum Usage Fee,Renewal Details,Base Charge,Energy Charge,Delivery Charge")
     return file
 
 def writeToCSV(csv, data, fact_sheet_paths):
@@ -19,6 +19,7 @@ def writeToCSV(csv, data, fact_sheet_paths):
 
     def write(txt):
         txt = str(txt).replace(",", "")
+        txt = str(txt).replace("\n", " ")
         csv.write(str(txt) + ",")
 
     write(getCurrentDate())
@@ -38,15 +39,22 @@ def writeToCSV(csv, data, fact_sheet_paths):
     termination_fee = getTerminationFee(pdfContent, data["pricing_details"].split("$")[1])
     write(termination_fee)
     write(str(data["renewable_energy_id"]) + "%")
+    write(fact_sheet_paths[data["fact_sheet"]])
+    write(terms_of_service_paths[data["terms_of_service"]])
     write(data["go_to_plan"])
     write(data["fact_sheet"])
     write(data["terms_of_service"])
     write(data["enroll_phone"])
 
     terms_of_service_content = getPDFasText(terms_of_service_paths[data["terms_of_service"]])
-    write(getAdditionalFees(terms_of_service_content))
-    #write(getMinimumUsageFees(terms_of_service_content))
-    write(getRenewalType(terms_of_service_content))
+    write(getAdditionalFees(terms_of_service_content) + getAdditionalFees(pdfContent))
+    write(getMinimumUsageFees(terms_of_service_content) + getMinimumUsageFees(pdfContent))
+    write(getRenewalType(terms_of_service_content) + getRenewalType(pdfContent))
+
+    base, energy, delivery = getBEDCharges(pdfContent)
+    write(base)
+    write(energy)
+    write(delivery)
 
 
 # when downloading a PDF, sometimes 2 plans from the same company end up overriding each other
