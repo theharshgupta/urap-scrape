@@ -155,17 +155,22 @@ def getRenewalType(txt):
 
 
 def getMinimumUsageFees(txt):
+    """
+        Uses a regular expression that matches a single sentence containing minimum usage fee
+        The regex starts matching beginning at the beginning of the sentence until the end of it
+    """
     # assuming the PDF file is empty, 10 is arbitrary
     if len(txt) < 10:
         return "PDF corrupted"
-    match = re.findall("[;.!?\n](" + rest + "[Mm]inimum" + rest + "[Uu]sage" + rest + ending + ")", txt)
+    # in the below regular expression, the reason there's "\.*" is to catch an optional decimal point
+    # the regular expression stops matching at the next .!? but it needs to catch the decimal point of a dollar amount
+    match = re.findall("[;.!?\n](" + rest + "[Mm]inimum" + rest + "[Uu]sage" + rest + "\.*" + rest + ending + ")", txt)
     return " " if not match else "".join(match)
 
 def getBEDCharges(txt):
     """
         Extract the Base, Energy, Delivery Charges from txt
     """
-
     def isValidUnitValue(unit, word):
         # TODO: documentation
         for item in word.split(unit):
@@ -231,8 +236,9 @@ if __name__ == "__main__":
 """ Example 1 of a unreadable PDF """
 txt = getPDFasText("PDFs/WINDROSE ENERGY.pdf")
 print("Length of PDF:", len(txt))
-fee = getTerminationFee(txt, "125")
-print(fee)
+#fee = getTerminationFee(txt, "125")
+print(getMinimumUsageFees(txt))
+#print(fee)
 """
 # Example 2 of a unreadable PDF
 txt2 = getPDFasText("PDFs/AMBIT ENERGY.pdf")
