@@ -192,8 +192,7 @@ def getBEDCharges(txt):
 
     def isValidUnitValue(unit, word):
         # TODO: documentation
-        lst = word.split(unit)
-        for item in lst:
+        for item in word.split(unit):
             try:
                 float(item) # if this works without exception, then we return
                 return True
@@ -215,14 +214,16 @@ def getBEDCharges(txt):
     # Reading the whole text might fail on large texts when we run split()
     # TODO: fix this
     # txt = "".join(re.findall("[Bb]ase\s*[Cc]harge\s*.{5,500}", txt))
-    txt = txt.split()
+    txt = txt.split(" ")
     for i in range(len(txt)):
         # we update txt sometimes each iteration, so this check is necessary
         if i >= len(txt):
             break
         if txt[i].lower() == "base":
+            print(txt)
             base, txt = extractNumber(txt, i+1)
-        elif txt[i].lower() == "energy":
+        # some companies have "energy" in their company names, so I need to check if the next word is either "charge" or "rate"
+        elif txt[i].lower() == "energy" and i+1<len(txt) and (txt[i+1].lower() == "charge" or txt[i+1].lower() == "rate"):
             energy, txt = extractNumber(txt, i+1)
         elif txt[i].lower() == "delivery":
             delivery, txt = extractNumber(txt, i+1)
@@ -272,8 +273,8 @@ if __name__ == "__main__":
     """
     #print(getTerminationFee("faw;klfjelfkjwalkf\nfejflwekfj\ntermination fee is $50 now you know.\n helloworld fefjaewfklaj\n fefaewfaef\n", "50"))
     #print(getBaseCharge("This price disclosure is based on the following components:\nBase Charge: Energy Charge: Oncor Electric Delivery Charges:\n$5.00 per billing cycle 7.9842¢ per kWh"))
-    print(getBEDCharges("Base Charge Energy Delivery $5 10$ 15¢"))
-    print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
+    #print(getBEDCharges("Base Charge Energy Delivery $5 10$ 15¢"))
+    #print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
 
     # it fails here, they have Energy Charge:3.0¢, so use regular expressions instead of split()
-    print(getBEDCharges(getPDFasText("PDFs/FIRST CHOICE POWER .pdf")))
+    print(getBEDCharges(getPDFasText("PDFs/CHAMPION ENERGY SERVICES LLC.pdf")))
