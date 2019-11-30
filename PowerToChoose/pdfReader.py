@@ -4,18 +4,15 @@ import pytesseract
 from PIL import Image 
 from pdf2image import convert_from_path
 
-rest = "['’`\dA-Za-z\s,_:\(\);\-\"\$\%]*"
-ending = "[.!]"
+# we cannot just use \W to match non-alphabetic characters, because we want to skip: .!?s
+rest = "['’`,\dA-Za-z\s_:\(\);\-\"\$%\&]*"
+ending = "[\.!\?]*"
 decimal_points = "\.*\d*"
-
-# by doing this, warnings will be treated as errors
-# we do this to catch PdfReadWarning
-#warnings.filterwarnings("error")
 
 """
 1. company rating (one pass through powertochoose.com)
 3. email notifications
-4. combine energy, base, delivery charges into 1 function
+4. combine energy, base, delivery charges into 1 function (done)
 5. bill credit (with usage range)
 6. usage charge (with usage range)
 7. figure out a way how to capture ranges in charges/fees
@@ -42,6 +39,7 @@ def ocr(pdfPath):
     image_counter = 1
 
     for page in pages:
+        # TODO: do not override, check if the file already exists
         filename = pdfName+"_"+str(image_counter)+".jpg"
         
         # Save the image of the page in system 
@@ -163,28 +161,6 @@ def getMinimumUsageFees(txt):
     match = re.findall("[;.!?\n](" + rest + "[Mm]inimum" + rest + "[Uu]sage" + rest + ending + ")", txt)
     return " " if not match else "".join(match)
 
-def getBaseCharge(txt):
-    # assuming the PDF file is empty, 10 is arbitrary
-    if len(txt) < 10:
-        return "PDF corrupted"
-    match = re.findall("[;.!?\n]*(" + rest + "[Bb]ase\s*[Cc]harge" + ".+" + ")", txt)
-    print(re.findall("[Bb]ase\s*[Cc]harge" + rest, txt))
-    return " " if not match else "".join(match)
-
-def getEnergyCharge(txt):
-    # assuming the PDF file is empty, 10 is arbitrary
-    if len(txt) < 10:
-        return "PDF corrupted"
-    match = re.findall("[;.!?\n]*(" + rest + "[Ee]nergy\s*[Cc]harge" + ".+" + ")", txt)
-    return " " if not match else "".join(match)
-
-def getDeliveryCharge(txt):
-    # assuming the PDF file is empty, 10 is arbitrary
-    if len(txt) < 10:
-        return "PDF corrupted"
-    match = re.findall("[;.!?\n]*(" + rest + "[Dd]elivery\s*[Cc]harge" + ".+" + ")", txt)
-    return " " if not match else "".join(match)
-
 def getBEDCharges(txt):
     """
         Extract the Base, Energy, Delivery Charges from txt
@@ -206,6 +182,7 @@ def getBEDCharges(txt):
                 return appendUnit(arr[j], arr, j), arr[:j] + arr[j+1:]
         return "", arr
 
+    # TODO: improve this function to find units beyond just checking its neighbors
     def appendUnit(val, txt, indexOfVal):
         if "$" in val or "¢" in val:
             return val
@@ -251,12 +228,12 @@ if __name__ == "__main__":
         print(pdf, getTerminationFee(txt), "\n\n")
 """
 
-""" Example 1 of a unreadable PDF
-txt = getPDFasText("PDFs/Texans Energy.pdf")
+""" Example 1 of a unreadable PDF """
+txt = getPDFasText("PDFs/WINDROSE ENERGY.pdf")
 print("Length of PDF:", len(txt))
-fee = getTerminationFee(txt)
+fee = getTerminationFee(txt, "125")
 print(fee)
-
+"""
 # Example 2 of a unreadable PDF
 txt2 = getPDFasText("PDFs/AMBIT ENERGY.pdf")
 print("Length of PDF:", len(txt2))
@@ -269,8 +246,8 @@ if __name__ == "__main__":
     print(getPDFasText("PDFs/PowerNext-1.pdf"))
 """
 
-if __name__ == "__main__":
-    """
+#if __name__ == "__main__":
+"""
     pdfContent = getPDFasText("Terms of Services/GREEN MOUNTAIN ENERGY COMPANY-1.pdf")
     if len(pdfContent) < 10:
         print("emptyyy", len(pdfContent))
@@ -278,11 +255,11 @@ if __name__ == "__main__":
     fees = getRenewalType(pdfContent)
     print(getMinimumUsageFees(pdfContent))
     print(fees)
-    """
+"""
     #print(getTerminationFee("faw;klfjelfkjwalkf\nfejflwekfj\ntermination fee is $50 now you know.\n helloworld fefjaewfklaj\n fefaewfaef\n", "50"))
     #print(getBaseCharge("This price disclosure is based on the following components:\nBase Charge: Energy Charge: Oncor Electric Delivery Charges:\n$5.00 per billing cycle 7.9842¢ per kWh"))
     #print(getBEDCharges("Base Charge Energy Delivery $5 10$ 15¢"))
     #print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
 
     # it fails here, they have Energy Charge:3.0¢, so use regular expressions instead of split()
-    print(getBEDCharges(getPDFasText("PDFs/AP GAS & ELECTRIC (TX) LLC.pdf")))
+    #print(getBEDCharges(getPDFasText("PDFs/AP GAS & ELECTRIC (TX) LLC.pdf")))
