@@ -202,11 +202,19 @@ def getBEDCharges(txt):
     def extractNumber(arr, start):
         # TODO: documentation here
         for j in range(start, len(arr)):
-            if isValidUnitValue("$", arr[j]):
-                return arr[j], arr[:j] + arr[j+1:]
-            elif isValidUnitValue("¢", arr[j]):
-                return arr[j], arr[:j] + arr[j+1:]
+            if isValidUnitValue("$", arr[j]) or isValidUnitValue("¢", arr[j]):
+                return appendUnit(arr[j], arr, j), arr[:j] + arr[j+1:]
         return "", arr
+
+    def appendUnit(val, txt, indexOfVal):
+        if "$" in val or "¢" in val:
+            return val
+        elif "$" in txt[indexOfVal + 1] or "¢" in txt[indexOfVal + 1]:
+            return val + txt[indexOfVal + 1]
+        elif "$" in txt[indexOfVal - 1] or "¢" in txt[indexOfVal - 1]:
+            return val + txt[indexOfVal - 1]
+        #print(txt[indexOfVal-10:indexOfVal+10])
+        return val
 
     base, energy, delivery = "", "", ""
 
@@ -219,18 +227,18 @@ def getBEDCharges(txt):
         # we update txt sometimes each iteration, so this check is necessary
         if i >= len(txt):
             break
-        if txt[i].lower() == "base":
-            print(txt)
+        if txt[i].lower() == "base" and base == "":
             base, txt = extractNumber(txt, i+1)
         # some companies have "energy" in their company names, so I need to check if the next word is either "charge" or "rate"
-        elif txt[i].lower() == "energy" and i+1<len(txt) and (txt[i+1].lower() == "charge" or txt[i+1].lower() == "rate"):
+        elif txt[i].lower() == "energy" and energy == "" and i+1<len(txt) and (txt[i+1].lower() == "charge" or txt[i+1].lower() == "rate"):
             energy, txt = extractNumber(txt, i+1)
-        elif txt[i].lower() == "delivery":
+        # some PDFs have "Oncor Electric Delivery", so we have to make sure the next word is "charge" or "charges"
+        # TODO: strip the string instead of checking different ways of "charge"
+        elif txt[i].lower() == "delivery" and delivery == "" and i+1<len(txt) and (txt[i+1].lower() == "charge" or txt[i+1].lower() == "charges" or txt[i+1].lower() == "charges:"):
             delivery, txt = extractNumber(txt, i+1)
     return base, energy, delivery
 
 
-            
 
 ##################### Test Cases ######################
 
@@ -277,4 +285,4 @@ if __name__ == "__main__":
     #print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
 
     # it fails here, they have Energy Charge:3.0¢, so use regular expressions instead of split()
-    print(getBEDCharges(getPDFasText("PDFs/CHAMPION ENERGY SERVICES LLC.pdf")))
+    print(getBEDCharges(getPDFasText("PDFs/AP GAS & ELECTRIC (TX) LLC.pdf")))
