@@ -80,7 +80,7 @@ def getPDFasText(path, ocrEnabled=True):
         ocrForce = True
     # assuming if length is < 50, then the pdf library failed
     # so then we try OCR on it
-    if len(output) < 50 and ocrEnabled or ocrForce:
+    if (len(output) < 50 or output.isspace()) and ocrEnabled or ocrForce:
         print("PDF library most likely failed, running OCR on", path)
         try:
             output = ocr(path)
@@ -184,9 +184,12 @@ def getBEDCharges(txt):
         """
             Uses a regex to extract a number from a value in arr
         """
-        # TODO: consider changing len(arr) to some fixed value
-        for j in range(start, len(arr)):
-            m = re.search("[\$¢€]?\s*\d+\.*\d*[\$¢€]*", arr[j])
+        # I decided to only search the next 15 values, because some sentences have "delivery charges", etc.
+        # in them, which gives us wrong values because they're just mentioned in sentences
+        for j in range(start, start + 15):
+            # the reason there's [\dO] is because the OCR sometimes interprets 0 as O
+            # and it also sometimes interprets $ as S, so we catch those 
+            m = re.search("[\$¢€CS]?\s*[\dO]+\.*\d*[\$¢€]*", arr[j])
             if m:
                 """
                     Some PDFs have weird spacing and we get ["($)$9.95Energy", "Charge:"] for example
@@ -225,10 +228,10 @@ def getBEDCharges(txt):
         if "base" in txt[i].lower() and base == "" and i+1<len(txt) and "charge" in txt[i+1].lower():
             base, txt = extractNumber(txt, i+1)
         # some companies have "energy" in their company names, so I need to check if the next word is either "charge" or "rate"
-        elif "energy" in txt[i].lower() and energy == "" and i+1<len(txt) and ("charge" in txt[i+1].lower() or "rate" in txt[i+1].lower()):
+        if "energy" in txt[i].lower() and energy == "" and i+1<len(txt) and ("charge" in txt[i+1].lower() or "rate" in txt[i+1].lower()):
             energy, txt = extractNumber(txt, i+1)
         # some PDFs have "Oncor Electric Delivery", so we have to make sure the next word contains "charge"
-        elif "delivery" in txt[i].lower() and delivery == "" and i+1<len(txt) and "charge" in txt[i+1].lower():
+        if "delivery" in txt[i].lower() and delivery == "" and i+1<len(txt) and "charge" in txt[i+1].lower():
             delivery, txt = extractNumber(txt, i+1)
     return base, energy, delivery
 
@@ -280,4 +283,4 @@ if __name__ == "__main__":
     #print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
 
     # it fails here, they have Energy Charge:3.0¢, so use regular expressions instead of split()
-    print(getBEDCharges(getPDFasText("PDFs/TXU ENERGY.pdf")))
+    print(getBEDCharges(getPDFasText("PDFs/OUR ENERGY LLC.pdf")))
