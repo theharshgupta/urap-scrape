@@ -5,7 +5,6 @@ import os
 import re
 from bs_table_extractor import Extractor
 from datetime import date
-import zipcodes
 import bs4 as bs
 import pandas as pd
 import smtplib, ssl

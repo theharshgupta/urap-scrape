@@ -1,6 +1,5 @@
 import requests
 import json
-import zipcodes
 import pandas as pd
 import os
 from pathlib import Path
@@ -120,14 +119,16 @@ def convert_cents_to_dollars(x):
 
 def get_distribution_companies(zipcode):
     """
-    This function will all the companies for a particular zipcode -- as part of the response
+    This function will get all TDU companies for that particular zipcode -- as part of the response
     zipcode: zipcode for MA
     :return: json response
     """
     post_data_1 = dict(customerClassId=1,
                        zipCode=str(zipcode))
-    r = requests.post("http://www.energyswitchma.gov/consumers/distributioncompaniesbyzipcode", data=post_data_1)
+    r = requests.post("http://www.energyswitchma.gov/consumers/distributioncompaniesbyzipcode",
+                      data=post_data_1)
     jsonify_r = json.loads(r.text)
+    # jsonify_r is a list of Python Dictionary each containing info about the TDU
     return jsonify_r
 
 
@@ -137,47 +138,64 @@ def get_suppliers(zipcode):
     supplier's list for each of them
     :param production: to make sure CSV are not appended while testing the code
     :param zipcode: zipcode from massachusets
-    :return: A csv file is saved
+    :return: A csv file is saved, returns a Bool value if the zipcode scrape was successful or not
     """
-    print("Performing scrape for ZIPCODE", zipcode)
+    # Iterates over all the TDUs for that particular zipcode
+    # type(dist_company) is Python Dictionary
     for dist_company in get_distribution_companies(zipcode=zipcode):
+        # TDU ID - internal
         company_id = dist_company['distributionCompanyId']
+        # TDU Name
         company_name = dist_company['distributionCompanyName']
+        # TDU is municipal
         is_municipal = dist_company['isMunicipalElectricCompany']
+        # Checking if TDU is municipal, if not then proceed ...
         if not is_municipal:
             post_data = dict(customerClassId="1",
                              distributionCompanyId=str(company_id),
                              distributionCompanyName=str(company_name),
                              monthlyUsage=600,
                              zipCode=zipcode)
+            # Making the second request, now to get the supplier's list for that particular TDU
             r2 = requests.post("http://www.energyswitchma.gov/consumers/compare", data=post_data)
             suppliers_list = json.loads(r2.text)
+            # Creating a Dataframe (a table like format) for easier analysis and exporting to CSV
             df = pd.DataFrame.from_dict(suppliers_list)
+            # Mentioning the columns we want
             df = df[['supplierName', 'pricingStructureDescription', 'pricePerMonth', 'pricePerUnit',
                      'introductoryPrice', 'introductoryPrice', 'enrollmentFee', 'contractTerm',
                      'earlyTerminationDetailExport',
                      'hasAutomaticRenewal', 'automaticRenewalDetail',
                      'renewableEnergyProductPercentage', 'renewableEnergyProductDetail', 'otherProductServicesDetail',
                      'isDistributionCompany', 'estimatedCost', 'otherProductServices']]
+            # Adding zipcode column to the Dataframe
             df["Zipcode"] = zipcode
+            # Adding timestamp column to the Dataframe
             df["Date_Downloaded"] = datetime.today().strftime('%m/%d/%y %H:%M')
-
+            # Change column/header names as per convention
             df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge', 'Variable_Rate', 'Introductory_Rate',
                           'Introductory_Price_Value', 'Enrollment_Fee', 'Contract_Term',
                           'Early_Termination_Fee', 'Automatic_Renewal_Type', 'Automatic_Renewal_Detail',
                           'Percent_Renewable', 'Renewable_Description', 'Incentives_Special_Terms', 'Incumbent_Flag',
                           'Estimated_Cost', 'Other_Product_Services', 'Zipcode', 'Date_Downloaded']
+            # Modifying variable rate column to convert to dollars
             df['Variable_Rate'] = df['Variable_Rate'].apply(convert_cents_to_dollars)
+            # Adding the introductory_rate column based on introductory_rate_value column
             df['Introductory_Rate'] = df['Introductory_Price_Value'].apply(lambda x: True if x else False)
 
+            # Check if a file exists for that zipcode
             if Path(f'results_MA/{zipcode}.csv').is_file():
+                # If file exists, entries are appended to the end
                 print("Appending to the existing CSV file ...")
                 with open(f'results_MA/{zipcode}.csv', 'a') as f:
                     df.to_csv(f, index=False, header=False)
+            # If file does not exist, we create a new file
             else:
                 print("Writing to a new CSV file ...")
                 df.to_csv(f'results_MA/{zipcode}.csv', index=False)
+            # Returns True because there was no error and CSV file was created/appened
             return True
+    # If something goes wrong, False is returned
     return False
 
 
@@ -197,7 +215,7 @@ def scrape():
     zipcodes_ma_0 = list(map(lambda x: '0' + str(x), ma_zipcodes))
     print("The number of zipcodes we will run the script for is:", len(zipcodes_ma_0))
     # Calls the server for first 150 zipcode
-    for zip in zipcodes_ma_0[:150]:
+    for zip in zipcodes_ma_0[:5]:
         print("Running for zipcode:", zip)
         if get_suppliers(zipcode=str(zip)):
             success += 1
