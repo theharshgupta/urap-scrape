@@ -39,13 +39,13 @@ def ocr(pdfPath):
     image_counter = 1
 
     for page in pages:
-        # TODO: do not override, check if the file already exists
         filename = pdfName+"_"+str(image_counter)+".jpg"
         
         # Save the image of the page in system 
-        page.save(filename, 'JPEG') 
+        if not os.path.exists(filename):
+            page.save(filename, 'JPEG') 
     
-        image_counter = image_counter + 1
+        image_counter += 1
     
     # Iterate from 1 to total number of pages 
     text = ""
