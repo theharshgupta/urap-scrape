@@ -86,7 +86,7 @@ def check_unique():
     li = []
     print(f"The number of zipcodes checking for unique are :: ", len(all_files))
     for filename in all_files:
-        df = pd.read_csv(filename, index_col=None, header=0)
+        df = pd.read_csv(filename, index_col=None, header=0, encoding='utf-8')
         li.append(df)
 
     df = pd.concat(li, axis=0, ignore_index=True)
@@ -182,20 +182,31 @@ def get_suppliers(zipcode):
 
 
 def scrape():
+    """
+    This is the main function to scrape the results
+    :return: None
+    """
+    # Prints the timestamp to see how long the program takes
     print(datetime.today(), '\n\n\n')
     success = 0
+
+    # Clears the results_MA director on each run
     for file in os.listdir('results_MA'):
         os.remove(f'results_MA/{file}')
+    # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(map(lambda x: '0' + str(x), ma_zipcodes))
     print("The number of zipcodes we will run the script for is:", len(zipcodes_ma_0))
+    # Calls the server for first 150 zipcode
     for zip in zipcodes_ma_0[:150]:
+        print("Running for zipcode:", zip)
         if get_suppliers(zipcode=str(zip)):
             success += 1
+    # The success variable to see how many zipcodes were actually extracted
     print(f'The number of zipcodes successfully scraped are: {success}')
 
     print(datetime.today())
 
 
 if __name__ == '__main__':
-    # scrape()
-    check_unique()
+    scrape()
+    # check_unique()
