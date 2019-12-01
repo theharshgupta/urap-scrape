@@ -181,10 +181,24 @@ def getBEDCharges(txt):
                 pass
     
     def extractNumber(arr, start):
-        # TODO: documentation here
+        """
+            Uses a regex to extract a number from a value in arr
+        """
+        # TODO: consider changing len(arr) to some fixed value
         for j in range(start, len(arr)):
-            if isValidUnitValue("$", arr[j]) or isValidUnitValue("¢", arr[j]):
-                return appendUnit(arr[j], arr, j), arr[:j] + arr[j+1:]
+            m = re.search("[\$¢€]?\s*\d+\.*\d*[\$¢€]*", arr[j])
+            if m:
+                """
+                    Some PDFs have weird spacing and we get ["($)$9.95Energy", "Charge:"] for example
+                    In that case, we need to extract $9.95 and return ["energy", "Charge:"],
+                    so we can extract the energy charge in the next iteration
+                """
+                temp = [val for val in ["energy", "delivery", "base"] if val in arr[j].lower()]
+                if temp != []:
+                    arr[j] = temp[0]
+                    return m.group(), arr
+                else:
+                    return m.group(), arr[:j] + arr[j+1:]
         return "", arr
 
     # TODO: improve this function to find units beyond just checking its neighbors
@@ -195,7 +209,6 @@ def getBEDCharges(txt):
             return val + txt[indexOfVal + 1]
         elif "$" in txt[indexOfVal - 1] or "¢" in txt[indexOfVal - 1]:
             return val + txt[indexOfVal - 1]
-        #print(txt[indexOfVal-10:indexOfVal+10])
         return val
 
     base, energy, delivery = "", "", ""
@@ -209,14 +222,13 @@ def getBEDCharges(txt):
         # we update txt sometimes each iteration, so this check is necessary
         if i >= len(txt):
             break
-        if txt[i].lower() == "base" and base == "":
+        if "base" in txt[i].lower() and base == "" and i+1<len(txt) and "charge" in txt[i+1].lower():
             base, txt = extractNumber(txt, i+1)
         # some companies have "energy" in their company names, so I need to check if the next word is either "charge" or "rate"
-        elif txt[i].lower() == "energy" and energy == "" and i+1<len(txt) and (txt[i+1].lower() == "charge" or txt[i+1].lower() == "rate"):
+        elif "energy" in txt[i].lower() and energy == "" and i+1<len(txt) and ("charge" in txt[i+1].lower() or "rate" in txt[i+1].lower()):
             energy, txt = extractNumber(txt, i+1)
-        # some PDFs have "Oncor Electric Delivery", so we have to make sure the next word is "charge" or "charges"
-        # TODO: strip the string instead of checking different ways of "charge"
-        elif txt[i].lower() == "delivery" and delivery == "" and i+1<len(txt) and (txt[i+1].lower() == "charge" or txt[i+1].lower() == "charges" or txt[i+1].lower() == "charges:"):
+        # some PDFs have "Oncor Electric Delivery", so we have to make sure the next word contains "charge"
+        elif "delivery" in txt[i].lower() and delivery == "" and i+1<len(txt) and "charge" in txt[i+1].lower():
             delivery, txt = extractNumber(txt, i+1)
     return base, energy, delivery
 
@@ -234,10 +246,10 @@ if __name__ == "__main__":
 """
 
 """ Example 1 of a unreadable PDF """
-txt = getPDFasText("PDFs/WINDROSE ENERGY.pdf")
-print("Length of PDF:", len(txt))
+#txt = getPDFasText("PDFs/WINDROSE ENERGY.pdf")
+#print("Length of PDF:", len(txt))
 #fee = getTerminationFee(txt, "125")
-print(getMinimumUsageFees(txt))
+#print(getMinimumUsageFees(txt))
 #print(fee)
 """
 # Example 2 of a unreadable PDF
@@ -252,8 +264,8 @@ if __name__ == "__main__":
     print(getPDFasText("PDFs/PowerNext-1.pdf"))
 """
 
-#if __name__ == "__main__":
-"""
+if __name__ == "__main__":
+    """
     pdfContent = getPDFasText("Terms of Services/GREEN MOUNTAIN ENERGY COMPANY-1.pdf")
     if len(pdfContent) < 10:
         print("emptyyy", len(pdfContent))
@@ -261,11 +273,11 @@ if __name__ == "__main__":
     fees = getRenewalType(pdfContent)
     print(getMinimumUsageFees(pdfContent))
     print(fees)
-"""
+    """
     #print(getTerminationFee("faw;klfjelfkjwalkf\nfejflwekfj\ntermination fee is $50 now you know.\n helloworld fefjaewfklaj\n fefaewfaef\n", "50"))
     #print(getBaseCharge("This price disclosure is based on the following components:\nBase Charge: Energy Charge: Oncor Electric Delivery Charges:\n$5.00 per billing cycle 7.9842¢ per kWh"))
     #print(getBEDCharges("Base Charge Energy Delivery $5 10$ 15¢"))
     #print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
 
     # it fails here, they have Energy Charge:3.0¢, so use regular expressions instead of split()
-    #print(getBEDCharges(getPDFasText("PDFs/AP GAS & ELECTRIC (TX) LLC.pdf")))
+    print(getBEDCharges(getPDFasText("PDFs/TXU ENERGY.pdf")))
