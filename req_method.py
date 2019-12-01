@@ -134,10 +134,9 @@ def get_distribution_companies(zipcode):
 
 def get_suppliers(zipcode):
     """
-    This function loops through each of the companies returned from the get_distribution_companies and gets the
-    supplier's list for each of them
-    :param production: to make sure CSV are not appended while testing the code
-    :param zipcode: zipcode from massachusets
+    This function loops through each of the companies returned from the get_distribution_companies
+    and gets the supplier's list for each of them
+    :param zipcode: zipcode
     :return: A csv file is saved, returns a Bool value if the zipcode scrape was successful or not
     """
     # Iterates over all the TDUs for that particular zipcode
