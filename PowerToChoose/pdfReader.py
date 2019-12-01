@@ -189,7 +189,7 @@ def getBEDCharges(txt):
         for j in range(start, start + 15):
             # the reason there's [\dO] is because the OCR sometimes interprets 0 as O
             # and it also sometimes interprets $ as S, so we catch those 
-            m = re.search("[\$¢€CS]?\s*[\dO]+\.*\d*[\$¢€]*", arr[j])
+            m = re.search("[\$¢€CS]?\s*[\dO]+\.*\d*\s*[\$¢€]*([Cc]ents?|[Dd]ollars?)*", arr[j])
             if m:
                 """
                     Some PDFs have weird spacing and we get ["($)$9.95Energy", "Charge:"] for example
