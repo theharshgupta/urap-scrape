@@ -114,8 +114,10 @@ def convert_cents_to_dollars(x):
     if str_val == 'None':
         return 0
     if str_val:
-        return float(str_val) / 100
-
+        try:
+            return float(str_val) / 100
+        except ValueError:
+            return 0
 
 def get_distribution_companies(zipcode):
     """
@@ -185,12 +187,12 @@ def get_suppliers(zipcode):
             # Check if a file exists for that zipcode
             if Path(f'results_MA/{zipcode}.csv').is_file():
                 # If file exists, entries are appended to the end
-                print("Appending to the existing CSV file ...")
+                print("\tAppending to the existing CSV file ...")
                 with open(f'results_MA/{zipcode}.csv', 'a') as f:
                     df.to_csv(f, index=False, header=False)
             # If file does not exist, we create a new file
             else:
-                print("Writing to a new CSV file ...")
+                print("\tWriting to a new CSV file ...")
                 df.to_csv(f'results_MA/{zipcode}.csv', index=False)
             # Returns True because there was no error and CSV file was created/appened
             return True
@@ -211,10 +213,11 @@ def scrape():
     for file in os.listdir('results_MA'):
         os.remove(f'results_MA/{file}')
     # Formats the zipcodes in the right format
-    zipcodes_ma_0 = list(map(lambda x: '0' + str(x), ma_zipcodes))
-    print("The number of zipcodes we will run the script for is:", len(zipcodes_ma_0))
-    # Calls the server for first 150 zipcode
-    for zip in zipcodes_ma_0[:5]:
+    zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
+    # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
+    runnable_zipcdes = zipcodes_ma_0[100:300]
+    print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
+    for zip in runnable_zipcdes:
         print("Running for zipcode:", zip)
         if get_suppliers(zipcode=str(zip)):
             success += 1
