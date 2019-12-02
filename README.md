@@ -51,10 +51,6 @@ By default you should have all the modules except pandas. Pandas is a big packag
 
 ![](demo_videos/urap_scrape_demo.gif)
 
-### Video - Demo - MA
-HAS TO BE UPDATED FOR THE NEW AJAX REQUEST WAY 
-![](demo_videos/ma.gif)
-
 ## Power to Choose  
 
 ### Dependencies
