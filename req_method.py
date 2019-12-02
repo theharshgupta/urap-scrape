@@ -286,7 +286,7 @@ def scrape():
     # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
-    runnable_zipcdes = zipcodes_ma_0[0:150]
+    runnable_zipcdes = zipcodes_ma_0[0:10]
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
     for zip in runnable_zipcdes:
         print("Running for zipcode:", zip)
@@ -298,13 +298,14 @@ def scrape():
     print(datetime.today())
 
 
-if __name__ == '__main__':
-    try:
-        scrape()
-        # check_unique()
-    except Exception as e:
-        # Send email
-        send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
+
+try:
+    s = open(f"ran/ran_{datetime.today().strftime('%m%d%y %H %M')}.txt", 'w')
+    scrape()
+    # check_unique()
+except Exception as e:
+    # Send email
+    send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
 
 
 

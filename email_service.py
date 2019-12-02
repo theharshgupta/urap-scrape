@@ -27,4 +27,3 @@ def send_email(body):
         print("Err, something went wrong \n ", e)
 
 
-send_email("Yo, dawg?")
