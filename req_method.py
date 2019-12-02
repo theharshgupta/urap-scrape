@@ -397,6 +397,5 @@ try:
     scrape()
     # check_unique()
 except Exception as e:
-    raise e
     # Send email
-    # send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
+    send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
