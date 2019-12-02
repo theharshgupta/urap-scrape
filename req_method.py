@@ -10,7 +10,6 @@ import time
 from email_service import send_email
 from ma.zipcodes_list import ma_zipcodes
 
-# COMPLETED
 
 def timeit(method):
     def timed(*args, **kw):
@@ -25,16 +24,6 @@ def timeit(method):
         return result
 
     return timed
-
-
-def is_updated(df1: pd.DataFrame, df2: pd.DataFrame):
-    from jsondiff import diff
-
-    df1.__delitem__('Date_Downloaded')
-    df2.__delitem__('Date_Downloaded')
-    df1.__delitem__('Incumbent_Flag')
-    df2.__delitem__('Incumbent_Flag')
-    diff(df1.to_json(), df2.to_json())
 
 
 def check_unique():
@@ -220,6 +209,7 @@ def get_suppliers(zipcode):
     # If something goes wrong, False is returned
     return False
 
+
 @timeit
 def scrape():
     """
@@ -232,14 +222,13 @@ def scrape():
             run_file.write(datetime.today().strftime('%m/%d/%y %H:%M:%S'))
     else:
         with open('run_history.txt', 'a', newline='') as run_file:
-            run_file.write("\n"+datetime.today().strftime('%m/%d/%y %H:%M:%S'))
+            run_file.write("\n" + datetime.today().strftime('%m/%d/%y %H:%M:%S'))
 
     if not Path('track_latest.csv').is_file():
         print("Tracking file does not exist, creating one ... ")
         with open('track_latest.csv', 'w', newline='') as f:
             # writer = csv.writer(f)
             f.write("Zipcode, Latest_File, Last_Updated")
-
 
     success = 0
 
@@ -261,7 +250,6 @@ def scrape():
 
     # The success variable to see how many zipcodes were actually extracted
     print(f'The number of zipcodes successfully scraped are: {success}')
-
 
 
 try:
