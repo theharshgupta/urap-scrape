@@ -1,0 +1,46 @@
+Supplier_Name,Rate_Type,Fixed_Charge,Variable_Rate,Introductory_Rate,Introductory_Price_Value,Enrollment_Fee,Contract_Term,Early_Termination_Fee,Automatic_Renewal_Type,Automatic_Renewal_Detail,Percent_Renewable,Renewable_Description,Incentives_Special_Terms,Incumbent_Flag,Estimated_Cost,Other_Product_Services,Zipcode,Date_Downloaded
+WMECo d/b/a Eversource Energy,,,0.09851000000000001,False,,,Jul '19 through Dec '19 |Jan '20 through Jun '20 ,,False,,0.0,,,True,59.106,,01034,12/02/19 00:25
+Verde Energy USA,Fixed,,0.1185,False,,,24 months,,True,Automatic renewal: Variable-price product,100.0,"Hydro | 1%, Other | 99%",,False,71.1,,01034,12/02/19 00:25
+Eligo Energy MA,Fixed,,0.1103,False,,,6 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,66.18,,01034,12/02/19 00:25
+NRG Home,Fixed,,0.139,False,,,6 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,83.4,,01034,12/02/19 00:25
+Town Square Energy,Fixed,,0.1148,False,,,24 months,,True,Automatic renewal: Variable-price product,0.0,,,False,68.88,,01034,12/02/19 00:25
+Discount Power,Fixed,,0.12300000000000001,False,,,36 months,$200.00,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,"Receive $1,200 annually in Discount Power Rewards. Save on shopping, dinning, travel, movies and so much more!",False,73.8,Rewards Programs,01034,12/02/19 00:25
+Eligo Energy MA,Fixed,,0.1244,False,,,12 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,74.64,,01034,12/02/19 00:25
+Energy Rewards,Fixed,,0.1099,False,,,6 months,$50.00,True,Automatic renewal: Fixed-price product,0.0,,,False,65.94,,01034,12/02/19 00:25
+Constellation New Energy,Fixed,,0.1219,False,,,6 months,$150.00,True,Automatic renewal: Variable-price product,0.0,,,False,73.14,,01034,12/02/19 00:25
+Think Energy,Fixed,,0.126,False,,,18 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,75.6,,01034,12/02/19 00:25
+Discount Power,Fixed,,0.126,False,,,12 months,$50.00,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,Eligible for a $100 monthly shopping and dining reward upon successful service start with Discount Power,False,75.6,Rewards Programs,01034,12/02/19 00:25
+Starion Energy,Fixed,,0.10890000000000001,False,,,12 months,,True,Automatic renewal: Variable-price product,0.0,,$25 Amazon.com gift card. Limited time offer for new customers only. Must be an active Starion Energy customer at time of redemption.|Starion Rewards is a free rewards program available exclusively to active Starion Energy customers. Learn more at www.starionrewards.com.,False,65.34,"Gift Card,Rewards Programs",01034,12/02/19 00:25
+NRG Home,Fixed,,0.128,False,,,12 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,76.8,,01034,12/02/19 00:25
+Verde Energy USA,Fixed,,0.1195,False,,,12 months,,True,Automatic renewal: Variable-price product,100.0,"Hydro | 1%, Other | 99%",Mail-in rebate totaling $100. Receive the first $50 after one month of service and the second $50 after 6 months of service.,False,71.7,Cash Back,01034,12/02/19 00:25
+Verde Energy USA,Fixed,,0.1355,False,,,6 months,,True,Automatic renewal: Variable-price product,100.0,"Hydro | 1%, Other | 99%",,False,81.3,,01034,12/02/19 00:25
+Constellation New Energy,Fixed,,0.1199,False,,,12 months,$150.00,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,,False,71.94,,01034,12/02/19 00:25
+Think Energy,Fixed,,0.127,False,,,12 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,76.2,,01034,12/02/19 00:25
+Ambit Energy,Fixed,,0.115,False,,,12 months,,True,Automatic renewal: Variable-price product,0.0,,,False,69.0,,01034,12/02/19 00:25
+Massachusetts Gas & Electric,Fixed,,0.12390000000000001,False,,,24 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,74.34,,01034,12/02/19 00:25
+Green Mountain Energy,Fixed,,0.126,False,,,12 months,,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,,False,75.6,,01034,12/02/19 00:25
+SmartEnergy,Fixed,,0.161,False,,,6 months,,True,Automatic renewal: Variable-price product,100.0,Other | 100%,,False,96.6,,01034,12/02/19 00:25
+Constellation New Energy,Fixed,,0.1039,False,,,12 months,$150.00,True,Automatic renewal: Variable-price product,0.0,,,False,62.34,,01034,12/02/19 00:25
+Eligo Energy MA,Fixed,,0.11230000000000001,False,,,6 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,100.0,Unknown | 100%,,False,67.38,,01034,12/02/19 00:25
+Think Energy,Fixed,,0.124,False,,,24 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,74.4,,01034,12/02/19 00:25
+Massachusetts Gas & Electric,Fixed,,0.11789999999999999,False,,,12 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,0.0,,,False,70.74,,01034,12/02/19 00:25
+SFE Energy Massachusetts,Fixed,,0.1369,True,12.32 ¢/kWh for initial 1 months,,36 months,$2.50 per month remaining on term,True,Automatic renewal: Fixed-price product,0.0,,"If you don’t save money over the course of your
+term, you will be eligible for up to a $75 rebate for
+your 3-year program",False,81.9116,Cash Back,01034,12/02/19 00:25
+IGS Energy,Fixed,,0.1159,False,,,12 months,$99.00,True,Automatic renewal: Variable-price product,0.0,,,False,69.54,,01034,12/02/19 00:25
+Starion Energy,Fixed,,0.1119,False,,,12 months,,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,$25 Amazon.com gift card. Limited time offer for new customers only. Must be an active Starion Energy customer at time of redemption.|Starion Rewards is a free rewards program available exclusively to active Starion Energy customers. Learn more at www.starionrewards.com.,False,67.14,"Gift Card,Rewards Programs",01034,12/02/19 00:25
+Ambit Energy,Fixed,,0.135,False,,,12 months,,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,,False,81.0,,01034,12/02/19 00:25
+Indra Energy MA,Fixed,,0.149,True,10.20 ¢/kWh for initial 1 months,,18 months,,True,Automatic renewal: Variable-price product,100.0,Other | 100%,,False,87.8333,,01034,12/02/19 00:25
+Starion Energy,Fixed,,0.1229,False,,,8 months,,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,$25 Amazon.com gift card. Limited time offer for new customers only. Must be an active Starion Energy customer at time of redemption.|Starion Rewards is a free rewards program available exclusively to active Starion Energy customers. Learn more at www.starionrewards.com.,False,73.74,"Gift Card,Rewards Programs",01034,12/02/19 00:25
+Discount Power,Fixed,,0.124,False,,,24 months,$100.00,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,Eligible for a $100 monthly shopping and dining reward upon successful service start with Discount Power,False,74.4,Rewards Programs,01034,12/02/19 00:25
+Discount Power,Fixed,,0.11,False,,$50.00 enrollment fee,12 months,$50.00,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,,False,70.1666,,01034,12/02/19 00:25
+IGS Energy,Fixed,,0.11789999999999999,False,,,36 months,$99.00,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,,False,70.74,,01034,12/02/19 00:25
+Starion Energy,Fixed,,0.1199,False,,,8 months,,True,Automatic renewal: Variable-price product,0.0,,$25 Amazon.com gift card. Limited time offer for new customers only. Must be an active Starion Energy customer at time of redemption.|Starion Rewards is a free rewards program available exclusively to active Starion Energy customers. Learn more at www.starionrewards.com.,False,71.94,"Gift Card,Rewards Programs",01034,12/02/19 00:25
+Town Square Energy,Fixed,,0.1052,False,,,12 months,$50.00,True,Automatic renewal: Variable-price product,0.0,,,False,63.12,,01034,12/02/19 00:25
+Town Square Energy,Fixed,,0.11779999999999999,False,,,36 months,$50.00,True,Automatic renewal: Variable-price product,0.0,,,False,70.68,,01034,12/02/19 00:25
+Think Energy,Fixed,,0.134,False,,,6 months,$45.00,False,No automatic renewal,100.0,Unknown | 100%,,False,80.4,,01034,12/02/19 00:25
+SFE Energy Massachusetts,Fixed,,0.1567,True,14.30 ¢/kWh for initial 1 months,,36 months,$2.50 per month remaining on term,True,Automatic renewal: Fixed-price product,0.0,,,False,93.7916,,01034,12/02/19 00:25
+Indra Energy MA,Fixed,,0.142,True,10.20 ¢/kWh for initial 1 months,,14 months,,True,Automatic renewal: Variable-price product,0.0,,,False,83.4857,,01034,12/02/19 00:25
+Ambit Energy,Fixed,,0.145,False,,,6 months,,True,Automatic renewal: Variable-price product,0.0,,,False,87.0,,01034,12/02/19 00:25
+Eligo Energy MA,Fixed,,0.1264,False,,,12 months,$10.00 per month remaining on term,True,Automatic renewal: Variable-price product,100.0,Unknown | 100%,,False,75.84,,01034,12/02/19 00:25
+Constellation New Energy,Fixed,,0.11789999999999999,False,,,24 months,$150.00,True,Automatic renewal: Variable-price product,100.0,Wind | 100%,,False,70.74,,01034,12/02/19 00:25

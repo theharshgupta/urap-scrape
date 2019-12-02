@@ -2,15 +2,20 @@ import requests
 import json
 import pandas as pd
 import os
+import csv
 from pathlib import Path
 from datetime import datetime
 import glob
+import time
 from email_service import send_email
 
 ma_zipcodes = [2351, 2018, 1718, 1719, 1720, 2743, 2745, 1220, 2344, 1001, 1230, 1266, 1201, 1653,
-               2134, 1913, 1002, 1003, 1004, 1059, 1810, 1812, 1899, 5501, 5544, 2535, 2474, 2475, 2476, 2475, 1430,
-               1431, 1330, 1721, 1222, 2339, 2702, 1331, 2703, 2763, 1501, 2466, 2322, 1432, 1434, 2457, 1436, 2212,
-               1370, 2630, 1005, 2664, 1062, 1115, 1199, 2151, 1223, 1223, 1730, 1731, 1007, 2019, 2478, 2479, 2779,
+               2134, 1913, 1002, 1003, 1004, 1059, 1810, 1812, 1899, 5501, 5544, 2535, 2474, 2475,
+               2476, 2475, 1430,
+               1431, 1330, 1721, 1222, 2339, 2702, 1331, 2703, 2763, 1501, 2466, 2322, 1432, 1434,
+               2457, 1436, 2212,
+               1370, 2630, 1005, 2664, 1062, 1115, 1199, 2151, 1223, 1223, 1730, 1731, 1007, 2019,
+               2478, 2479, 2779,
                1224, 1230, 1503,
                1337, 1915, 1915, 1029, 1821, 1822, 1504, 1008, 1364, 1740, 1009, 2108, 2109, 2110,
                2111, 2112, 2113,
@@ -135,6 +140,21 @@ ma_zipcodes = [2351, 2018, 1718, 1719, 1720, 2743, 2745, 1220, 2344, 1001, 1230,
                1098, 2093, 2675, 2675, 1367]
 
 
+def timeit(method):
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+        if 'log_time' in kw:
+            name = kw.get('log_name', method.__name__.upper())
+            kw['log_time'][name] = int((te - ts))
+        else:
+            print('\nRuntime for %r is %2.2f s' % (method.__name__, (te - ts)))
+        return result
+
+    return timed
+
+
 def is_updated(df1: pd.DataFrame, df2: pd.DataFrame):
     from jsondiff import diff
 
@@ -143,7 +163,6 @@ def is_updated(df1: pd.DataFrame, df2: pd.DataFrame):
     df1.__delitem__('Incumbent_Flag')
     df2.__delitem__('Incumbent_Flag')
     diff(df1.to_json(), df2.to_json())
-
 
 
 def check_unique():
@@ -208,6 +227,29 @@ def get_distribution_companies(zipcode):
     return jsonify_r
 
 
+def update_tracking(zipcode: str, is_new_entry: bool, timestamp: str, filename: str):
+    """
+    This function updates the tracking for each zipcode
+    :param zipcode: zipcode
+    :param is_new_entry: if there was any changes
+    :param timestamp: timestamp to put in
+    :param filename: file name to put in
+    :return: None
+    """
+    with open('track_latest.csv', 'r') as f:
+        r = csv.reader(f)
+        rows = list(r)
+        if is_new_entry:
+            rows.append([zipcode, filename, timestamp])
+        else:
+            for itr1, row in enumerate(rows):
+                if zipcode in row:
+                    rows[itr1][1] = filename
+                    rows[itr1][2] = timestamp
+    writer = csv.writer(open('track_latest.csv', 'w', newline=''))
+    writer.writerows(rows)
+
+
 def get_suppliers(zipcode):
     """
     This function loops through each of the companies returned from the get_distribution_companies
@@ -217,6 +259,7 @@ def get_suppliers(zipcode):
     """
     # Iterates over all the TDUs for that particular zipcode
     # type(dist_company) is Python Dictionary
+    timestamp_start = datetime.today()
     for dist_company in get_distribution_companies(zipcode=zipcode):
         # TDU ID - internal
         company_id = dist_company['distributionCompanyId']
@@ -247,7 +290,7 @@ def get_suppliers(zipcode):
             # Adding zipcode column to the Dataframe
             df["Zipcode"] = zipcode
             # Adding timestamp column to the Dataframe
-            df["Date_Downloaded"] = datetime.today().strftime('%m/%d/%y %H:%M')
+            df["Date_Downloaded"] = timestamp_start.strftime('%m/%d/%y %H:%M')
             # Change column/header names as per convention
             df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge', 'Variable_Rate',
                           'Introductory_Rate',
@@ -263,64 +306,96 @@ def get_suppliers(zipcode):
             df['Introductory_Rate'] = df['Introductory_Price_Value'].apply(
                 lambda x: True if x else False)
 
-            timestamp_filename_format = datetime.today().strftime('%m%d%y_%H_%M_%S')
+            timestamp_filename_format = timestamp_start.strftime('%m%d%y_%H_%M_%S')
             file_zipcode_ci = glob.glob(f'results_MA/{zipcode}_CI{company_id}*.csv')
             zipcode_filename = f'results_MA/{zipcode}_CI{company_id}_{timestamp_filename_format}.csv'
-            print("file_zipcode_ci:", file_zipcode_ci)
 
             if len(file_zipcode_ci) > 0:
-                # This mean that the file exists before
-                # {CHECK IF IT HAS BEEN UPDATED}
-                df_check = pd.read_csv(file_zipcode_ci[0])
-                if is_updated(df, df_check):
+
+                df.to_csv("results_MA/trash.csv", index=False)
+                df_previous = pd.read_csv(file_zipcode_ci[0])
+                df_new = pd.read_csv("results_MA/trash.csv")
+
+                df_previous.__delitem__('Date_Downloaded')
+                df_new.__delitem__('Date_Downloaded')
+                df_previous.__delitem__('Zipcode')
+                df_new.__delitem__('Zipcode')
+
+                if not df_previous.equals(df_new):
+                    print("\tWriting to a new file: ", zipcode_filename)
                     df.to_csv(zipcode_filename, index=False)
+                    print("\t Updating tracking ...")
+                    update_tracking(zipcode=zipcode,
+                                    is_new_entry=False,
+                                    timestamp=timestamp_start.strftime('%m/%d/%y %H:%M'),
+                                    filename=zipcode_filename)
+                else:
+                    print("\t Previously scraped, no updates found.")
+
+                # list_previous = df_previous.values.tolist()[1:]
+                # list_new = df_new.values.tolist()[1:]
+
             else:
+                print("\t Writing to a new file: ", zipcode_filename)
                 df.to_csv(zipcode_filename, index=False)
+                print("\t Updating tracking ...")
+                update_tracking(zipcode=zipcode,
+                                is_new_entry=True,
+                                timestamp=timestamp_start.strftime('%m/%d/%y %H:%M'),
+                                filename=zipcode_filename)
 
             return True
     # If something goes wrong, False is returned
     return False
 
-
+@timeit
 def scrape():
     """
     This is the main function to scrape the results
     :return: None
     """
-    # Prints the timestamp to see how long the program takes
-    print(datetime.today(), '\n\n\n')
+    # Creates a file if it does not exist to append the timestamp of each script run
+    if not Path('run_history.txt').is_file():
+        with open('run_history.txt', 'w') as run_file:
+            run_file.write(datetime.today().strftime('%m/%d/%y %H:%M:%S'))
+    else:
+        with open('run_history.txt', 'a', newline='') as run_file:
+            run_file.write("\n"+datetime.today().strftime('%m/%d/%y %H:%M:%S'))
+
+    if not Path('track_latest.csv').is_file():
+        print("Tracking file does not exist, creating one ... ")
+        with open('track_latest.csv', 'w', newline='') as f:
+            # writer = csv.writer(f)
+            f.write("Zipcode, Latest_File, Last_Updated")
+
+
     success = 0
-
-    # Clears the results_MA director on each run
-
-    # for file in os.listdir('results_MA'):
-    #     os.remove(f'results_MA/{file}')
 
     # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
-    # runnable_zipcdes = zipcodes_ma_0[:5]
-
-    runnable_zipcdes = ['02051', '02660', '01330', '02452', '02382']
+    runnable_zipcdes = zipcodes_ma_0[:3]
+    # runnable_zipcdes = ['02051', '02660', '01330', '02452', '02382']
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
 
     for zip in runnable_zipcdes:
         print("Running for zipcode:", zip)
+        # print("..........................")
         if get_suppliers(zipcode=str(zip)):
             success += 1
+
+    if Path('results_MA/trash.csv').is_file():
+        os.remove('results_MA/trash.csv')
+
     # The success variable to see how many zipcodes were actually extracted
     print(f'The number of zipcodes successfully scraped are: {success}')
 
-    print(datetime.today())
 
 
 try:
-    s = open(f"ran/ran_{datetime.today().strftime('%m%d%y %H %M')}.txt", 'w')
     scrape()
     # check_unique()
 except Exception as e:
-    # Send email
     raise e
+    # Send email
     # send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
-# ['01526', '02222', '01516', '01431', '02124']
-
