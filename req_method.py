@@ -12,6 +12,11 @@ from ma.zipcodes_list import ma_zipcodes
 
 
 def timeit(method):
+    """
+    Decorator function to time other function
+    :param method:
+    :return:
+    """
     def timed(*args, **kw):
         ts = time.time()
         result = method(*args, **kw)
