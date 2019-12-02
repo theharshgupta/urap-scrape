@@ -8,12 +8,9 @@ import glob
 from email_service import send_email
 
 ma_zipcodes = [2351, 2018, 1718, 1719, 1720, 2743, 2745, 1220, 2344, 1001, 1230, 1266, 1201, 1653,
-               2134, 1913, 1002,
-               1003, 1004, 1059, 1810, 1812, 1899, 5501, 5544, 2535, 2474, 2475, 2476, 2475, 1430,
-               1431, 1330, 1721,
-               1222, 2339, 2702, 1331, 2703, 2763, 1501, 2466, 2322, 1432, 1434, 2457, 1436, 2212,
-               1370, 2630, 1005,
-               2664, 1062, 1115, 1199, 2151, 1223, 1223, 1730, 1731, 1007, 2019, 2478, 2479, 2779,
+               2134, 1913, 1002, 1003, 1004, 1059, 1810, 1812, 1899, 5501, 5544, 2535, 2474, 2475, 2476, 2475, 1430,
+               1431, 1330, 1721, 1222, 2339, 2702, 1331, 2703, 2763, 1501, 2466, 2322, 1432, 1434, 2457, 1436, 2212,
+               1370, 2630, 1005, 2664, 1062, 1115, 1199, 2151, 1223, 1223, 1730, 1731, 1007, 2019, 2478, 2479, 2779,
                1224, 1230, 1503,
                1337, 1915, 1915, 1029, 1821, 1822, 1504, 1008, 1364, 1740, 1009, 2108, 2109, 2110,
                2111, 2112, 2113,
@@ -138,6 +135,17 @@ ma_zipcodes = [2351, 2018, 1718, 1719, 1720, 2743, 2745, 1220, 2344, 1001, 1230,
                1098, 2093, 2675, 2675, 1367]
 
 
+def is_updated(df1: pd.DataFrame, df2: pd.DataFrame):
+    from jsondiff import diff
+
+    df1.__delitem__('Date_Downloaded')
+    df2.__delitem__('Date_Downloaded')
+    df1.__delitem__('Incumbent_Flag')
+    df2.__delitem__('Incumbent_Flag')
+    diff(df1.to_json(), df2.to_json())
+
+
+
 def check_unique():
     """
     Returns a tuple with the original merged zipcode supplier companies and the number of unique suppliers
@@ -255,17 +263,20 @@ def get_suppliers(zipcode):
             df['Introductory_Rate'] = df['Introductory_Price_Value'].apply(
                 lambda x: True if x else False)
 
-            # Check if a file exists for that zipcode
-            if Path(f'results_MA/{zipcode}.csv').is_file():
-                # If file exists, entries are appended to the end
-                print("\tAppending to the existing CSV file ...")
-                with open(f'results_MA/{zipcode}.csv', 'a') as f:
-                    df.to_csv(f, index=False, header=False)
-            # If file does not exist, we create a new file
+            timestamp_filename_format = datetime.today().strftime('%m%d%y_%H_%M_%S')
+            file_zipcode_ci = glob.glob(f'results_MA/{zipcode}_CI{company_id}*.csv')
+            zipcode_filename = f'results_MA/{zipcode}_CI{company_id}_{timestamp_filename_format}.csv'
+            print("file_zipcode_ci:", file_zipcode_ci)
+
+            if len(file_zipcode_ci) > 0:
+                # This mean that the file exists before
+                # {CHECK IF IT HAS BEEN UPDATED}
+                df_check = pd.read_csv(file_zipcode_ci[0])
+                if is_updated(df, df_check):
+                    df.to_csv(zipcode_filename, index=False)
             else:
-                print("\tWriting to a new CSV file ...")
-                df.to_csv(f'results_MA/{zipcode}.csv', index=False)
-            # Returns True because there was no error and CSV file was created/appened
+                df.to_csv(zipcode_filename, index=False)
+
             return True
     # If something goes wrong, False is returned
     return False
@@ -281,13 +292,18 @@ def scrape():
     success = 0
 
     # Clears the results_MA director on each run
-    for file in os.listdir('results_MA'):
-        os.remove(f'results_MA/{file}')
+
+    # for file in os.listdir('results_MA'):
+    #     os.remove(f'results_MA/{file}')
+
     # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
-    runnable_zipcdes = zipcodes_ma_0[0:10]
+    # runnable_zipcdes = zipcodes_ma_0[:5]
+
+    runnable_zipcdes = ['02051', '02660', '01330', '02452', '02382']
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
+
     for zip in runnable_zipcdes:
         print("Running for zipcode:", zip)
         if get_suppliers(zipcode=str(zip)):
@@ -298,14 +314,13 @@ def scrape():
     print(datetime.today())
 
 
-
 try:
     s = open(f"ran/ran_{datetime.today().strftime('%m%d%y %H %M')}.txt", 'w')
     scrape()
     # check_unique()
 except Exception as e:
     # Send email
-    send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
-
-
+    raise e
+    # send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
+# ['01526', '02222', '01516', '01431', '02124']
 
