@@ -1,6 +1,7 @@
 import smtplib, ssl
 import json
 
+
 def send_email(body):
     import smtplib
     with open('credentials.json') as f:
@@ -24,3 +25,6 @@ def send_email(body):
         print('EMAIL SENT')
     except Exception as e:
         print("Err, something went wrong \n ", e)
+
+
+send_email("Yo, dawg?")
