@@ -10,11 +10,11 @@ cd urap-scrape
 ```
 2. Make sure Python 3 is set [Download Python](https://www.python.org/downloads/)
 
-3. Downloading dependencies 
+3. Downloading **dependencies** 
 
     1. Download Chromedriver 76 or before (for Mac/Windows/Linux) [here](https://chromedriver.storage.googleapis.com/index.html?    path=76.0.3809.126/)
 
-    2. Unzip this, and make sure to add this to your project directory's root
+        i. Unzip this, and make sure to add this to your project directory's root
     
     3. Install all the project dependencies from `requirements.txt` using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
