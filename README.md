@@ -1,6 +1,11 @@
 # Residential Electricity Price Scraping - UC Berkeley
 A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
 
+Currently, this project is for 3 states 
+
+1. Module 1 - Massachussets 
+2. Module 2 - New York 
+3. Module 3 - Texas
 
 # Module - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
 
