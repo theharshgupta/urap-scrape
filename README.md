@@ -1,23 +1,24 @@
 # Residential Electricity Price Scraping - UC Berkeley
 A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
 
-# Quickstart
+# Installation
 
+1. Download the project repository
 ```bash
 git clone https://github.com/theharshgupta/urap-scrape.git
 cd urap-scrape
 ```
-Make sure you have Python 3 set up on your machine [Download Python](https://www.python.org/downloads/)
+2. Make sure Python 3 is set [Download Python](https://www.python.org/downloads/)
 
-## Downloading the dependencies 
+3. Downloading dependencies 
 
-1. Download Chromedriver 76 or before (for Mac/Windows/Linux) [here](https://chromedriver.storage.googleapis.com/index.html?path=76.0.3809.126/)
+    1. Download Chromedriver 76 or before (for Mac/Windows/Linux) [here](https://chromedriver.storage.googleapis.com/index.html?    path=76.0.3809.126/)
 
-    1. Unzip this, and make sure to add this to your project directory's root
+    2. Unzip this, and make sure to add this to your project directory's root
     
-2. Install all the project dependencies from `requirements.txt` using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
+    3. Install all the project dependencies from `requirements.txt` using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
-    1. If your termninal does not recognize `pip`, try using `pip3` with the same command
+    4. If your termninal does not recognize `pip`, try using `pip3` with the same command
 
 ### New York 
 
