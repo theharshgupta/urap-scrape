@@ -16,18 +16,10 @@ cd urap-scrape
     
     2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
-### New York 
+## Module - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
+### Quickstart 
+**Scraping results from [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
 
-1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
-
-2. Enter the project folder in the terminal (make sure scrape.py is in your current directory)
-
-3. Run `python3 scrape.py`
-
-### Massachussets [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
-Set up: 
-1. Make sure you have a folder called `result_MA` in the root directory. The project will not work if it not present there.
-In the new script, a POST request is made to the website in form like data. I found this while looking at the Networks Tab on the website and the request and responses from the server. 
 To run scrape for all the zipcode for Massachussets: 
 1. Go the root directory of the project and then look for the `req_method.py` file. 
 2. Open that file in any text editor of choice and go to the block of code where it says `if __name__ == __main ` ...
@@ -46,6 +38,15 @@ To run scrape for all the zipcode for Massachussets:
 6. datetime 
 
 By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed. 
+
+### New York 
+
+1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
+
+2. Enter the project folder in the terminal (make sure scrape.py is in your current directory)
+
+3. Run `python3 scrape.py`
+
 
 ## Module 2 - Power to Choose  
 
