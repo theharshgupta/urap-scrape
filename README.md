@@ -23,8 +23,7 @@ cd urap-scrape
 **Scraping results from [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
 
 1. In the **root directory**, open `req_method.py` file. 
-2. In the `scrape()` function in the file, change the items marked \[ACTION REQUIRED\]
-3. Under that block of code, you can run two different piece of code. The code to check for unique entries can only be run after the zipcode level data is downloaded. 
+2. In the `scrape()` function in the file, change the items marked **\[ACTION REQUIRED\]** and choose how many zipcodes you want to run the script for.
 
 ### Scraping the data                                           
 4. You can just call the function `scrape` by writing `scrape()` in the main code block as mentioned in the previous step. 
@@ -40,7 +39,7 @@ cd urap-scrape
 
 By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed. 
 
-### New York 
+# Module - New York 
 
 1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 
@@ -49,7 +48,7 @@ By default you should have all the modules except pandas. Pandas is a big packag
 3. Run `python3 scrape.py`
 
 
-## Module 2 - Power to Choose  
+# Module - Power to Choose  
 
 ### Dependencies
 
