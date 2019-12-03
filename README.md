@@ -1,7 +1,10 @@
 # Residential Electricity Price Scraping - UC Berkeley
 A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
 
-# Installation
+
+# Module - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
+
+## Installation
 
 1. Download the project repository
 ```bash
@@ -16,13 +19,11 @@ cd urap-scrape
     
     2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
-## Module - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
 ### Quickstart 
 **Scraping results from [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
 
-To run scrape for all the zipcode for Massachussets: 
-1. Go the root directory of the project and then look for the `req_method.py` file. 
-2. Open that file in any text editor of choice and go to the block of code where it says `if __name__ == __main ` ...
+1. In the **root directory**, open `req_method.py` file. 
+2. In the `scrape()` function in the file, change the items marked \[ACTION REQUIRED\]
 3. Under that block of code, you can run two different piece of code. The code to check for unique entries can only be run after the zipcode level data is downloaded. 
 
 ### Scraping the data                                           
