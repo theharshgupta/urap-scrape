@@ -12,13 +12,9 @@ cd urap-scrape
 
 3. Downloading **dependencies** 
 
-    1. Download Chromedriver 76 or before (for Mac/Windows/Linux) [here](https://chromedriver.storage.googleapis.com/index.html?    path=76.0.3809.126/)
-
-        i. Unzip this, and make sure to add this to your project directory's root
+    1. Download Chromedriver 76 or before (for Mac/Windows/Linux) [here](https://chromedriver.storage.googleapis.com/index.html?    path=76.0.3809.126/). Unzip this and add `chromedriver` file to the project folder
     
-    3. Install all the project dependencies from `requirements.txt` using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
-
-    4. If your termninal does not recognize `pip`, try using `pip3` with the same command
+    2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
 ### New York 
 
