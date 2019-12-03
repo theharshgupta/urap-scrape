@@ -1,8 +1,12 @@
 # Residential Electricity Price Scraping - UC Berkeley
 A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
 
-# How to Run 
+# Quickstart
 
+```bash
+git clone https://github.com/theharshgupta/urap-scrape.git
+cd urap-scrape
+```
 Make sure you have Python 3 set up on your machine [Download Python](https://www.python.org/downloads/)
 
 ## Downloading the dependencies 
@@ -46,12 +50,7 @@ To run scrape for all the zipcode for Massachussets:
 
 By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed. 
 
-# Video Demos
-### Video - Demo - New York
-
-![](demo_videos/urap_scrape_demo.gif)
-
-## Power to Choose  
+## Module 2 - Power to Choose  
 
 ### Dependencies
 
