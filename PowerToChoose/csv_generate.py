@@ -8,7 +8,7 @@ def generateCSVTemplate(fileNameWithExtension, mode):
         "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
         "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
         "Fact Sheet Name,Terms of Services Name,URL,Fact Sheet,Terms of Service,Enroll Phone," +
-        "Additional Fees,Minimum Usage Fee,Renewal Details,Base Charge,Energy Charge,Delivery Charge")
+        "Additional Fees,Minimum Usage Fee,Renewal Details,Base Charge,Energy Charge,Delivery Charge, Company Rating")
     return file
 
 def writeToCSV(csv, data, fact_sheet_paths):
@@ -55,6 +55,7 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(base)
     write(energy)
     write(delivery)
+    write(data["rating_total"])
 
 
 # when downloading a PDF, sometimes 2 plans from the same company end up overriding each other
