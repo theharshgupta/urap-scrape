@@ -4,12 +4,25 @@ import pytesseract
 from PIL import Image 
 from pdf2image import convert_from_path
 
-# we cannot just use \W to match non-alphabetic characters, because we want to skip: .!?s
+# regex that is used to capture everything until a sentence ending
+# we cannot just use \W to match non-alphabetic characters, because we want to skip: .!?
 rest = "['’`,\dA-Za-z\s_:\(\);\-\"\$%\&]*"
 # regex used for capturing endings of sentences
 ending = "[\.!\?]*"
 # regex used for capturing optional decimal point and optional leading numbers after the point
 decimal_points = "\.*\d*"
+
+"""
+3. email notifications
+5. bill credit (with usage range)
+6. usage charge (with usage range)
+7. figure out a way how to capture ranges in charges/fees
+
+
+1. test 3 getBEDCharges()
+2. add documentation
+3. test on different zip codes
+"""
 
 def isPDFFile(fileName):
     """
@@ -22,18 +35,24 @@ def isPDFFile(fileName):
 def ocr(pdfPath):
     """
         Perform OCR on a PDF given by pdfPath
+        This function is called from getPDFasText function
+        returns: the text resulted from running OCR on the pdf
     """
     try:
+        # breaks the pdf into pages
+        # 500 is the Image quality in DPI (defaults to 200)
         pages = convert_from_path(pdfPath, 500)
     except Exception as e:
         return ""
+    # retrieving the pdf file name
     pdfName = pdfPath.split(".pdf")[0]
-    image_counter = 1
 
+    image_counter = 1
     for page in pages:
-        filename = pdfName+"_"+str(image_counter)+".jpg"
+        # the filename that is used to save the page as .jpg file
+        filename = pdfName + "_" + str(image_counter) + ".jpg"
         
-        # Save the image of the page in system 
+        # Save the image of the page in system, if it not doesn't already exist
         if not os.path.exists(filename):
             page.save(filename, 'JPEG') 
     
@@ -59,10 +78,14 @@ def getPDFasText(path, ocrEnabled=True):
         returns: The text representation of the given PDF file
 
         It reads the PDF file using PyPDF2 library and gets the PDF file as a string
+        If PyPDF2 fails, then it performs OCR on the pdf
     """
     ocrForce = False
     output = ""
+
     try:
+        # pdfReader is the object created from processing the pdf
+        # it contains the pages, which we can use to extract the text
         pdfReader = PyPDF2.PdfFileReader(open(path, 'rb'))
         for i in range(pdfReader.numPages):
             page = pdfReader.getPage(i)
@@ -70,15 +93,19 @@ def getPDFasText(path, ocrEnabled=True):
     except Exception as e:
         print("Error:", e)
         ocrForce = True
+
     # assuming if length is < 50, then the pdf library failed
+    # 50 is just arbitrary
     # so then we try OCR on it
     if (len(output) < 50 or output.isspace()) and ocrEnabled or ocrForce:
-        print("PDF library most likely failed, running OCR on", path)
+        print("PDF reading library failed, running OCR on", path)
         try:
             output = ocr(path)
         except Image.DecompressionBombError:
-            print("error")
+            print("error when performing OCR")
     
+    # if a word doesn't fit in 1 line, then it is split by a colon and continued on the next line
+    # getting rid of that colon
     output = output.replace('-\n', '')
     return " ".join(output.split("\n")) # replace new lines with space
 
@@ -86,40 +113,47 @@ def getPDFasText(path, ocrEnabled=True):
 def getTerminationFee(txt, fee):
     """
         extract a termination fee from the PDF
+        returns: the extracted termination fee from the PDF
     """
 
     # assuming the PDf file is empty, 10 is arbitrary
     if len(txt) < 10:
-        return "PDF corrupted"
+        return "PDF corrupted "
 
     # sometimes fee is passed in format like "20/month remaining" or "20.00 month remaining"
     # we only want the value 20 in that case
     fee = fee.split(".")[0]
     try:
+        # converting string -> int (eg. "123.123" -> 123)
+        # we cannot just do int(fee) because then it fails on cases like "123.123"
         fee = int(float(fee))
     except ValueError:
+        # if fee is appended with other characters, then this exception is thrown
+        # then we extract the number in it
         m = re.search("\d+", fee)
         if m:
             fee = m.group()
-        else:
-            print("fee not found", fee)
 
     # match the text "termination fee" from the PDF, this is where we will start to search for the fee details
-    match = re.search("[Tt]ermination [Ff]ee[\W\w\d\n\r\s]*", txt)
+    match = re.search("[Tt]ermination [Ff]ee[.\n\r]*", txt)
     if match:
         match = re.search("[A-Z]?[a-z]*[.,!;]*[\sA-Za-z]*\$\s*" + str(fee) + decimal_points + rest + ending, match.group())
         if match:
+            # we stop at the sentence ending, but some PDFs have just the fee amount and nothing else
+            # in that case, the regular expression continues to capture the next question
             # many PDFs have "Can my price change during contract pediod?" in common, not separated from the termination fee
             # if it does have it, then we get rid of it
+            # if we don't get rid of it, we get some output like "$150.00Can my price change during..."
             return match.group().strip().split("Can my price")[0]
     
-    # if we still haven't found the details, then use these regular expressions
+    # if we still haven't found the fee details, then use these regular expressions
     patterns = ["[A-Z]?[a-z]*[.,!;]*[\sA-Za-z]*\$\s*" + str(fee) + decimal_points + rest + ending,
                 "\?\s*[A-Za-z.,\s]*\$\s*" + str(fee) + decimal_points + rest + ending, 
                 "\?\s*[A-Za-z.,\s\$\d]*[A-Z]?[a-z]*[.,!?]*\s*[Tt]ermination [Ff]ee.*"]
     for pattern in patterns:
         match = re.search(pattern, txt)
         if match:
+            # doing the same splitting here also
             return match.group().strip().split("Can my price")[0]
     return " "
 
@@ -127,21 +161,26 @@ def getTerminationFee(txt, fee):
 def getAdditionalFees(txt):
     """
         Search for additional fees from the text of the PDF
+        returns: extracted add-on fees from the PDF
     """
     # assuming the PDf file is empty, 10 is arbitrary
     if len(txt) < 10:
-        return "PDF corrupted"
-    match = re.findall("[;.!?\n](" + rest + "(?:[Aa]dditional|[Oo]ther|[Rr]ecurring)\s*(?:fees?|charges?)" + rest + ending + ")", txt)
+        return "PDF corrupted "
+    # starts capturing at the beginning of the sentence and ends at the sentence containing any of the key words
+    match = re.findall("[;.!?\n](" + rest + "(?:[Aa]dditional|[Oo]ther|[Rr]ecurring)\s*(?:[Ff]ees?|[Cc]harges?)" + rest + ending + ")", txt)
     return " " if not match else "".join(match)
 
 
 def getRenewalType(txt):
     """
         Get the renewal details from the text of the PDF
+        returns: the renewal details found from the PDF
     """
-    # assuming the PDf file is empty, 10 is arbitrary
+    # assuming the PDF file is empty, 10 is arbitrary
     if len(txt) < 10:
-        return "PDF corrupted"
+        return "PDF corrupted "
+    # one of the words we look for is "expir", it will match "expire", "expiration", etc.
+    # otherwise, the regex is same as the one used in extracting add-on fees
     match = re.findall("[;.!?\n](" + rest + "(?:[Rr]enewal|[Aa]utomatic|[Ee]xpir)" + rest + ending + ")", txt)
     return " " if not match else "".join(match)
 
@@ -153,24 +192,17 @@ def getMinimumUsageFees(txt):
     """
     # assuming the PDF file is empty, 10 is arbitrary
     if len(txt) < 10:
-        return "PDF corrupted"
+        return "PDF corrupted "
     # in the below regular expression, the reason there's "\.*" is to catch an optional decimal point
-    # the regular expression stops matching at the next .!? but it needs to catch the decimal point of a dollar amount
+    # the regular expression stops matching at the end of the sentence but it needs to catch the decimal point of a dollar amount
     match = re.findall("[;.!?\n](" + rest + "[Mm]inimum" + rest + "[Uu]sage" + rest + "\.*" + rest + ending + ")", txt)
     return " " if not match else "".join(match)
 
 def getBEDCharges(txt):
     """
         Extract the Base, Energy, Delivery Charges from txt
+        returns: baseFee, energyFee, deliveryFee
     """
-    def isValidUnitValue(unit, word):
-        # TODO: documentation
-        for item in word.split(unit):
-            try:
-                float(item) # if this works without exception, then we return
-                return True
-            except Exception:
-                pass
     
     def extractNumber(arr, start):
         """
@@ -214,6 +246,7 @@ def getBEDCharges(txt):
     # Reading the whole text might fail on large texts when we run split()
     # TODO: fix this
     # txt = "".join(re.findall("[Bb]ase\s*[Cc]harge\s*.{5,500}", txt))
+    
     txt = txt.split(" ")
     for i in range(len(txt)):
         # we update txt sometimes each iteration, so this check is necessary
