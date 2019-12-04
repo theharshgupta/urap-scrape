@@ -6,18 +6,10 @@ from pdf2image import convert_from_path
 
 # we cannot just use \W to match non-alphabetic characters, because we want to skip: .!?s
 rest = "['’`,\dA-Za-z\s_:\(\);\-\"\$%\&]*"
+# regex used for capturing endings of sentences
 ending = "[\.!\?]*"
+# regex used for capturing optional decimal point and optional leading numbers after the point
 decimal_points = "\.*\d*"
-
-"""
-1. company rating (one pass through powertochoose.com)
-3. email notifications
-4. combine energy, base, delivery charges into 1 function (done)
-5. bill credit (with usage range)
-6. usage charge (with usage range)
-7. figure out a way how to capture ranges in charges/fees
-8. figure out how to work it on a windows machine
-"""
 
 def isPDFFile(fileName):
     """
@@ -196,12 +188,14 @@ def getBEDCharges(txt):
                     In that case, we need to extract $9.95 and return ["energy", "Charge:"],
                     so we can extract the energy charge in the next iteration
                 """
+                # many PDFs have amount and units (cents) separated, so we check the value at j+1
+                out = m.group() + (" cents" if j+1 < len(arr) and ("cents" in arr[j+1].lower()) else "")
                 temp = [val for val in ["energy", "delivery", "base"] if val in arr[j].lower()]
                 if temp != []:
                     arr[j] = temp[0]
-                    return m.group(), arr
+                    return out, arr
                 else:
-                    return m.group(), arr[:j] + arr[j+1:]
+                    return out, arr[:j] + arr[j+1:]
         return "", arr
 
     # TODO: improve this function to find units beyond just checking its neighbors
@@ -228,7 +222,7 @@ def getBEDCharges(txt):
         if "base" in txt[i].lower() and base == "" and i+1<len(txt) and "charge" in txt[i+1].lower():
             base, txt = extractNumber(txt, i+1)
         # some companies have "energy" in their company names, so I need to check if the next word is either "charge" or "rate"
-        if "energy" in txt[i].lower() and energy == "" and i+1<len(txt) and ("charge" in txt[i+1].lower() or "rate" in txt[i+1].lower()):
+        if ("energy" in txt[i].lower() or "supply" in txt[i].lower()) and energy == "" and i+1<len(txt) and ("charge" in txt[i+1].lower() or "rate" in txt[i+1].lower()):
             energy, txt = extractNumber(txt, i+1)
         # some PDFs have "Oncor Electric Delivery", so we have to make sure the next word contains "charge"
         if "delivery" in txt[i].lower() and delivery == "" and i+1<len(txt) and "charge" in txt[i+1].lower():
@@ -283,4 +277,4 @@ if __name__ == "__main__":
     #print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
 
     # it fails here, they have Energy Charge:3.0¢, so use regular expressions instead of split()
-    print(getBEDCharges(getPDFasText("PDFs/OUR ENERGY LLC.pdf")))
+    print(getBEDCharges(getPDFasText("PDFs/Liberty Power.pdf")))
