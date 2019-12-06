@@ -65,7 +65,7 @@ By default you should have all the modules except pandas. Pandas is a big packag
 ### Run
 
 **NOTE: the scripts need to be executed from the PowerToChoose folder or else it will fail**
-**NOTE: If you get the error TesseractNotFound (on windows), then follow instructions at [this](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) link
+**NOTE: If you get the error TesseractNotFound (on windows), then follow instructions at [this](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) link**
 
 from the project folder, run:
 ```
