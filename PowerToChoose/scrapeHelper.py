@@ -17,8 +17,8 @@ def getCurrentDate():
 
 def getResponseText(zip_code):
     """
-    Send an API request to PowerToChoose and return the response
-    Input:  1)  the zip code of the city
+        Send an API request to PowerToChoose and return the response
+        Input:  1)  the zip code of the city
     """
     link = 'http://api.powertochoose.org/api/PowerToChoose/plans?zip_code=' + str(zip_code)
     response = requests.get(link, verify=False)
@@ -48,7 +48,7 @@ def isFileExists(folder_name, file_name_with_extension):
 
 def getUniquePath(folder_name, preferred_file_name):
     """
-    initial is the name of the file without the extension
+        initial is the name of the file without the extension
     """
     if not isFileExists(folder_name, preferred_file_name + ".pdf"):
         return folder_name + preferred_file_name + ".pdf"
@@ -60,8 +60,8 @@ def getUniquePath(folder_name, preferred_file_name):
 
 def downloadPDF(link, preferred_file_name, folderName):
     """
-    given an url to a pdf file on a webpage,
-    download the pdf file locally
+        given an url to a pdf file on a webpage,
+        download the pdf file locally
     """
     path = getUniquePath(folderName, preferred_file_name)
     try:
@@ -82,6 +82,10 @@ def downloadPDF(link, preferred_file_name, folderName):
     return path
 
 def redownloadPDF(downloadedPath, link=""):
+    """
+        Call this function if you redownload the PDF given by downloadedPath
+        downloadedPath: the path (not the URL), such as "PDFs/Power Next.pdf"
+    """
     print("redownloading", downloadedPath)
 
     # finding the associated URL to the pdf file
@@ -113,6 +117,7 @@ def downloadUsingPDFKit(link, path):
         print("pdfkit was not able download,", link)
         print(e)
 
+# unit tests
 if __name__ == "__main__":
     # this is example of a webpage that this method doesn't work on
     #downloadUsingPDFKit("https://www.4changeenergy.com/viewpdf.aspx/?Docs/efl_budsva12gad_o.pdf", "./PDFs/", "doesnt_work.pdf")
