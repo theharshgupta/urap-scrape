@@ -13,15 +13,9 @@ ending = "[\.!\?]*"
 decimal_points = "\.*\d*"
 
 """
+1. add more to the readme
+2. add function to run for all zipcodes
 3. email notifications
-5. bill credit (with usage range)
-6. usage charge (with usage range)
-7. figure out a way how to capture ranges in charges/fees
-
-
-1. test 3 getBEDCharges()
-2. add documentation
-3. test on different zip codes
 """
 
 def isPDFFile(fileName):
@@ -265,6 +259,7 @@ def getBEDCharges(txt):
 
 
 ##################### Test Cases ######################
+# feel free to erase them
 
 """
 if __name__ == "__main__":
