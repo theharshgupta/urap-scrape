@@ -31,19 +31,28 @@ def getJSON(zip_code):
     response = getResponseText(zip_code)
     return json.loads(response)
 
-def getEmbeddedPDFLink(link):
+def getEmbeddedPDFLink(url):
     """
         if there's any embedded links to PDFs, get it
+        returns: if there's a PDF in 'url', returns that
+                 if not, return the input 'url'
+
+        purpose: some companies had PDFs embedded on their pages, so when I downloaded it, it was failing
     """
     try:
-        txt = requests.get(link, verify=False)
+        txt = requests.get(url, verify=False)
+        # I'm searching for a URL that is length [10, 100]
+        # without having bounds can capture non-URLs
         match = re.search("https?://.{10,100}\.pdf", txt.text)
-        return match.group() if match else link
+        return match.group() if match else url
     except Exception as e:
         print("failed to get embedded link:", e)
-        return link
+        return url
 
 def isFileExists(folder_name, file_name_with_extension):
+    """
+        returns: true if file given by the parameters exists, false otherwise
+    """
     return os.path.exists(folder_name + file_name_with_extension)
 
 def getUniquePath(folder_name, preferred_file_name):
