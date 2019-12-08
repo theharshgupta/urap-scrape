@@ -171,6 +171,7 @@ def get_suppliers(zipcode):
             df["Zipcode"] = zipcode
             # Adding timestamp column to the Dataframe
             df["Date_Downloaded"] = timestamp_start.strftime('%m/%d/%y %H:%M')
+            df['TDU_Service_Territory'] = company_name
             # Change column/header names as per convention
             df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge', 'Variable_Rate',
                           'Introductory_Rate',
@@ -179,7 +180,8 @@ def get_suppliers(zipcode):
                           'Automatic_Renewal_Detail',
                           'Percent_Renewable', 'Renewable_Description', 'Incentives_Special_Terms',
                           'Incumbent_Flag',
-                          'Estimated_Cost', 'Other_Product_Services', 'Zipcode', 'Date_Downloaded']
+                          'Estimated_Cost', 'Other_Product_Services', 'Zipcode', 'Date_Downloaded',
+                          'TDU_Service_Territory']
             # Modifying variable rate column to convert to dollars
             df['Variable_Rate'] = df['Variable_Rate'].apply(convert_cents_to_dollars)
             # Adding the introductory_rate column based on introductory_rate_value column
@@ -196,7 +198,7 @@ def get_suppliers(zipcode):
                 df_previous = pd.read_csv(file_zipcode_ci[0], float_precision='round_trip')
                 df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
 
-                df_previous.__delitem__('Date_Dowloaded')
+                df_previous.__delitem__('Date_Downloaded')
                 df_new.__delitem__('Date_Downloaded')
                 df_previous.__delitem__('Zipcode')
                 df_new.__delitem__('Zipcode')
@@ -254,7 +256,7 @@ def scrape():
     # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
-    runnable_zipcdes = zipcodes_ma_0[:]
+    runnable_zipcdes = zipcodes_ma_0[:10]
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
 
     for zip in runnable_zipcdes:
