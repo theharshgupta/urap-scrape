@@ -256,7 +256,7 @@ def scrape():
     # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
-    runnable_zipcdes = zipcodes_ma_0[:10]
+    runnable_zipcdes = zipcodes_ma_0[:100]
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
 
     for zip in runnable_zipcdes:
@@ -278,4 +278,4 @@ try:
 except Exception as err:
     # Send email
     error_traceback = traceback.extract_tb(err.__traceback__)
-    send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')}: {error_traceback}")
+    send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")
