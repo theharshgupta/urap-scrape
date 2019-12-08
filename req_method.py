@@ -1,6 +1,7 @@
 import requests
 import json
 import pandas as pd
+from pandas.testing import assert_frame_equal
 import os
 import csv
 from pathlib import Path
@@ -31,6 +32,17 @@ def timeit(method):
     return timed
 
 
+def df_is_equal(df1, df2):
+    """
+    This is a function that uses pandas.testing to check if two dataframes are equals
+    :param df1: first dataframe
+    :param df2: second dataframe
+    :return: bool
+    """
+    assert_frame_equal(left=df1, right=df2)
+
+
+
 def check_unique():
     """
     Returns a tuple with the original merged zipcode supplier companies and the number of unique suppliers
@@ -43,7 +55,8 @@ def check_unique():
     li = []
     print(f"The number of zipcodes checking for unique are :: ", len(all_files))
     for filename in all_files:
-        df = pd.read_csv(filename, index_col=None, header=0, encoding='utf-8')
+        df = pd.read_csv(filename, index_col=None,
+                         header=0, encoding='utf-8', float_precision='round_trip')
         li.append(df)
 
     df = pd.concat(li, axis=0, ignore_index=True)
@@ -178,9 +191,9 @@ def get_suppliers(zipcode):
 
             if len(file_zipcode_ci) > 0:
 
-                df.to_csv("results_MA/trash.csv", index=False)
-                df_previous = pd.read_csv(file_zipcode_ci[0])
-                df_new = pd.read_csv("results_MA/trash.csv")
+                df.to_csv("results_MA/trash.csv", index=False, float_format="%.3f")
+                df_previous = pd.read_csv(file_zipcode_ci[0], float_precision='round_trip')
+                df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
 
                 df_previous.__delitem__('Date_Downloaded')
                 df_new.__delitem__('Date_Downloaded')
@@ -189,7 +202,7 @@ def get_suppliers(zipcode):
 
                 if not df_previous.equals(df_new):
                     print("\tWriting to a new file: ", zipcode_filename)
-                    df.to_csv(zipcode_filename, index=False)
+                    df.to_csv(zipcode_filename, index=False, float_format="%.3f")
                     print("\t Updating tracking ...")
                     update_tracking(zipcode=zipcode,
                                     is_new_entry=False,
@@ -203,7 +216,7 @@ def get_suppliers(zipcode):
 
             else:
                 print("\t Writing to a new file: ", zipcode_filename)
-                df.to_csv(zipcode_filename, index=False)
+                df.to_csv(zipcode_filename, index=False, float_format="%.3f")
                 print("\t Updating tracking ...")
                 update_tracking(zipcode=zipcode,
                                 is_new_entry=True,
@@ -240,13 +253,11 @@ def scrape():
     # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
-    runnable_zipcdes = zipcodes_ma_0[:3]
-    # runnable_zipcdes = ['02051', '02660', '01330', '02452', '02382']
+    runnable_zipcdes = zipcodes_ma_0[:]
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
 
     for zip in runnable_zipcdes:
         print("Running for zipcode:", zip)
-        # print("..........................")
         if get_suppliers(zipcode=str(zip)):
             success += 1
 
@@ -258,6 +269,7 @@ def scrape():
 
 
 try:
+    # [ACTION REQUIRED] Select which function you want to run
     scrape()
     # check_unique()
 except Exception as e:
