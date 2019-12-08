@@ -4,6 +4,7 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 import os
 import csv
+import traceback
 from pathlib import Path
 from datetime import datetime
 import glob
@@ -18,6 +19,7 @@ def timeit(method):
     :param method:
     :return:
     """
+
     def timed(*args, **kw):
         ts = time.time()
         result = method(*args, **kw)
@@ -40,7 +42,6 @@ def df_is_equal(df1, df2):
     :return: bool
     """
     assert_frame_equal(left=df1, right=df2)
-
 
 
 def check_unique():
@@ -195,7 +196,7 @@ def get_suppliers(zipcode):
                 df_previous = pd.read_csv(file_zipcode_ci[0], float_precision='round_trip')
                 df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
 
-                df_previous.__delitem__('Date_Downloaded')
+                df_previous.__delitem__('Date_Dowloaded')
                 df_new.__delitem__('Date_Downloaded')
                 df_previous.__delitem__('Zipcode')
                 df_new.__delitem__('Zipcode')
@@ -272,6 +273,7 @@ try:
     # [ACTION REQUIRED] Select which function you want to run
     scrape()
     # check_unique()
-except Exception as e:
+except Exception as err:
     # Send email
-    send_email(body=f"There was an error while running SCRAPE() function. \n \n Traceback \n \n{e}")
+    error_traceback = traceback.extract_tb(err.__traceback__)
+    send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')}: {error_traceback}")
