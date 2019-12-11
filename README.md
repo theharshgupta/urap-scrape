@@ -68,6 +68,10 @@ By default you should have all the modules except pandas. Pandas is a big packag
 
 **NOTE: If you get the error TesseractNotFound (on windows), then follow instructions at [this](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) link**
 
+**NOTE: If you get the error "No wkhtmltopdf executable found", then follow instructions at [this](https://stackoverflow.com/questions/27673870/cant-create-pdf-using-python-pdfkit-error-no-wkhtmltopdf-executable-found) link**
+
+
+
 **IMPORTANT: make sure you create folders "PDFs" and "Terms of Services" in the "PowerToChoose" folder**
 
 from the project folder, run:
