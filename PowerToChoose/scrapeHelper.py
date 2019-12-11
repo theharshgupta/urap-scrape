@@ -1,6 +1,7 @@
 import requests, sys, json
 import time, os, pdfkit, re
 from bs4 import BeautifulSoup
+from sys import platform
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import pdfReader
 
@@ -121,7 +122,13 @@ def downloadUsingPDFKit(link, path):
         to install wkhtmltopdf: go to "https://wkhtmltopdf.org/downloads.html"
     """
     try:
-        pdfkit.from_url(link, path)
+        if platform == "win32" or platform == "cygwin":
+            # IMPORTANT: this path might vary across different windows machines
+            # make sure it matches to the path where tesseract is located
+            config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf.exe')
+            pdfkit.from_url(link, path, configuration=config)
+        else:
+            pdfkit.from_url(link, path)
     except Exception as e:
         print("pdfkit was not able download,", link)
         print(e)

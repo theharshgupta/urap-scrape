@@ -3,6 +3,7 @@ import scrapeHelper, warnings
 import pytesseract 
 from PIL import Image 
 from pdf2image import convert_from_path
+from sys import platform
 
 # regex that is used to capture everything until a sentence ending
 # we cannot just use \W to match non-alphabetic characters, because we want to skip: .!?
@@ -56,6 +57,11 @@ def ocr(pdfPath):
     text = ""
     for i in range(1, image_counter): 
         filename = pdfName+"_"+str(i)+".jpg"
+
+        if platform == "win32" or platform == "cygwin":
+            # IMPORTANT: this path might vary across different windows machines
+            # make sure it matches to the path where tesseract is located
+            pytesseract.pytesseract.tesseract_cmd = r'C:\ProgramFiles\Tesseract-OCR\tesseract.exe'
 
         # Recognize the text as string in image using pytesseract
         text += str(((pytesseract.image_to_string(Image.open(filename))))) 
