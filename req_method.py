@@ -238,12 +238,6 @@ def scrape():
     :return: None
     """
     # Creates a file if it does not exist to append the timestamp of each script run
-    if not Path('run_history.txt').is_file():
-        with open('run_history.txt', 'w') as run_file:
-            run_file.write(datetime.today().strftime('%m/%d/%y %H:%M:%S'))
-    else:
-        with open('run_history.txt', 'a', newline='') as run_file:
-            run_file.write("\n" + datetime.today().strftime('%m/%d/%y %H:%M:%S'))
 
     if not Path('track_latest.csv').is_file():
         print("Tracking file does not exist, creating one ... ")
@@ -263,6 +257,13 @@ def scrape():
         print("Running for zipcode:", zip)
         if get_suppliers(zipcode=str(zip)):
             success += 1
+
+    if not Path('run_history.txt').is_file():
+        with open('run_history.txt', 'w') as run_file:
+            run_file.write(datetime.today().strftime('%m/%d/%y %H:%M:%S') + f", {success}")
+    else:
+        with open('run_history.txt', 'a', newline='') as run_file:
+            run_file.write("\n" + datetime.today().strftime('%m/%d/%y %H:%M:%S') + f", {success}")
 
     if Path('results_MA/trash.csv').is_file():
         os.remove('results_MA/trash.csv')
