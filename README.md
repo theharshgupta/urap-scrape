@@ -73,7 +73,7 @@ By default you should have all the modules except pandas. Pandas is a big packag
 
 **NOTE: the scripts need to be executed from the PowerToChoose folder or else it will fail**
 
-**IMPORTANT: make sure you create folders "PDFs" and "Terms of Services" in the "PowerToChoose" folder**
+**IMPORTANT: make sure you have folders named "PDFs" and "Terms of Services" in the "PowerToChoose" folder (case-sensitive)**
 
 from the project folder, run:
 ```
