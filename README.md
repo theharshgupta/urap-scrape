@@ -62,15 +62,16 @@ By default you should have all the modules except pandas. Pandas is a big packag
 | Poppler       | https://poppler.freedesktop.org               | Used to perform OCR on PDfs               |
 | wkhtmltopdf   | https://docs.bitnami.com/installer/apps/odoo/configuration/install-wkhtmltopdf/        | Used to convert HTML pages into PDFs      |
 
+### Possible Errors
+
+| Name          | Meaning                             | Fix                                   |
+| :---          |    :----:                           |          ---:                         |
+| TesseractNotFound | You haven't set or have the wrong path to Tesseract | [link](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) |
+| No wkhtmltopdf executable found | You haven't set or have the wrong path to wkhtmltopdf | [link](https://stackoverflow.com/questions/27673870/cant-create-pdf-using-python-pdfkit-error-no-wkhtmltopdf-executable-found) |
+
 ### Run
 
 **NOTE: the scripts need to be executed from the PowerToChoose folder or else it will fail**
-
-**NOTE: If you get the error TesseractNotFound (on windows), then follow instructions at [this](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) link**
-
-**NOTE: If you get the error "No wkhtmltopdf executable found", then follow instructions at [this](https://stackoverflow.com/questions/27673870/cant-create-pdf-using-python-pdfkit-error-no-wkhtmltopdf-executable-found) link**
-
-
 
 **IMPORTANT: make sure you create folders "PDFs" and "Terms of Services" in the "PowerToChoose" folder**
 
