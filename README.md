@@ -58,16 +58,16 @@ By default you should have all the modules except pandas. Pandas is a big packag
 ### Dependencies
 
 | Name          | Installation Link                             | Purpose                                   |
-| :---          |    :----:                                     |          ---:                             |
+| :---          |    :----:                                     |          :---:                            |
 | Poppler       | https://poppler.freedesktop.org               | Used to perform OCR on PDfs               |
 | wkhtmltopdf   | https://docs.bitnami.com/installer/apps/odoo/configuration/install-wkhtmltopdf/        | Used to convert HTML pages into PDFs      |
 
 ### Possible Errors
 
-| Name          | Meaning                             | Fix                                   |
-| :---          |    :----:                           |          ---:                         |
-| TesseractNotFound | You haven't set or have the wrong path to Tesseract | [link](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) |
-| No wkhtmltopdf executable found | You haven't set or have the wrong path to wkhtmltopdf | [link](https://stackoverflow.com/questions/27673870/cant-create-pdf-using-python-pdfkit-error-no-wkhtmltopdf-executable-found) |
+| Name          | Meaning                             | Fix                                   | Where |
+| :---          |    :---:                           |          ---:                          | ---:  |
+| TesseractNotFound | Invalid path to Tesseract | [link](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) | ocr() function in pdfReader.py |
+| No wkhtmltopdf executable found | Invalid path to wkhtmltopdf | [link](https://stackoverflow.com/questions/27673870/cant-create-pdf-using-python-pdfkit-error-no-wkhtmltopdf-executable-found) | downloadUsingPDFKit() function in scrapeHelpers.py |
 
 ### Run
 
