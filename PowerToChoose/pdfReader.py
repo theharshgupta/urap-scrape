@@ -3,7 +3,9 @@ import scrapeHelper, warnings
 import pytesseract 
 from PIL import Image 
 from pdf2image import convert_from_path
-from sys import platform
+from sys import *
+sys.path.append('..')
+from email_service import send_email
 
 # regex that is used to capture everything until a sentence ending
 # we cannot just use \W to match non-alphabetic characters, because we want to skip: .!?
@@ -101,8 +103,9 @@ def getPDFasText(path, ocrEnabled=True):
         print("PDF reading library failed, running OCR on", path)
         try:
             output = ocr(path)
-        except Image.DecompressionBombError:
-            print("error when performing OCR")
+        except Exception as e:
+            print("error when performing OCR", e)
+            send_email(path + " was failed to read\nexception text: " + str(e))
     
     # if a word doesn't fit in 1 line, then it is split by a colon and continued on the next line
     # getting rid of that colon

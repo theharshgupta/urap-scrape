@@ -1,6 +1,8 @@
 from scrapeHelper import *
 from pdfReader import *
 import sys
+sys.path.append('..')
+from email_service import send_email
 
 def generateCSVTemplate(fileNameWithExtension, mode):
     """
@@ -79,7 +81,7 @@ if __name__ == "__main__":
         sample_count = len(json["data"])
     
     if sample_count == 0:
-        print("No plan exist for this zip code")
+        print("No plan exist for this zip code", zip_code)
         sys.exit(0)
 
     if json["success"]:
@@ -93,4 +95,5 @@ if __name__ == "__main__":
             file.write("\n")
             writeToCSV(file, plan, fact_sheet_paths)
     else:
+        send_email("API failure")
         print("API response fail")

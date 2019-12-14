@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from sys import platform
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import pdfReader
+sys.path.append('..')
+from email_service import send_email
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -132,6 +134,7 @@ def downloadUsingPDFKit(link, path):
     except Exception as e:
         print("pdfkit was not able download,", link)
         print(e)
+        send_email("failed to download " + link + "\nexception text: " + str(e))
 
 # unit tests
 if __name__ == "__main__":
