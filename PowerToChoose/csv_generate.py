@@ -1,8 +1,13 @@
 from scrapeHelper import *
 from pdfReader import *
 import sys
+
+from PowerToChoose.pdfReader import getPDFasText, getTerminationFee
+from PowerToChoose.scrapeHelper import getCurrentDate
+
 sys.path.append('..')
 from email_service import send_email
+
 
 def generateCSVTemplate(fileNameWithExtension, mode):
     """
@@ -13,11 +18,12 @@ def generateCSVTemplate(fileNameWithExtension, mode):
     # make sure to not change the order
     # if you change the order, make sure to change the corresponding write call in writeToCSV function
     file.write("\nDate Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
-        "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
-        "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
-        "Fact Sheet Name,Terms of Services Name,URL,Fact Sheet,Terms of Service,Enroll Phone," +
-        "Additional Fees,Minimum Usage Fee,Renewal Details,Base Charge,Energy Charge,Delivery Charge, Company Rating")
+               "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
+               "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
+               "Fact Sheet Name,Terms of Services Name,URL,Fact Sheet,Terms of Service,Enroll Phone," +
+               "Additional Fees,Minimum Usage Fee,Renewal Details,Base Charge,Energy Charge,Delivery Charge, Company Rating")
     return file
+
 
 def writeToCSV(csv, data, fact_sheet_paths):
     """
@@ -43,7 +49,7 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(data["rate_type"])
     write(str(data["term_value"]) + " months")
     write("$" + data["pricing_details"].split("$")[1])
-    
+
     pdfContent = getPDFasText(fact_sheet_paths[data["fact_sheet"]])
     termination_fee = getTerminationFee(pdfContent, data["pricing_details"].split("$")[1])
     write(termination_fee)
@@ -79,7 +85,7 @@ if __name__ == "__main__":
 
     if sample_count > len(json["data"]):
         sample_count = len(json["data"])
-    
+
     if sample_count == 0:
         print("No plan exist for this zip code", zip_code)
         sys.exit(0)
@@ -90,8 +96,10 @@ if __name__ == "__main__":
             plan = json["data"][i]
 
             # downloadPDf returns the file name of the saved pdf file
-            fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(getEmbeddedPDFLink(plan["fact_sheet"]), plan["company_name"], "PDFs/")
-            terms_of_service_paths[plan["terms_of_service"]] = downloadPDF(getEmbeddedPDFLink(plan["terms_of_service"]), plan["company_name"], "Terms of Services/")
+            fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(getEmbeddedPDFLink(plan["fact_sheet"]),
+                                                               plan["company_name"], "PDFs/")
+            terms_of_service_paths[plan["terms_of_service"]] = downloadPDF(getEmbeddedPDFLink(plan["terms_of_service"]),
+                                                                           plan["company_name"], "Terms of Services/")
             file.write("\n")
             writeToCSV(file, plan, fact_sheet_paths)
     else:
