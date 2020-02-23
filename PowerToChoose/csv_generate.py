@@ -1,20 +1,28 @@
 from scrapeHelper import *
 from pdfReader import *
 import sys
+sys.path.append('..')
+from email_service import send_email
 
 def generateCSVTemplate(fileNameWithExtension, mode):
+    """
+        this function writes 
+    """
     file = open(fileNameWithExtension, mode)
+    # these are the fields that we will fill
+    # make sure to not change the order
+    # if you change the order, make sure to change the corresponding write call in writeToCSV function
     file.write("\nDate Downloaded,State,TDU Service Territory,Zip,Supplier Name," +
         "Plan Name,Variable Rate 500kWh,Variable Rate 1000kWh,Variable Rate 2000kWh," +
         "Rate Type,Contract Term,Cancellation Fee,Termination Fee Details,Percent Renewable," +
         "Fact Sheet Name,Terms of Services Name,URL,Fact Sheet,Terms of Service,Enroll Phone," +
-        "Additional Fees,Minimum Usage Fee,Renewal Details,Base Charge,Energy Charge,Delivery Charge")
+        "Additional Fees,Minimum Usage Fee,Renewal Details,Base Charge,Energy Charge,Delivery Charge, Company Rating")
     return file
 
 def writeToCSV(csv, data, fact_sheet_paths):
     """
-    given a JSON object containing the data,
-    write the data to the csv file
+        given a JSON object containing the data,
+        write the data to the csv file
     """
 
     def write(txt):
@@ -22,6 +30,7 @@ def writeToCSV(csv, data, fact_sheet_paths):
         txt = str(txt).replace("\n", " ")
         csv.write(str(txt) + ",")
 
+    # make sure to not change the order of the write() calls below
     write(getCurrentDate())
     write("TX")
     write(data["company_tdu_name"])
@@ -55,6 +64,7 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(base)
     write(energy)
     write(delivery)
+    write(data["rating_total"])
 
 
 # when downloading a PDF, sometimes 2 plans from the same company end up overriding each other
@@ -69,9 +79,13 @@ if __name__ == "__main__":
 
     if sample_count > len(json["data"]):
         sample_count = len(json["data"])
+    
+    if sample_count == 0:
+        print("No plan exist for this zip code", zip_code)
+        sys.exit(0)
 
     if json["success"]:
-        file = generateCSVTemplate("powertochoose.csv", "w+")
+        file = generateCSVTemplate(str(zip_code) + ".csv", "w+")
         for i in range(sample_count):
             plan = json["data"][i]
 
@@ -81,4 +95,5 @@ if __name__ == "__main__":
             file.write("\n")
             writeToCSV(file, plan, fact_sheet_paths)
     else:
+        send_email("API failure")
         print("API response fail")

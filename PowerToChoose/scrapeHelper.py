@@ -1,8 +1,11 @@
 import requests, sys, json
 import time, os, pdfkit, re
 from bs4 import BeautifulSoup
+from sys import platform
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import pdfReader
+sys.path.append('..')
+from email_service import send_email
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -17,8 +20,8 @@ def getCurrentDate():
 
 def getResponseText(zip_code):
     """
-    Send an API request to PowerToChoose and return the response
-    Input:  1)  the zip code of the city
+        Send an API request to PowerToChoose and return the response
+        Input:  1)  the zip code of the city
     """
     link = 'http://api.powertochoose.org/api/PowerToChoose/plans?zip_code=' + str(zip_code)
     response = requests.get(link, verify=False)
@@ -31,24 +34,33 @@ def getJSON(zip_code):
     response = getResponseText(zip_code)
     return json.loads(response)
 
-def getEmbeddedPDFLink(link):
+def getEmbeddedPDFLink(url):
     """
         if there's any embedded links to PDFs, get it
+        returns: if there's a PDF in 'url', returns that
+                 if not, return the input 'url'
+
+        purpose: some companies had PDFs embedded on their pages, so when I downloaded it, it was failing
     """
     try:
-        txt = requests.get(link, verify=False)
+        txt = requests.get(url, verify=False)
+        # I'm searching for a URL that is length [10, 100]
+        # without having bounds can capture non-URLs
         match = re.search("https?://.{10,100}\.pdf", txt.text)
-        return match.group() if match else link
+        return match.group() if match else url
     except Exception as e:
         print("failed to get embedded link:", e)
-        return link
+        return url
 
 def isFileExists(folder_name, file_name_with_extension):
+    """
+        returns: true if file given by the parameters exists, false otherwise
+    """
     return os.path.exists(folder_name + file_name_with_extension)
 
 def getUniquePath(folder_name, preferred_file_name):
     """
-    initial is the name of the file without the extension
+        initial is the name of the file without the extension
     """
     if not isFileExists(folder_name, preferred_file_name + ".pdf"):
         return folder_name + preferred_file_name + ".pdf"
@@ -60,8 +72,8 @@ def getUniquePath(folder_name, preferred_file_name):
 
 def downloadPDF(link, preferred_file_name, folderName):
     """
-    given an url to a pdf file on a webpage,
-    download the pdf file locally
+        given an url to a pdf file on a webpage,
+        download the pdf file locally
     """
     path = getUniquePath(folderName, preferred_file_name)
     try:
@@ -82,6 +94,10 @@ def downloadPDF(link, preferred_file_name, folderName):
     return path
 
 def redownloadPDF(downloadedPath, link=""):
+    """
+        Call this function if you redownload the PDF given by downloadedPath
+        downloadedPath: the path (not the URL), such as "PDFs/Power Next.pdf"
+    """
     print("redownloading", downloadedPath)
 
     # finding the associated URL to the pdf file
@@ -108,11 +124,19 @@ def downloadUsingPDFKit(link, path):
         to install wkhtmltopdf: go to "https://wkhtmltopdf.org/downloads.html"
     """
     try:
-        pdfkit.from_url(link, path)
+        if platform == "win32" or platform == "cygwin":
+            # IMPORTANT: this path might vary across different windows machines
+            # make sure it matches to the path where tesseract is located
+            config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf.exe')
+            pdfkit.from_url(link, path, configuration=config)
+        else:
+            pdfkit.from_url(link, path)
     except Exception as e:
         print("pdfkit was not able download,", link)
         print(e)
+        send_email("failed to download " + link + "\nexception text: " + str(e))
 
+# unit tests
 if __name__ == "__main__":
     # this is example of a webpage that this method doesn't work on
     #downloadUsingPDFKit("https://www.4changeenergy.com/viewpdf.aspx/?Docs/efl_budsva12gad_o.pdf", "./PDFs/", "doesnt_work.pdf")
