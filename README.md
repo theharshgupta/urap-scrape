@@ -56,7 +56,7 @@ By default you should have all the modules except pandas. Pandas is a big packag
 3. Run `python3 scrape.py`
 
 
-#### DEPRECATED - Texas - Fall 2019
+# DEPRECATED - Texas - Fall 2019
 
 #### Dependencies
 
