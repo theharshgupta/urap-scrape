@@ -7,6 +7,9 @@ Currently, this project is for 3 states
 2. Module 2 - New York 
 3. Module 3 - Texas
 
+# Module - Texas - Spring 2020
+`main.py` is the CSV parsing file. It structures each row of the CSV downloaded from the website into a `Plan` object. 
+
 # Module - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
 
 ## Installation
@@ -53,7 +56,7 @@ By default you should have all the modules except pandas. Pandas is a big packag
 3. Run `python3 scrape.py`
 
 
-# Module - Power to Choose  
+# DEPRACATED - Texas - Fall 2019
 
 ### Dependencies
 
