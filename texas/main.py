@@ -78,7 +78,7 @@ def parse_csv(filepath):
     for d in data_dict:
         print(d)
 
-    #does the same thing
+    #does the same thing (alan)
     """
     df2 = pd.DataFrame(pd.read_csv(filepath))
     data_dict2 = df2.to_dict('records')
