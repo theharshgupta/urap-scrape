@@ -78,6 +78,15 @@ def parse_csv(filepath):
     for d in data_dict:
         print(d)
 
+    #does the same thing
+    """
+    df2 = pd.DataFrame(pd.read_csv(filepath))
+    data_dict2 = df2.to_dict('records')
+    for d in data_dict2:
+        print(d)
+        print()
+    """
+
 
 
 if __name__ == '__main__':
