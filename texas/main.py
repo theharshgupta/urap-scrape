@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime
 import requests
 import json
+from scrapeHelper import downloadPDF, getEmbeddedPDFLink
 
 
 class API:
@@ -75,6 +76,8 @@ class Plan:
         Constructor for the class for the Plan
         :param row_data: type Python dictionary
         """
+        #for some reason this block raises a KeyError when I run download()... I just commented it out for now until theres abetter solution
+        """
         if isinstance(row_data, dict):
             self.supplier_name = row_data['[RepCompany]']
             self.plan_name = row_data['[Product]']
@@ -99,6 +102,37 @@ class Plan:
             self.variable_rate_500 = row_data['[kwh500]']
             self.variable_rate_1000 = row_data['[kwh1000]']
             self.variable_rate_2000 = row_data['[kwh2000]']
+        """
+
+        #(alan) one variable for every single column in the csv
+        self.idKey = row_data.get("[idKey]")
+        self.TduCompanyName = row_data.get("[TduCompanyName]")
+        self.RepCompany = row_data.get("[RepCompany]")
+        self.Product = row_data.get("[Product]")
+        self.kwh500 = row_data.get("[kwh500]")
+        self.kwh1000 = row_data.get("[kwh1000]")
+        self.kwh2000 = row_data.get("[kwh2000]")
+        self.Fees_Credits = row_data.get("[Fees/Credits]")
+        self.PrePaid = row_data.get("[PrePaid]")
+        self.TimeOfUse = row_data.get("[TimeOfUse]")
+        self.Fixed = row_data.get("[Fixed]")
+        self.RateType = row_data.get("[RateType]")
+        self.Renewable = row_data.get("[Renewable]")
+        self.TermValue = row_data.get("[TermValue]")
+        self.CancelFee = row_data.get("[CancelFee]")
+        self.Website = row_data.get("[Website]")
+        self.SpecialTerms = row_data.get("[SpecialTerms]")
+        self.TermsURL = row_data.get("[TermsURL]")
+        self.Promotion = row_data.get("[Promotion]")
+        self.PromotionDesc = row_data.get("[PromotionDesc]")
+        self.FactsURL = row_data.get("[FactsURL]")
+        self.EnrollURL = row_data.get("[EnrollURL]")
+        self.PrepaidURL = row_data.get("[PrepaidURL]")
+        self.EnrollPhone = row_data.get("[EnrollPhone]")
+        self.NewCustomer = row_data.get("[NewCustomer]")
+        self.MinUsageFeesCredits = row_data.get("[MinUsageFeesCredits]")
+        self.Language = row_data.get("[Language]")
+        self.Rating = row_data.get("[Rating]")
 
 
 def parse_csv(filepath):
@@ -107,7 +141,6 @@ def parse_csv(filepath):
     :param filepath: the location of the CSV file to parse
     :return: void
     """
-
     df = pd.read_csv(filepath)
     headers = df.columns
     data_dict = json.loads(
@@ -116,10 +149,18 @@ def parse_csv(filepath):
     for d in data_dict:
         print(d)
 
+def download(filepath):
+    #(alan) df2 is a slight variation of the df object above (I think?) We're iterating over each of the plans in df2, using their
+    #   FactsURL to download the pdf's (with idKey as the name). This is done with the help of scrapeHelper and pdfReader from
+    #   last semester's PTC, which isn't fully robust yet. Note that line 130 of scrapeHelper depends on the location of wkhtmltopdf
+    #   and as such may need to be changed from person to person.
     df2 = pd.DataFrame(pd.read_csv(filepath))
     data_dict2 = df2.to_dict('records')
     for d in data_dict2:
-        p = Plan(d)
+        #print(d)
+        #print()
+        plan = Plan(d)
+        downloadPDF(getEmbeddedPDFLink(plan.FactsURL), plan.idKey, "PDFs/")
 
 
 def map_zipcode():
@@ -134,5 +175,6 @@ def map_zipcode():
 
 
 if __name__ == '__main__':
-    # parse_csv("master_data.csv")
+    #parse_csv("master_data.csv")
+    download("master_data.csv")
     map_zipcode()
