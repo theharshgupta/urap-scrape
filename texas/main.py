@@ -27,6 +27,7 @@ class API:
         data = json.loads(response.text)['data']
         for row in data:
             if row['plan_id'] in self.id_zipcode_map.keys():
+                print(row)
                 self.id_zipcode_map[row['plan_id']] = self.id_zipcode_map[
                                                           row['plan_id']] + [
                                                           zipcode]
@@ -157,29 +158,25 @@ def download(filepath):
     #   and as such may need to be changed from person to person.
     df2 = pd.DataFrame(pd.read_csv(filepath))
     data_dict2 = df2.to_dict('records')
-    count = 0
     for d in data_dict2:
-        # print(d)
-        # print()
-        if count < 200:
-            plan = Plan(d)
-            download_pdf(pdf_url=plan.FactsURL, plan=plan)
-            count += 1
+        plan = Plan(d)
+        download_pdf(pdf_url=plan.FactsURL, plan=plan)
+
 
 def map_zipcode():
     """
-    This function will be mapping zipcodes to ids or some other identifier
+    This function will be mapping zipcodes to idKey (plan_id in dict)
+    So key = idKey, value = list(zipcodes with that plan)
     for each of the plans in the input CSV -
-    :return: None
+    :return: the mapping
     """
-    zipcodes = [75001, 75002, 71230]
+    # TODO add the mapping to the CSV/ integrate this mapping to the data
+    zipcodes = [75001, 75002, 71230, 75014, 75015, 75159, 75150]
     id_zipcode_map = API(zipcodes).id_zipcode_map
-    print(id_zipcode_map)
-
     return id_zipcode_map
 
 
 if __name__ == '__main__':
     # parse_csv("master_data.csv")
-    download("master_data.csv")
-    # map_zipcode()
+    # download("master_data.csv")
+    map_zipcode()
