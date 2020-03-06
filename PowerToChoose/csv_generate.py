@@ -1,9 +1,8 @@
-from scrapeHelper import *
-from pdfReader import *
+from PowerToChoose.scrapeHelper import *
+from PowerToChoose.pdfReader import *
 import sys
-
 from PowerToChoose.pdfReader import getPDFasText, getTerminationFee
-from PowerToChoose.scrapeHelper import getCurrentDate
+from PowerToChoose.scrapeHelper import getCurrentDate, getJSON
 
 sys.path.append('..')
 from email_service import send_email
@@ -37,7 +36,7 @@ def writeToCSV(csv, data, fact_sheet_paths):
         csv.write(str(txt) + ",")
 
     # make sure to not change the order of the write() calls below
-    write(getCurrentDate())
+    write("getCurrentDate")
     write("TX")
     write(data["company_tdu_name"])
     write(data["zip_code"])
@@ -50,9 +49,9 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(str(data["term_value"]) + " months")
     write("$" + data["pricing_details"].split("$")[1])
 
-    pdfContent = getPDFasText(fact_sheet_paths[data["fact_sheet"]])
-    termination_fee = getTerminationFee(pdfContent, data["pricing_details"].split("$")[1])
-    write(termination_fee)
+    # pdfContent = getPDFasText(fact_sheet_paths[data["fact_sheet"]])
+    # termination_fee = getTerminationFee(pdfContent, data["pricing_details"].split("$")[1])
+    # write(termination_fee)
     write(str(data["renewable_energy_id"]) + "%")
     write(fact_sheet_paths[data["fact_sheet"]])
     write(terms_of_service_paths[data["terms_of_service"]])
@@ -61,15 +60,15 @@ def writeToCSV(csv, data, fact_sheet_paths):
     write(data["terms_of_service"])
     write(data["enroll_phone"])
 
-    terms_of_service_content = getPDFasText(terms_of_service_paths[data["terms_of_service"]])
-    write(getAdditionalFees(terms_of_service_content) + getAdditionalFees(pdfContent))
-    write(getMinimumUsageFees(terms_of_service_content) + getMinimumUsageFees(pdfContent))
-    write(getRenewalType(terms_of_service_content) + getRenewalType(pdfContent))
-
-    base, energy, delivery = getBEDCharges(pdfContent)
-    write(base)
-    write(energy)
-    write(delivery)
+    # terms_of_service_content = getPDFasText(terms_of_service_paths[data["terms_of_service"]])
+    # write(getAdditionalFees(terms_of_service_content) + getAdditionalFees(pdfContent))
+    # write(getMinimumUsageFees(terms_of_service_content) + getMinimumUsageFees(pdfContent))
+    # write(getRenewalType(terms_of_service_content) + getRenewalType(pdfContent))
+    #
+    # base, energy, delivery = getBEDCharges(pdfContent)
+    # write(base)
+    # write(energy)
+    # write(delivery)
     write(data["rating_total"])
 
 
@@ -79,29 +78,27 @@ fact_sheet_paths = {}
 terms_of_service_paths = {}
 
 if __name__ == "__main__":
-    zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
+    # zip_code = 75001 if len(sys.argv) <= 1 else sys.argv[1]
+    zip_code = 75001
     json = getJSON(zip_code)
-    sample_count = len(json["data"]) if len(sys.argv) < 2 else int(sys.argv[2])
-
-    if sample_count > len(json["data"]):
-        sample_count = len(json["data"])
-
-    if sample_count == 0:
-        print("No plan exist for this zip code", zip_code)
-        sys.exit(0)
-
-    if json["success"]:
-        file = generateCSVTemplate(str(zip_code) + ".csv", "w+")
-        for i in range(sample_count):
-            plan = json["data"][i]
-
-            # downloadPDf returns the file name of the saved pdf file
-            fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(getEmbeddedPDFLink(plan["fact_sheet"]),
-                                                               plan["company_name"], "PDFs/")
-            terms_of_service_paths[plan["terms_of_service"]] = downloadPDF(getEmbeddedPDFLink(plan["terms_of_service"]),
-                                                                           plan["company_name"], "Terms of Services/")
-            file.write("\n")
-            writeToCSV(file, plan, fact_sheet_paths)
-    else:
-        send_email("API failure")
-        print("API response fail")
+    # sample_count = len(json["data"]) if len(sys.argv) < 2 else int(sys.argv[2])
+    #
+    # if sample_count > len(json["data"]):
+    #     sample_count = len(json["data"])
+    #
+    # if sample_count == 0:
+    #     print("No plan exist for this zip code", zip_code)
+    #     sys.exit(0)
+    #
+    # if json["success"]:
+    #     file = generateCSVTemplate(str(zip_code) + ".csv", "w+")
+    #     for i in range(sample_count):
+    #         plan = json["data"][i]
+    #
+    #         # downloadPDf returns the file name of the saved pdf file
+    #         # fact_sheet_paths[plan["fact_sheet"]] = downloadPDF(getEmbeddedPDFLink(plan["fact_sheet"]),
+    #         #                                                    plan["company_name"], "PDFs/")
+    #         # terms_of_service_paths[plan["terms_of_service"]] = downloadPDF(getEmbeddedPDFLink(plan["terms_of_service"]),
+    #         #                                                                plan["company_name"], "Terms of Services/")
+    #         file.write("\n")
+    #         writeToCSV(file, plan, fact_sheet_paths)

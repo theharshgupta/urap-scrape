@@ -3,11 +3,13 @@ import time, os, pdfkit, re
 from bs4 import BeautifulSoup
 from sys import platform
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-import pdfReader
+import texas.pdfReader
+
 sys.path.append('..')
 from email_service import send_email
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 
 def getCurrentDate():
     """
@@ -18,14 +20,17 @@ def getCurrentDate():
     now = datetime.datetime.now()
     return str.format("{}/{}/{}", now.month, now.day, now.year)
 
+
 def getResponseText(zip_code):
     """
         Send an API request to PowerToChoose and return the response
         Input:  1)  the zip code of the city
     """
-    link = 'http://api.powertochoose.org/api/PowerToChoose/plans?zip_code=' + str(zip_code)
+    link = 'http://api.powertochoose.org/api/PowerToChoose/plans?zip_code=' + str(
+        zip_code)
     response = requests.get(link, verify=False)
     return response.text
+
 
 def getJSON(zip_code):
     """
@@ -33,6 +38,7 @@ def getJSON(zip_code):
     """
     response = getResponseText(zip_code)
     return json.loads(response)
+
 
 def getEmbeddedPDFLink(url):
     """
@@ -52,11 +58,13 @@ def getEmbeddedPDFLink(url):
         print("failed to get embedded link:", e)
         return url
 
+
 def isFileExists(folder_name, file_name_with_extension):
     """
         returns: true if file given by the parameters exists, false otherwise
     """
     return os.path.exists(folder_name + file_name_with_extension)
+
 
 def getUniquePath(folder_name, preferred_file_name):
     """
@@ -65,7 +73,8 @@ def getUniquePath(folder_name, preferred_file_name):
     if not isFileExists(folder_name, preferred_file_name + ".pdf"):
         return folder_name + preferred_file_name + ".pdf"
     count = 1
-    while(isFileExists(folder_name, preferred_file_name + "-" + str(count) + ".pdf")):
+    while (
+    isFileExists(folder_name, preferred_file_name + "-" + str(count) + ".pdf")):
         count += 1
     return folder_name + preferred_file_name + "-" + str(count) + ".pdf"
 
@@ -93,6 +102,7 @@ def downloadPDF(link, preferred_file_name, folderName):
         downloadUsingPDFKit(link, path)
     return path
 
+
 def redownloadPDF(downloadedPath, link=""):
     """
         Call this function if you redownload the PDF given by downloadedPath
@@ -105,13 +115,15 @@ def redownloadPDF(downloadedPath, link=""):
     if link == "":
         from csv_generate import fact_sheet_paths, terms_of_service_paths
         # determining if it's a fact sheet or a terms of service
-        m = fact_sheet_paths if downloadedPath.split("/")[0] == "PDFs" else terms_of_service_paths
+        m = fact_sheet_paths if downloadedPath.split("/")[
+                                    0] == "PDFs" else terms_of_service_paths
         for key in m:
             if m[key] == downloadedPath:
                 link = key
                 break
     # override the currently downloaded (most likely corrupted) pdf file
     downloadUsingPDFKit(link, downloadedPath)
+
 
 def downloadUsingPDFKit(link, path):
     """
@@ -127,7 +139,8 @@ def downloadUsingPDFKit(link, path):
         if platform == "win32" or platform == "cygwin":
             # IMPORTANT: this path might vary across different windows machines
             # make sure it matches to the path where tesseract is located
-            config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
+            config = pdfkit.configuration(
+                wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
             pdfkit.from_url(link, path, configuration=config)
         else:
             pdfkit.from_url(link, path)
@@ -136,15 +149,18 @@ def downloadUsingPDFKit(link, path):
         print(e)
         send_email("failed to download " + link + "\nexception text: " + str(e))
 
+
 # unit tests
 if __name__ == "__main__":
     # this is example of a webpage that this method doesn't work on
-    #downloadUsingPDFKit("https://www.4changeenergy.com/viewpdf.aspx/?Docs/efl_budsva12gad_o.pdf", "./PDFs/", "doesnt_work.pdf")
-    #downloadPDF(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"), "doesnt_work", "PDFs/")
+    # downloadUsingPDFKit("https://www.4changeenergy.com/viewpdf.aspx/?Docs/efl_budsva12gad_o.pdf", "./PDFs/", "doesnt_work.pdf")
+    # downloadPDF(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"), "doesnt_work", "PDFs/")
     # it works in all other cases
-    #downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=672&BrandID=5&PromoCodeID=446", "./PDFs/works.pdf", "PDFs/")
-    #downloadPDF(getEmbeddedPDFLink("https://www.libertypowercorp.com/wp-content/uploads/2018/07/TCC_TX.pdf"), "works", "PDFs/")
-    #print(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"))
-    #downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=677&BrandID=5&PromoCodeID=447", "PDFs/hello.pdf")
-    #redownloadPDF("PDFs/New Power Texas-1.pdf", "https://newpowertx.com/EmailHTML/efl.aspx?RateID=662&BrandID=5&PromoCodeID=446")
-    downloadPDF(getEmbeddedPDFLink("https://newpowertx.com/EmailHTML/efl.aspx?RateID=662&BrandID=5&PromoCodeID=446"), "w", "PDFs/")
+    # downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=672&BrandID=5&PromoCodeID=446", "./PDFs/works.pdf", "PDFs/")
+    # downloadPDF(getEmbeddedPDFLink("https://www.libertypowercorp.com/wp-content/uploads/2018/07/TCC_TX.pdf"), "works", "PDFs/")
+    # print(getEmbeddedPDFLink("https://www.myexpressenergy.com/viewpdf.aspx/?Docs/efl_fastva12gab_o.pdf"))
+    # downloadUsingPDFKit("https://newpowertx.com/EmailHTML/efl.aspx?RateID=677&BrandID=5&PromoCodeID=447", "PDFs/hello.pdf")
+    # redownloadPDF("PDFs/New Power Texas-1.pdf", "https://newpowertx.com/EmailHTML/efl.aspx?RateID=662&BrandID=5&PromoCodeID=446")
+    downloadPDF(getEmbeddedPDFLink(
+        "https://newpowertx.com/EmailHTML/efl.aspx?RateID=662&BrandID=5&PromoCodeID=446"),
+                "w", "PDFs/")

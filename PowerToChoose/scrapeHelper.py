@@ -1,9 +1,9 @@
 import requests, sys, json
-import time, os, pdfkit, re
+# import time, os, pdfkit, re
 from bs4 import BeautifulSoup
 from sys import platform
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-import pdfReader
+# import pdfReader
 sys.path.append('..')
 from email_service import send_email
 

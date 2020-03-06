@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 import requests
 import json
-from scrapeHelper import downloadPDF, getEmbeddedPDFLink
+from texas.pdf import download_pdf
 
 
 class API:
@@ -45,38 +45,38 @@ class API:
 class Plan:
     # Define class variables as per the column names
 
-    supplier_name: int = None
-    rate_type: str = None
-    fixed_charge: bool = False
-    variable_rate: int = None
-    introductory_rate: int = None
-    introductory_price_value: float = None
-    enrollment_fee: float = None
-    contract_term: str = "0"
-    early_termination_fee: int = 0
-    automatic_renewal_type: str = None
-    automatic_renewal_detail: str = None
-    percent_renewable: int = 0
-    renewable_description: str = None
-    incentives_special_terms: str = None
-    incumbent_flag: bool = False
-    estimated_cost: float = 0
-    other_product_service: str = None
-    # Making the zipcode a string because of preceeding zeros
-    zipcode: str = None
-    date_downloaded: str = str(datetime.today())
-    tdu_service_territory: str = None
-    plan_name: str = None
-    variable_rate_500: float = 0.0
-    variable_rate_1000: float = 0.0
-    variable_rate_2000: float = 0.0
+    # supplier_name = None
+    # rate_type: str = None
+    # fixed_charge: bool = False
+    # variable_rate: int = None
+    # introductory_rate: int = None
+    # introductory_price_value: float = None
+    # enrollment_fee: float = None
+    # contract_term: str = "0"
+    # early_termination_fee: int = 0
+    # automatic_renewal_type: str = None
+    # automatic_renewal_detail: str = None
+    # percent_renewable: int = 0
+    # renewable_description: str = None
+    # incentives_special_terms: str = None
+    # incumbent_flag: bool = False
+    # estimated_cost: float = 0
+    # other_product_service: str = None
+    # # Making the zipcode a string because of preceeding zeros
+    # zipcode: str = None
+    # date_downloaded: str = str(datetime.today())
+    # tdu_service_territory: str = None
+    # plan_name: str = None
+    # variable_rate_500: float = 0.0
+    # variable_rate_1000: float = 0.0
+    # variable_rate_2000: float = 0.0
 
     def __init__(self, row_data):
         """
         Constructor for the class for the Plan
         :param row_data: type Python dictionary
         """
-        #for some reason this block raises a KeyError when I run download()... I just commented it out for now until theres abetter solution
+        # for some reason this block raises a KeyError when I run download()... I just commented it out for now until theres abetter solution
         """
         if isinstance(row_data, dict):
             self.supplier_name = row_data['[RepCompany]']
@@ -104,7 +104,7 @@ class Plan:
             self.variable_rate_2000 = row_data['[kwh2000]']
         """
 
-        #(alan) one variable for every single column in the csv
+        # (alan) one variable for every single column in the csv
         self.idKey = row_data.get("[idKey]")
         self.TduCompanyName = row_data.get("[TduCompanyName]")
         self.RepCompany = row_data.get("[RepCompany]")
@@ -149,18 +149,21 @@ def parse_csv(filepath):
     for d in data_dict:
         print(d)
 
+
 def download(filepath):
-    #(alan) df2 is a slight variation of the df object above (I think?) We're iterating over each of the plans in df2, using their
+    # (alan) df2 is a slight variation of the df object above (I think?) We're iterating over each of the plans in df2, using their
     #   FactsURL to download the pdf's (with idKey as the name). This is done with the help of scrapeHelper and pdfReader from
     #   last semester's PTC, which isn't fully robust yet. Note that line 130 of scrapeHelper depends on the location of wkhtmltopdf
     #   and as such may need to be changed from person to person.
     df2 = pd.DataFrame(pd.read_csv(filepath))
     data_dict2 = df2.to_dict('records')
     for d in data_dict2:
-        #print(d)
-        #print()
+        # print(d)
+        # print()
         plan = Plan(d)
-        downloadPDF(getEmbeddedPDFLink(plan.FactsURL), plan.idKey, "PDFs/")
+        download_pdf(pdf_url=plan.FactsURL, plan=plan)
+
+        # downloadPDF(getEmbeddedPDFLink(plan.FactsURL), plan.idKey, "PDFs/")
 
 
 def map_zipcode():
@@ -171,10 +174,12 @@ def map_zipcode():
     """
     zipcodes = [75001, 75002, 71230]
     id_zipcode_map = API(zipcodes).id_zipcode_map
+    print(id_zipcode_map)
+
     return id_zipcode_map
 
 
 if __name__ == '__main__':
-    #parse_csv("master_data.csv")
+    # parse_csv("master_data.csv")
     download("master_data.csv")
-    map_zipcode()
+    # map_zipcode()
