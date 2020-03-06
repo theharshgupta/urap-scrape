@@ -1,0 +1,61 @@
+work on connecticut site
+for loop through each block
+write a get method that takes in a tag and returns some type of object
+returns num or string or whatever 
+
+supplier information (TDU)
+- date downloaded
+	- time.time() function
+- tdu service territory (eversource/ui)
+	- data-ratetitle
+- supplier name
+	- data-friendly-name
+- supplier id
+	- id="plan-xxxxxx"
+- plan order rank (what order does the website show them with default filtering)
+	- keep a count of which entry we are looking at
+- contract term (# months)
+	- first line after <div class=”companyShortData”> if that string contains “Billing Cycle”
+- early termination fee
+	- id=”can_value”
+- enrollment fee
+	- id = “enroll_value”
+- percent renewable
+	- data-th="RENEWABLE ENERGY"
+- rate type (fixed/variable)
+	- data-priceplan
+- variable rate (cost in C/kW)
+	- class=”supply_rate”
+- fixed charge (monthly fee)
+	- id = “recur_value”
+- additional incentives (everything in other info)
+- enroll online (boolean)
+	- stored as string right after recur_value
+- new customers (only for new customers, boolean)
+	 -stored as string right after recur_value
+- estimated monthly bill (for 750 kW)
+- id = “compare_usage”
+- estimated savings (in comparison to incumbent)
+	- <td data-th=”MONTHLY SAVINGS OR ADDITIONAL COST” class  =”col_x” rel=”HERE”>
+
+
+- flag incumbent (the one everything is comparing with) (will be eversource or UI by comparing territory with supplier name)
+	 - flag with first-row in <tr> element
+
+get all that info from
+<table id="supp_results" class="nice_table responsive highlight_table display nowrap">
+
+<tr name="show-114296" priceplan="Fixed" data-price="9" cost="0.0900000000" id="plan-114296" rel="114296" data-ratetitle="EversourceResidentialCustomers" data-priceplan="Fixed" class="cop_data plan operation_botton_id
+
+
+specific plans from each supplier will have variable rates and plan attributes
+- no code difference b/w those that are shown and those that are hidden
+- use plan ID to differentiate between them
+- date downloaded
+- supplier name
+- high
+	- class="rate_value_high" id="high_value_[IDHERE]"
+- low
+	- id="low_value_[IDHERE]" type="hidden" name="low_value[]"
+- main
+	- id="main_value_[IDHERE]" type="hidden" name="main_value[]"
