@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import bs4 as bs
+from bs4 import BeautifulSoup
 
 
 driver = webdriver.Chrome()
@@ -36,3 +37,12 @@ with open("out.html","w") as out:
             1+1
 
 print(html)
+
+with open('out.html') as ex:
+    soup2 = BeautifulSoup(ex, 'html.parser')
+
+table = soup2.find_all('table', class_ = "nice_table responsive highlight_table display nowrap")
+table = table[0]
+for row in table.find_all('tr'):
+    for cell in row.find_all('td'):
+        print(cell.attrs)
