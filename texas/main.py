@@ -157,14 +157,14 @@ def download(filepath):
     #   and as such may need to be changed from person to person.
     df2 = pd.DataFrame(pd.read_csv(filepath))
     data_dict2 = df2.to_dict('records')
+    count = 0
     for d in data_dict2:
         # print(d)
         # print()
-        plan = Plan(d)
-        download_pdf(pdf_url=plan.FactsURL, plan=plan)
-
-        # downloadPDF(getEmbeddedPDFLink(plan.FactsURL), plan.idKey, "PDFs/")
-
+        if count < 200:
+            plan = Plan(d)
+            download_pdf(pdf_url=plan.FactsURL, plan=plan)
+            count += 1
 
 def map_zipcode():
     """
