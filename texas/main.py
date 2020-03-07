@@ -4,9 +4,10 @@ from datetime import datetime
 import requests
 from requests.exceptions import Timeout
 import json
-#from texas.pdf import download_pdf
-from pdf import download_pdf
+# from texas.pdf import download_pdf
+from texas.pdf import download_pdf
 from tqdm import tqdm
+
 
 class API:
     zipcodes = None
@@ -25,16 +26,18 @@ class API:
         """
         timeouts = []
         try:
-            response = requests.get(self.url + str(zipcode), verify=False, timeout = (2, 5))
+            response = requests.get(self.url + str(zipcode), verify=False,
+                                    timeout=(2, 5))
         except Timeout:
             timeouts.append(zipcode)
             return
         # Each data row has an plan_id that should be same to the idKey in the CSV
         data = json.loads(response.text)['data']
-        print('_' + str(zipcode), " has plan data:", len(data) != 0, " timemouts:", timouts)
+        print('_' + str(zipcode), " has plan data:", len(data) != 0,
+              " timemouts:", timouts)
         for row in data:
             if row['plan_id'] in self.id_zipcode_map.keys():
-                #print(row)
+                # print(row)
                 self.id_zipcode_map[row['plan_id']] = self.id_zipcode_map[
                                                           row['plan_id']] + [
                                                           zipcode]
@@ -184,8 +187,9 @@ def map_zipcode():
     id_zipcode_map = API(zipcodes).id_zipcode_map
     edit_csv('master_data.csv', 'master_data_withZipcodes.csv', id_zipcode_map)
 
-    #api key has 250 lookups per month
-    response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
+    # api key has 250 lookups per month
+    response = requests.get(
+        "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
     allZips = response.json()
     print(allZips)
     id_zipcode_map2 = API(allZips).id_zipcode_map
@@ -193,21 +197,23 @@ def map_zipcode():
     edit_csv('master_data.csv', 'master_data_withZipcodes.csv', id_zipcode_map2)
     return id_zipcode_map
 
+
 def edit_csv(file, edited_file, id_zipcode_map):
-    with open(file, 'r',encoding='utf-8') as read_obj, \
-            open(edited_file, 'w', newline='',encoding='utf-8') as write_obj:
-        csv_reader = csv.reader(read_obj,delimiter=',')
+    with open(file, 'r', encoding='utf-8') as read_obj, \
+      open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
+        csv_reader = csv.reader(read_obj, delimiter=',')
         csv_writer = csv.writer(write_obj)
         for row in csv_reader:
             if len(row) == 0 or row[0] == '[idKey]' or row[0] == 'END OF FILE':
                 continue
-            if int(row[0]) in id_zipcode_map: #if the idKey is in i_z_m, we append i_z_m's corresponding value (a list of zipcodes for that idKey) to the row in the csv
+            if int(row[
+                       0]) in id_zipcode_map:  # if the idKey is in i_z_m, we append i_z_m's corresponding value (a list of zipcodes for that idKey) to the row in the csv
                 row.append(id_zipcode_map[int(row[0])])
             csv_writer.writerow(row)
 
 
 if __name__ == '__main__':
-    #parse_csv("master_data.csv")
-    #download("master_data.csv")
-    #map_zipcode()
+    # parse_csv("master_data.csv")
+    # download("master_data.csv")
+    # map_zipcode()
     parse_csv("master_data_withZipcodes.csv")
