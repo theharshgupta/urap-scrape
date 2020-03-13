@@ -3,7 +3,7 @@ import time, os, pdfkit, re
 from bs4 import BeautifulSoup
 from sys import platform
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-import texas.pdfReader
+import pdfReader
 
 sys.path.append('..')
 from email_service import send_email

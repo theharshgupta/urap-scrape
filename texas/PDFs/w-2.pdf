@@ -1,0 +1,152 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8" /><meta http-equiv="x-ua-compatible" content="ie=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>
+
+</title><link rel="stylesheet" href="./css/main.css" /></head>
+<body>
+    <form method="post" action="./efl.aspx?RateID=662&amp;BrandID=5&amp;PromoCodeID=446" id="form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="meiiVectQH2PrCKWyNUhSGWtb1gaKZi5DUrddVjFA0KCoikXL5xsQRtIfp+Fd4+3kgqkOIjAkpr9+aFEQ3+1eGDc6eM4AMD0GgwtbT5HcapdJnFUyYLn/1rGmwTpkmrAk4yUp17Jx4I+VNpiuFt8AWbaWVc2GSLDttXwzaF1FVXf7sW8921u6+l3u2rlsYkO+bor395PbaTqFeIFE5hPVU/nBg8cjBUJgBwdXmKnDF9E3eNXSlUNLbnzLPyN5OJoe0641G9Jh5lLOcRMdyck9YecfWMD8EOCdU7gpAAX6mq6R3xL3HxoCerB1JtwdFeAXSJEvL+wb6cXkq6adiv2ypGiEXphCbtyCBSDz6zXclCUYBStlmxf2fJcIOWcAQQLWuJJm0STwszyMAAerby5ddCPcemsR3LAqfmJHQGYydnCVsod53S42wd9lz1w+tjio7YjAUmu4nOjXspIJ3kj9fJrflhlfCATkQMOPyYW2VTnVca1iY468qXXwF3E3ygPB/cZjRhEAmlyAfWHE+aomjV8+V1kDrQ66fU401aXxQbKu4VNKP2Rps952NRArRR5coP1VaIX1poN3zLa5o/IqTQObtAloIqhRaTiWT1I5oBAzBg1fB2kLwRGSw+W7tGed0K6JJOmyQxJqFbZ1qAfRCABK9gnAGzZis7fQpWSu7Rh8SEaFlxpxTBVs/zHvNPUNAQrnuA6NBJJnDTEA0lAr8jK3xo1zF64jco32dzCTebifGcTU+CYNbAa8E2bhDOXUXG5uGtBSWRfw4dZdpJ2Xqtc8B9/bmK9ejVv4F2pQIxq3BH6RXxDG4/2i53bvosj1HuBPllTbzr37G0AvJsAoDuGscTBwG/u/1mYaIvNOPkENVg1Zm4JCz+kcWUAIhMtlguIwst9MGgrt2vHePsWElXTjFZm3brgROKIzzxq0H/le+0M9GUWGHmPb3BdWEjKAUJQC2cPztHRtJ0Z5mKk7s1BJjZ02oEswZyxe1991AcK6HMcyNGSdU/QXXX4fPg/ELJ+W/zQ+vc/Wp6opOzSXK9g5OfEu3tA4JR6ZAYnF2mXlsMlEmmJ9Lj2XDIrLdKR34irZIt+XW++61Z4OFrUxeHUWW98r7l403J9QuJb/2uC9XX9m0LkzkR82KPX/2iVXdU7LFK+QD7tdzGO+DDUojIdhEi9DcQM//xBXeXWxhw4oRbO9aA+6d+D6mAmI335BGA+PtL44einbKKv3QCa/GuvSsNKrqy6b9qedGhHor7gGR5GmpEwDZnOQ0eU87VKXv8suANyxaQD9aEJcEtJ+rMQJJv7dqdaNQ9P6cn2XCDIRvgRVk2y7y/Gp0IPrrgvhwarzWktVYj7tKcP0w96pOwn4njR4RxYjiXp2yAdiZr48RN73uee02IJ/d+iUXAoksCYwm3XVI/7fyqhLjhOP9jtfa4+Wjk9tVwj0F4nPMoHyzzNPdHshsw1JoRtWeQ1bRzpPcQkFwMV3DaVProbyNwid3x/t/nkVEQBmNXCpP/mqrHOvgGWgmSgkkEihtcIn22IkKfMMRxUGFZpG4fCCZh2PbzMvpocOF3rJ2vpuhf5oomvcgyyJqqoS0FkZtkhl+BGojv2cRToAqus/ITyhPQZ5u+7taF3aZDLtk2ZF2vp44lzm9bN96vEDIv9631H1tEdPl5jTBlc0mQDv82riygP4b1P9dzVhWtlWcrzg2DKxuojrBiuH85sUDlo0MPPcjz9pQl2n1vHwFAFjX5EQURdFSvmjZvkWM3SlS1fZnjo/wmI59DZI3YVlYa925ca01Z1rMR85p5C1LpD1R1RPioXZnw5ZKz0j9N3SNAGShEzwxtIK/EE8BTxcNeSZvC0do0Q3fCyF1TCm3xC5AolhIP+k9q0+dga7a7pv/X6AvPPLdHEfC+nGpzyEdm3x1hVy8//cQJjHgDD1ygX0n7L7Np/GXfxy6UPA5d+0PjiOu/a0L+9yl80iWdytSTQ6GOkHGCgRsb5WNbTHAeGML7276TBxlJFCqIs7Z7FZP7oLD9r1XS+0i8ocE9fBxrrJw0703lEz96p28zZHBQq9s0EvwpEQNJfOs1STFRmYmygdbewCIdHT848i2nezW8zMtJfLmmc0B+KZuwuvXWQ5FYCX0kvtJrrw1aqSafsZUM8iPrdLLXN7dR4EzPz5U1ctUYLm0QYLCxWCjoHt6ytc6PP03RYOpYmOM2NiYW4RQ8wkZHtTVwfx5B2B0tmd3ihSy+QQwiViitaP2wgUTRP6voR4YDGSYBjpP8/YzxXbLrCCjKEuPYTKjBNfqup/6wXgbWVi3kBCiV3W2TA7H1HpgCTeIC7WFf2mqWWe4ZIvynEeyajiCdPeO2opeFrmRrHtbBfHTQvm3f1qJBZYCbvnZlwCTmFgAVf2J8gx2Tul9F29zaQbKGnWZGPn6bqNyaftkvx3BnBJTSuTTxP2aXDVCawNw6AxrnoOFt8DNey7Emjc8Bd4/3TxxuewP626jozpFjphhn0dblPrI83X0j/HCtSxPCtqci9Q+sGfw3Gnj6o/lXRPCfLKxsRl0jGPD8IN9QawjcE3VvN9S7V9QOsBm/ej6e9znSl2OPgfsda+ytZJ3s=" />
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="1D93A7B5" />
+        <table class="header">
+		<tr>
+			<td class="left">
+				<h2>
+					Electricity Facts Label (EFL)<br />
+					<span id="lblBrandName1">NEW POWER TEXAS</span> – FIXED PRICE<span id="lblProductListInTitle"></span><br />
+					<span id="lblTDSPName">ONCOR</span><br />
+					<span id="lblTodaysDate">3/11/2020</span>
+				</h2>
+			</td>
+			<td class="right">
+				<img src="./images/email-logo-pulse.png" />
+			</td>
+		</tr>
+	    </table>
+
+	    <table class="has-border efl">
+		<tr>
+			<td class="blue" rowspan="3">Electricity Price</td>
+			<td>Average Monthly Use</td>
+			<td>500 kWh</td>
+			<td>1,000 kWh</td>
+			<td>2,000 kWh</td>
+		</tr>
+		<tr>
+			<td>Average Price per kWh</td>
+			<td><span id="lbl500KWH">15.1&cent;</span></td>
+			<td><span id="lbl1000KWH">5.3&cent;</span></td>
+			<td><span id="lbl2000KWH">9.9&cent;</span></td>			
+		</tr>
+		<tr>
+			<td colspan="4">
+				 
+                <div id="divCustomEFLVerbiage" class="custom-efl-verbiage">
+                    <span id="lblCustomEFLVerbiage"><p style="text-align: left;">The average price above only includes the costs for electricity generation, regulated charges from the applicable TDU for transmission and delivery charges for service to Customer&rsquo;s ESI ID as indicated below.&nbsp; The above averages exclude non-recurring charges from the TDU, other fees as stated in the Terms of Service, state and local sales tax, the PUC Assessment and gross receipts reimbursements. The averages above may be different than the Price shown on the bill due to differences in Usage and Value-Added Services Customer selected.</p>
+<table cellspacing="3" cellpadding="3">
+    <tbody>
+        <tr>
+            <td>Base Charge</td>
+            <td>$0.00</td>
+            <td>per billing cycle</td>
+        </tr>
+        <tr>
+            <td>Energy Charge</td>
+            <td>$0.109</td>
+            <td>per kWh</td>
+        </tr>
+        <tr>
+            <td>Usage Credit</td>
+            <td>$95.00</td>
+            <td>per billing cycle of at least 1000 kWh</td>
+        </tr>
+        <tr>
+            <td>TDU Delivery Charge</td>
+            <td>$0.035448</td>
+            <td>per kWh</td>
+        </tr>
+        <tr>
+            <td>TDU Delivery Charge</td>
+            <td>$3.42</td>
+            <td>per billing cycle</td>
+        </tr>
+    </tbody>
+</table></span>
+                </div>
+				<div>
+					Selected Value-Added Services: <span id="lblProductsList">None.</span>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="blue">Other Key Terms and Questions</td>
+			<td colspan="4">
+				<p>
+					<em>See Terms of Service statement for a full listing of fees, deposit policy, and other terms.</em>
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="blue" rowspan="12">Disclosure Chart</td>
+		</tr>
+		<tr>
+			<td colspan="2">Type of Product</td>
+			<td colspan="2">Fixed Rate</td>
+		</tr>
+		<tr>
+			<td colspan="2">Contract Term</td>
+			<td colspan="2"><span id="lblTerm">12</span> Months</td>
+		</tr>
+		<tr>
+			<td colspan="2">Do I have a termination fee or any fees associated with terminating service?</td>
+			<td colspan="2">
+				Yes, <span id="lblBrandName2">New Power Texas</span> will assess a termination fee of <span id="lblTerminationFee">$20.00</span>/month times the remaining months until the end of the Initial Term.  <span id="lblProductETFs"></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Can my price change during contract period?</td>
+			<td colspan="2">Yes</td>			
+		</tr>
+		<tr>
+			<td colspan="2">If my price can change, how will it change, and by how much?</td>
+			<td colspan="2">
+				Your price may be adjusted to reflect changes in charges from the TDU, changes to the ERCOT, PUCT, Texas Regional Entity or other administrative fees, or other costs and expenses incurred by <span id="lblBrandName3">New Power Texas</span> as well as if you terminate a Value-Added Service.  See Section 2 of the TOS for additional information. <span id="lblProductPriceChanges"></span>
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2">What other fees may I be charged?</td>
+			<td colspan="2">Please see Section 3 of the Terms of Service. These fees are not included in Price.</td>			
+		</tr>
+		<tr>
+			<td colspan="2">Is this a pre-pay or pay in advance product?</td>
+			<td colspan="2">No</td>			
+		</tr>
+		<tr>
+			<td colspan="2">Does the REP purchase excess distributed renewable generation?</td>
+			<td colspan="2">No</td>			
+		</tr>
+		<tr>
+			<td colspan="2">Renewable Content</td>
+			<td colspan="2">This product is <span id="lblRenewableContent">15</span>% renewable.</td>			
+		</tr>
+		<tr>
+			<td colspan="2">The statewide average for renewable content is</td>
+			<td colspan="2"><span id="lblStateAverageRenewableContent">19</span>%</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="text-align: center;">				
+				<span id="lblBrandName4">Pulse Power, LLC d/b/a New Power Texas</span> (PUC Certification Number 10259)<br />
+				10200 Grogans Mill Rd, Suite 150, The Woodlands, Texas 77380<br />
+				Toll-free <span id="lblCustomerCarePhone">888-853-5747</span> (8AM-7PM Central Time, Monday through Friday)<br />
+				Email: <a id="lnkCustomerCareEmail" href="mailTo:customercare@newpowertx.com">customercare@newpowertx.com</a>    <a id="lnkBrandURL" href="https://www.newpowertx.com/" target="_blank">https://www.newpowertx.com/</a><br />
+				<br />
+				EFL Version 190301R
+			</td>
+		</tr>
+	    </table>
+    </form>
+</body>
+</html>

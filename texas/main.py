@@ -5,7 +5,7 @@ import requests
 from requests.exceptions import Timeout
 import json
 # from texas.pdf import download_pdf
-from texas.pdf import download_pdf
+from pdf import download_pdf
 from tqdm import tqdm
 
 
