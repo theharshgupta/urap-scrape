@@ -1,11 +1,6 @@
 """
-Created on Tue Mar 10 14:52:21 2020
-
-@author: jenya
-
-Note: This script requires that pytesseract, Tesseract, and all Tesseract 
+Note: This script requires that pytesseract, Tesseract, and all Tesseract
 binaries are installed
-
 """
 import numpy as np
 import pandas as pd
@@ -32,7 +27,6 @@ def pdf_to_img(pdf_file):
 # Use OCR to read an image; store the results in dictionary format
 def ocr_core(file):
     text = pytesseract.image_to_data(file, output_type=Output.DICT)
-    print(text)
     return text
 
 
@@ -40,10 +34,7 @@ def ocr_core(file):
 # ***there must be a less silly way to do this
 def extract_pdf_data_1stpg(pdf_file):
     images = pdf_to_img(pdf_file)
-    for pg, img in enumerate(images):
-        d = ocr_core(img)
-        break
-    return d
+    return ocr_core(images[0])
 
 
 # Find the (index of the) bounding boxes within an image dictionary that
@@ -54,7 +45,9 @@ def find_boxes_w_text(text, precision, d):
     for i in range(n_boxes):
         if int(d['conf'][i]) > precision:  # OCR precision requirement
             if re.match(text, d['text'][i]):
-                matches_list.append(i)
+
+                matches_list.append(d['text'][i])
+    print(matches_list)
     return matches_list
 
 
@@ -70,7 +63,6 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 filenames = os.listdir(base_directory)
 # f = filenames[10]
 f = "12294.pdf"
-print(f)
 pdf_file = os.path.join(base_directory, f)
 
 # print_pages(image_file)
@@ -87,7 +79,7 @@ for i in images:
 img_cv = np.array(img.convert('RGB'))
 # Convert RGB to BGR 
 img_cv = img_cv[:, :, ::-1].copy()
-# Get bounding boxes    
+# Get bounding boxes
 n_boxes = len(d['text'])
 for i in range(n_boxes):
     if int(d['conf'][i]) > 60:
@@ -99,6 +91,7 @@ cv2.waitKey(0)
 
 # Find the (index of the) bounding boxes within an image dictionary that 
 # contain various text
+#
 find_boxes_w_text('Energy', 0, d)
 find_boxes_w_text('Charge', 0, d)
 find_boxes_w_text('(Base|Fixed|Monthly|AMS)', 0, d)
@@ -119,10 +112,10 @@ find_boxes_w_text('bill', 0, d)
 find_boxes_w_text('delivery', 0, d)
 find_boxes_w_text('distribution', 0, d)
 find_boxes_w_text('transmission', 0, d)
-find_boxes_w_text('(Oncor|AEP|Centerpoint|TNMP|Mexico|', 0, d)
+# find_boxes_w_text('(Oncor|AEP|Centerpoint|TNMP|Mexico|', 0, d)
 find_boxes_w_text('Example', 0, d)
 
-'''
+"""
 Thoughts:
 - Use machine learning to extract text. Could try:
     - Making the features simply the text-bounding box pairs?
@@ -134,4 +127,5 @@ Thoughts:
         - We may want to make some of the text matching case insensitive
         - If the OCR seems to be doing a poor job, we can use the distance to 
           each of these words as features instead of only exact matches 
-'''
+          
+"""
