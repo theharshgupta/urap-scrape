@@ -12,7 +12,7 @@ compare_now_button = driver.find_element_by_class_name("supplier_form_submit")
 compare_now_button.click()
 
 # Wait *up to* 10 seconds to make sure the page has finished loading (check that the button no longer exists)
-WebDriverWait(driver,10).until(EC.invisibility_of_element_located((By.CLASS_NAME, "supplier_form_submit")))
+# WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.CLASS_NAME, "supplier_form_submit")))
 
 #wait for the x to show up 
 WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.CLASS_NAME, "close_anchor")))
