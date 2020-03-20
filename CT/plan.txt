@@ -23,7 +23,7 @@ supplier information (TDU)
 - percent renewable
 	- data-th="RENEWABLE ENERGY"
 - rate type (fixed/variable)
-	- data-priceplan
+	- priceplan
 - variable rate (cost in C/kW)
 	- class=”supply_rate”
 - fixed charge (monthly fee)
@@ -34,7 +34,7 @@ supplier information (TDU)
 - new customers (only for new customers, boolean)
 	 -stored as string right after recur_value
 - estimated monthly bill (for 750 kW)
-- id = “compare_usage”
+	- id = “compare_usage”
 - estimated savings (in comparison to incumbent)
 	- <td data-th=”MONTHLY SAVINGS OR ADDITIONAL COST” class  =”col_x” rel=”HERE”>
 
