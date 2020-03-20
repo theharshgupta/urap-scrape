@@ -1,6 +1,9 @@
 # from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
-from scrape import get_zipcodes
+from selenium.common.exceptions import NoSuchElementException
+
+from ma.scrape import get_zipcodes
 from datetime import datetime
+from selenium import webdriver
 from pathlib import Path
 from datetime import datetime
 import csv
@@ -9,17 +12,15 @@ import os
 import pandas as pd
 from email_service import send_email
 
-zipcodes_ma = get_zipcodes('MA')
-state = 'Massachusetts'
-zipcodes_ma = list(map(lambda x: '0' + str(x), zipcodes_ma))
-ma_zipcode_level = 'ma_zipcode_level.csv'
-
-ma_zipcode_level_headers = ['State', 'Zipcode', 'Website', 'TDU_Service_Territory', 'Pricing_Range',
+STATE = 'Massachusetts'
+MA_ZIPCODE_LEVEL = 'ma_zipcode_level.csv'
+ZIPCODE_LEVEL_HEADERS = ['State', 'Zipcode', 'Website', 'TDU_Service_Territory', 'Pricing_Range',
                             'Minimum_Monthly_Cost', 'Maximum_Monthly_Cost', 'Minimum_Contract_Term',
                             'Maximum_Contract_Term', 'Date_Downloaded', 'Default_Monthly_kWh']
-url_ma = 'http://www.energyswitchma.gov/#/'
-
+BASE_URL = 'http://www.energyswitchma.gov/#/'
 min_contract_term = None
+zipcodes_ma = get_zipcodes('MA')
+zipcodes_ma = list(map(lambda x: '0' + str(x), zipcodes_ma))
 
 
 def get_datetime():
@@ -65,7 +66,8 @@ def format_csv():
     and formats it
     :return: formatted csv is saved to the ma_csv folder, creates a zip code level csv in the root dir too
     """
-    # Here we initialise all the zipcode level fields to None so that it doesnt throw error for not found
+    # Here we initialise all the zipcode level fields to None so that it doesnt throw error for
+    # not found
     service_territory = None
     min_monthly_cost = None
     max_monthly_cost = None
@@ -116,7 +118,7 @@ def format_csv():
                             # breaks out of the loop if it finds the supplier list line
                             break
             # creates a list of labels, the second item in this list is extracting the zipcode from the filename
-            data_zipcode_level = [state, str(file).split('.')[0].split('_')[-1], url_ma, service_territory, pricing,
+            data_zipcode_level = [STATE, str(file).split('.')[0].split('_')[-1], BASE_URL, service_territory, pricing,
                                   min_monthly_cost, max_monthly_cost, min_contract_term, max_contract_term,
                                   get_datetime(), default_monthly_kWh]
 
@@ -125,19 +127,19 @@ def format_csv():
         # initialising the header_exists to default false
         header_exists = False
         # checking if the ma_zipcode_level file csv is present
-        if Path(ma_zipcode_level).is_file():
+        if Path(MA_ZIPCODE_LEVEL).is_file():
             # if present, we open and see if headers are present
-            with open(ma_zipcode_level, 'r') as read_csv:
+            with open(MA_ZIPCODE_LEVEL, 'r') as read_csv:
                 if 'Zipcode' in read_csv.readline():
                     # if headers are there, we change the variable value of header_exist
                     header_exists = True
         # we open the file in append mode. newline='' is important to ignore random lines
-        with open(ma_zipcode_level, 'a', newline='') as csv_file:
+        with open(MA_ZIPCODE_LEVEL, 'a', newline='') as csv_file:
             # creating a writer
             writer = csv.writer(csv_file)
             # if headers dont exist we write the headers
             if not header_exists:
-                writer.writerow(ma_zipcode_level_headers)
+                writer.writerow(ZIPCODE_LEVEL_HEADERS)
             # write the rows
             if data_zipcode_level:
                 writer.writerow(data_zipcode_level)
@@ -171,26 +173,27 @@ def new_main_scrape(zipcode):
     :param zipcode: the specific zipcode for MA
     :return: nothing
     """
+    driver = webdriver.Chrome("C:\chromedriver.exe")
     # URL for a specific zipcode
     url_ma_recur = f'http://www.energyswitchma.gov/#/compare/2/1/{zipcode}/'
     # Calling the web browser on that specific url
     driver.get(url_ma_recur)
     # waiting for the page to load
     time.sleep(1)
-    return 0
+
     # Getting the Default_Monthly_kWh
     try:
-        default_monthly_kWh = driver.find_element_by_xpath(
-            '/html/body/div[2]/ui-view/product-compare/div[1]/div[2]/div/div[2]/div/div/input').get_attribute('value')
-    except NoSuchElementException as element_not_found:
-        # if the value is not fetched for some reason, it makes sure the program does not stop and the default is None
+        xpath = '/html/body/div[2]/ui-view/product-compare/div[1]/div[2]/div/div[2]/div/div/input'
+        default_monthly_kWh = driver.find_element_by_xpath(xpath).get_attribute('value')
+    except NoSuchElementException:
+        # if value is not fetched for some reason, program should not stop, the default set None
         default_monthly_kWh = None
-        pass
+
     # clicking on the download button
-    download_to_csv_button = driver.find_element_by_xpath(
-        '/html/body/div[2]/ui-view/product-compare/div[2]/div/div[4]/button')
+    xpath_button = '/html/body/div[2]/ui-view/product-compare/div[2]/div/div[4]/button'
+    download_to_csv_button = driver.find_element_by_xpath(xpath_button)
     download_to_csv_button.click()
-    # sleeping again for 2 seconds
+
     time.sleep(1)
     # file renaming
     if Path(f'ma_downloads/ma_{zipcode}.csv').is_file():
@@ -212,12 +215,19 @@ def new_main_scrape(zipcode):
 
 
 def old_mainsite_scrape(zipcode):
-    driver.get(url_ma)
+    """
+    DEPRECATED - Now using the new approach using requests module
+    :param zipcode: zipcode
+    :return: nothing
+    """
+    driver = webdriver.Chrome("C:\chromedriver.exe")
+    driver.get(BASE_URL)
     print("Zipcode: ", zipcode)
 
     # clicking the home radio button
     driver.find_element_by_xpath(
-        '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[1]/div/div[1]/label/input').click()
+        '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
+        '1]/div/div[1]/label/input').click()
     zipcode_input = driver.find_element_by_xpath(
         '/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div['
         '2]/div/input')
@@ -245,7 +255,7 @@ def old_mainsite_scrape(zipcode):
                     option.click()
                     time.sleep(1)
                     button_continue_shopping.click()
-                    driver.get(url_ma)
+                    driver.get(BASE_URL)
 
                     driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[1]/div/div[1]/label/input').click()
                     zipcode_input = driver.find_element_by_xpath('/html/body/div[2]/ui-view/home/div[1]/div[1]/div/div[2]/div/fieldset/form/div[2]/div/input')
@@ -272,14 +282,10 @@ def old_mainsite_scrape(zipcode):
         pass
 
 
-# We use __name__ == '__main__' to make sure that the functions dont run even when something from this file is imported
-# in some other py file
+# We use __name__ == '__main__' to make sure that the functions dont run even when something from
+# this file is imported in some other py file
 if __name__ == '__main__':
-    pass
-    # for zipcode in zipcodes_ma[:]:
-    #     old_mainsite_scrape(zipcode=zipcode)
+    for zipcode in zipcodes_ma[:]:
+        old_mainsite_scrape(zipcode=zipcode)
 
-    # Due to importing from the scrape.py file, the browser/driver for chrome opens, below statement closes it
-    # driver.quit()
 
-# right now we want to test whether or not the radio buttons show up and their frequency.

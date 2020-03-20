@@ -4,6 +4,7 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 import os
 import csv
+import difflib
 import traceback
 from pathlib import Path
 from datetime import datetime
@@ -74,6 +75,35 @@ def check_unique():
     print(f"\nMerged {len(all_files)} zipcodes rows :: ", all_df_shape)
     print(f"Unqiue {len(all_files)} zipcodes rows :: ", unique_df_shape)
     return all_df_shape, unique_df_shape
+
+
+def diff_checker(old_file, new_file):
+    """
+    Returns boolean if the two files are similar
+    :param filename1: filepath for first file
+    :param filename2: filepath for second file
+    :return: boolean true or false
+    """
+    from difflib import SequenceMatcher
+
+    text1 = open(old_file).read()
+    text2 = open(new_file).read()
+    for line in open(new_file).readlines()[:-2]:
+        print(line)
+        lineSplit = line.split(',')
+        lineSplit = lineSplit.pop(17)
+        print(lineSplit)
+    words_text1 = text1.split(',')
+    words_text2 = text2.split(',')
+    # del words_text1[16::17]
+    # del words_text2[16::17]
+    remove_list = words_text2[17::20]
+    # print(words_text1)
+    # print(words_text2)
+    m = SequenceMatcher(None, text1, text2)
+    print(f"\t Similarity between {old_file} and {new_file} :: {m.ratio()}")
+    exit()
+
 
 
 def convert_cents_to_dollars(x):
@@ -190,14 +220,23 @@ def get_suppliers(zipcode):
 
             timestamp_filename_format = timestamp_start.strftime('%m%d%y_%H_%M_%S')
             file_zipcode_ci = glob.glob(f'results_MA/{zipcode}_CI{company_id}*.csv')
+            print(f"\t {file_zipcode_ci}")
             zipcode_filename = f'results_MA/{zipcode}_CI{company_id}_{timestamp_filename_format}.csv'
 
             if len(file_zipcode_ci) > 0:
+                buffer_file = "results_MA/trash.csv"
+                df_buffer = df
+                df_buffer.__delitem__('Date_Downloaded')
+                df_buffer.__delitem__('Zipcode')
 
-                df.to_csv("results_MA/trash.csv", index=False, float_format="%.3f")
-                df_previous = pd.read_csv(file_zipcode_ci[0], float_precision='round_trip')
+                df_buffer.to_csv(buffer_file, index=False, float_format="%.3f")
+                # df_previous = pd.read_csv(file_zipcode_ci[0], float_precision='round_trip')
+
+                diff_checker(buffer_file, file_zipcode_ci[0])
+
+                """
                 df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
-
+                
                 df_previous.__delitem__('Date_Downloaded')
                 df_new.__delitem__('Date_Downloaded')
                 df_previous.__delitem__('Zipcode')
@@ -214,9 +253,7 @@ def get_suppliers(zipcode):
                 else:
                     print("\t Previously scraped, no updates found.")
 
-                # list_previous = df_previous.values.tolist()[1:]
-                # list_new = df_new.values.tolist()[1:]
-
+                """
             else:
                 print("\t Writing to a new file: ", zipcode_filename)
                 df.to_csv(zipcode_filename, index=False, float_format="%.3f")
@@ -252,6 +289,7 @@ def scrape():
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
     runnable_zipcdes = zipcodes_ma_0[:100]
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
+    runnable_zipcdes = ["01005"]
 
     for zip in runnable_zipcdes:
         print("Running for zipcode:", zip)
@@ -272,11 +310,12 @@ def scrape():
     print(f'The number of zipcodes successfully scraped are: {success}')
 
 
-try:
-    # [ACTION REQUIRED] Select which function you want to run
-    scrape()
-    # check_unique()
-except Exception as err:
-    # Send email
-    error_traceback = traceback.extract_tb(err.__traceback__)
-    send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")
+scrape()
+# try:
+#     # [ACTION REQUIRED] Select which function you want to run
+#     scrape()
+#     # check_unique()
+# except Exception as err:
+#     # Send email
+#     error_traceback = traceback.extract_tb(err.__traceback__)
+#     send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")
