@@ -4,14 +4,15 @@ from datetime import datetime
 import requests
 from requests.exceptions import Timeout
 import json
-# from texas.pdf import download_pdf
-from pdf import download_pdf
+from texas.pdf import download_pdf
+from texas.utils import block_print, enable_print
+# from pdf import download_pdf
 from tqdm import tqdm
 
 
 class API:
     zipcodes = None
-    url = "http://api.powertochoose.org/api/PowerToChoose/plans?zip_code="
+    base_url = "http://api.powertochoose.org/api/PowerToChoose/plans?zip_code="
     id_zipcode_map = {}
 
     def __init__(self, zipcodes):
@@ -26,7 +27,7 @@ class API:
         """
         timeouts = []
         try:
-            response = requests.get(self.url + str(zipcode), verify=False,
+            response = requests.get(self.base_url + str(zipcode), verify=False,
                                     timeout=(2, 5))
         except Timeout:
             timeouts.append(zipcode)
@@ -34,60 +35,32 @@ class API:
         # Each data row has an plan_id that should be same to the idKey in the CSV
         data = json.loads(response.text)['data']
         print('_' + str(zipcode), " has plan data:", len(data) != 0,
-              " timemouts:", timouts)
+              " timemouts:", timeouts)
         for row in data:
             if row['plan_id'] in self.id_zipcode_map.keys():
-                # print(row)
-                self.id_zipcode_map[row['plan_id']] = self.id_zipcode_map[
-                                                          row['plan_id']] + [
-                                                          zipcode]
+                # This appends new zipcodes to the current planID.
+                self.id_zipcode_map[row['plan_id']] = self.id_zipcode_map[row['plan_id']] \
+                                                      + [zipcode]
             else:
+                # Create a new key-value pair of planID and zipcode in the dict.
                 self.id_zipcode_map[row['plan_id']] = [zipcode]
 
     def all_zips(self):
         """
-        creates API object for all the zipcodes
+        creates API object for all the zipcodes. The tqdm module is for a progress bar.
         :return: None
         """
-        for zipcode in tqdm(self.zipcodes):
+        for zipcode in tqdm(self.zipcodes, desc="Zipcode Mapping"):
             self.api_data(zipcode)
 
 
 class Plan:
-    # Define class variables as per the column names
-
-    # supplier_name = None
-    # rate_type: str = None
-    # fixed_charge: bool = False
-    # variable_rate: int = None
-    # introductory_rate: int = None
-    # introductory_price_value: float = None
-    # enrollment_fee: float = None
-    # contract_term: str = "0"
-    # early_termination_fee: int = 0
-    # automatic_renewal_type: str = None
-    # automatic_renewal_detail: str = None
-    # percent_renewable: int = 0
-    # renewable_description: str = None
-    # incentives_special_terms: str = None
-    # incumbent_flag: bool = False
-    # estimated_cost: float = 0
-    # other_product_service: str = None
-    # # Making the zipcode a string because of preceeding zeros
-    # zipcode: str = None
-    # date_downloaded: str = str(datetime.today())
-    # tdu_service_territory: str = None
-    # plan_name: str = None
-    # variable_rate_500: float = 0.0
-    # variable_rate_1000: float = 0.0
-    # variable_rate_2000: float = 0.0
 
     def __init__(self, row_data):
         """
         Constructor for the class for the Plan
         :param row_data: type Python dictionary
         """
-        # for some reason this block raises a KeyError when I run download()... I just commented it out for now until theres abetter solution
         """
         if isinstance(row_data, dict):
             self.supplier_name = row_data['[RepCompany]']
@@ -114,8 +87,6 @@ class Plan:
             self.variable_rate_1000 = row_data['[kwh1000]']
             self.variable_rate_2000 = row_data['[kwh2000]']
         """
-
-        # (alan) one variable for every single column in the csv
         self.idKey = row_data.get("[idKey]")
         self.TduCompanyName = row_data.get("[TduCompanyName]")
         self.RepCompany = row_data.get("[RepCompany]")
@@ -164,14 +135,22 @@ def parse_csv(filepath):
 
 
 def download(filepath):
-    # df2 is a slight variation of the df object above (I think?) We're iterating over each of the plans in df2, using their
-    #   FactsURL to download the pdf's (with idKey as the name). This is done with the help of scrapeHelper and pdfReader from
-    #   last semester's PTC, which isn't fully robust yet. Note that line 130 of scrapeHelper depends on the location of wkhtmltopdf
-    #   and as such may need to be changed from person to person.
+    """
+    Alan Comments: df2 is a slight variation of the df object above (I think?) We're iterating
+    over each of the plans in df2, using their FactsURL to download the pdfs (with idKey as the
+    name)
+
+    :param filepath:
+    :return:
+    """
     df2 = pd.DataFrame(pd.read_csv(filepath))
+    df2 = df2[df2['[Language]'] == 'English']
+    df2.to_csv("master_data_en.csv", index=False)
     data_dict2 = df2.to_dict('records')
-    for d in data_dict2:
+
+    for d in tqdm(data_dict2, desc="PDF Downloading"):
         plan = Plan(d)
+        block_print()
         download_pdf(pdf_url=plan.FactsURL, plan=plan)
 
 
@@ -182,25 +161,20 @@ def map_zipcode():
     for each of the plans in the input CSV -
     :return: the mapping
     """
-    # TODO add the mapping to the CSV/ integrate this mapping to the data
-    zipcodes = [75001, 75002, 71230, 75014, 75015, 75159, 75150]
-    id_zipcode_map = API(zipcodes).id_zipcode_map
-    edit_csv('master_data.csv', 'master_data_withZipcodes.csv', id_zipcode_map)
-
     # api key has 250 lookups per month
-    response = requests.get(
-        "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
-    allZips = response.json()
-    print(allZips)
-    id_zipcode_map2 = API(allZips).id_zipcode_map
-    print(id_zipcode_map2)
-    edit_csv('master_data.csv', 'master_data_withZipcodes.csv', id_zipcode_map2)
+    response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
+                            "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
+    all_zipcodes = response.json()
+    print(all_zipcodes)
+    id_zipcode_map = API(all_zipcodes).id_zipcode_map
+    print(id_zipcode_map)
+    edit_csv('master_data.csv', 'master_data_withZipcodes.csv', id_zipcode_map)
     return id_zipcode_map
 
 
 def edit_csv(file, edited_file, id_zipcode_map):
     with open(file, 'r', encoding='utf-8') as read_obj, \
-      open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
+            open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
         csv_reader = csv.reader(read_obj, delimiter=',')
         csv_writer = csv.writer(write_obj)
         for row in csv_reader:
@@ -215,5 +189,6 @@ def edit_csv(file, edited_file, id_zipcode_map):
 if __name__ == '__main__':
     # parse_csv("master_data.csv")
     # download("master_data.csv")
-    # map_zipcode()
-    parse_csv("master_data_withZipcodes.csv")
+    block_print()
+    map_zipcode()
+    # parse_csv("master_data_withZipcodes.csv")

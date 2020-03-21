@@ -2,6 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import bs4
 import os
+import warnings
+from urllib3.exceptions import InsecureRequestWarning
+from requests.exceptions import MissingSchema
+
 
 PDF_ROOT = "PDFs/"
 
@@ -32,10 +36,15 @@ def download_pdf(pdf_url, plan):
     print(f"Trying to fetch ID {plan.idKey} and URL {pdf_url} ")
     try:
         # if website does not throw a SSLError
-        response = requests.get(url=pdf_url, stream=True)
+        try:
+            response = requests.get(url=pdf_url, stream=True)
+        except MissingSchema:
+            print("\t Invalid URL: ", pdf_url)
+            return False
     except requests.exceptions.SSLError:
-        # If it does then, you set verify=False in the argument list for GET
+        # If it throws SSLError, you set verify=False in the argument list for GET
         print(f"\t SSL Error for {plan.idKey}")
+        warnings.simplefilter('ignore', InsecureRequestWarning)
         response = requests.get(url=pdf_url, stream=True, verify=False)
 
     # content type for finding if its HTML or PDF
@@ -44,7 +53,6 @@ def download_pdf(pdf_url, plan):
     if 'text/html' in content_type:
         print(f"\t Fetching an HTML")
         soup = BeautifulSoup(response.text, 'html.parser')
-
         if "neccoopenergy" in pdf_url:
             print("\t Fetching a Neccoopenergy PDF file. ")
             try:
