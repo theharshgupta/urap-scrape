@@ -1,0 +1,70 @@
+date_downloaded,TDU_service_territory,supplier_name,plan_id,incumbent_flag,plan_order_rank,contract_term_1,contract_term_2,early_termination_fee,enrollment_fee,percent_renewable,rate_type,variable_rate_1,variable_rate_2,fixed_charge,additional_incentives,enroll_online,new_customer_only,estimated_monthly_cost,estimated_savings
+2020-03-24,UIResidentialCustomers,UIResidentialCustomers,54649,True,0,,,0.00,0.00,0.29,Fixed,0.1056,,0.00,"Fixed until June 30, 2020.",False,False,79.20,0.00
+2020-03-24,UIResidentialCustomers,Town Square Energy,118246,False,1,8,,0.00,0.00,0.29,Fixed,0.0727,,0.00,,False,False,54.53,24.68
+2020-03-24,UIResidentialCustomers,"Clearview Electric, Inc.",118366,False,2,6,,50.00,0.00,1.00,Fixed,0.0729,,0.00,,True,False,54.68,24.53
+2020-03-24,UIResidentialCustomers,"Public Power, LLC (EA)",118176,False,3,9,,0.00,0.00,0.29,Fixed,0.0729,,0.00,,True,True,54.68,24.53
+2020-03-24,UIResidentialCustomers,"Clearview Electric, Inc.",117541,False,4,9,,50.00,0.00,1.00,Fixed,0.0739,,0.00,,True,False,55.43,23.78
+2020-03-24,UIResidentialCustomers,"Starion Energy, Inc.",117596,False,5,9,,0.00,0.00,0.29,Fixed,0.0739,,0.00,,False,True,55.43,23.78
+2020-03-24,UIResidentialCustomers,Sunwave Gas &amp; Power,118461,False,6,6,,50.00,0.00,0.29,Fixed,0.0744,,0.00,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,False,False,55.82,23.39
+2020-03-24,UIResidentialCustomers,"Public Power, LLC (EA)",118186,False,7,9,,0.00,0.00,0.29,Fixed,0.0349,,30.00,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",True,True,26.18,23.03
+2020-03-24,UIResidentialCustomers,"Public Power, LLC (EA)",118181,False,8,9,,0.00,0.00,0.29,Fixed,0.0579,,12.95,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",True,True,43.43,22.83
+2020-03-24,UIResidentialCustomers,"Verde Energy USA, Inc.",118406,False,9,6,,0.00,0.00,1.00,Fixed,0.0769,,0.00,,True,True,57.68,21.53
+2020-03-24,UIResidentialCustomers,"Public Power, LLC",117936,False,10,4,,50.00,0.00,0.29,Fixed,0.0770,,0.00,,False,False,57.75,21.46
+2020-03-24,UIResidentialCustomers,Direct Energy,117646,False,11,8,,0.00,0.00,0.29,Fixed,0.0779,,0.00,,True,True,58.43,20.78
+2020-03-24,UIResidentialCustomers,Town Square Energy,118666,False,12,36,,50.00,0.00,0.29,Fixed,0.0799,,0.00,,False,False,59.93,19.28
+2020-03-24,UIResidentialCustomers,"Liberty Power Holdings, LLC",118586,False,13,36,,50.00,0.00,0.29,Fixed,0.0808,,0.00,,True,False,60.60,18.61
+2020-03-24,UIResidentialCustomers,Sunwave Gas &amp; Power,118456,False,14,12,,50.00,0.00,0.29,Fixed,0.0808,,0.00,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,False,False,60.60,18.61
+2020-03-24,UIResidentialCustomers,"Liberty Power Holdings, LLC",118581,False,15,36,,50.00,0.00,1.00,Fixed,0.0829,,0.00,Contact supplier for renewable energy information.,False,False,62.18,17.03
+2020-03-24,UIResidentialCustomers,Town Square Energy,118421,False,16,12,,0.00,0.00,0.29,Fixed,0.0837,,0.00,,False,False,62.78,16.43
+2020-03-24,UIResidentialCustomers,"Clearview Electric, Inc.",111631,False,17,12,,50.00,0.00,1.00,Fixed,0.0839,,0.00,,True,False,62.93,16.28
+2020-03-24,UIResidentialCustomers,"Starion Energy, Inc.",114126,False,18,12,,0.00,0.00,0.29,Fixed,0.0849,,0.00,,False,True,63.68,15.53
+2020-03-24,UIResidentialCustomers,Town Square Energy,115966,False,19,22,,0.00,0.00,0.29,Fixed,0.0857,,0.00,,False,False,64.28,14.93
+2020-03-24,UIResidentialCustomers,North American Power,118046,False,20,10,,50.00,0.00,0.29,Fixed,0.0859,,0.00,,False,False,64.43,14.78
+2020-03-24,UIResidentialCustomers,"Public Power, LLC",117951,False,21,36,,50.00,0.00,0.29,Fixed,0.0875,,0.00,,False,False,65.63,13.58
+2020-03-24,UIResidentialCustomers,"Public Power, LLC",117946,False,22,24,,50.00,0.00,0.29,Fixed,0.0876,,0.00,,False,False,65.70,13.51
+2020-03-24,UIResidentialCustomers,Direct Energy,117621,False,23,18,,0.00,0.00,0.29,Fixed,0.0879,,0.00,,True,True,65.93,13.28
+2020-03-24,UIResidentialCustomers,North American Power,118031,False,24,12,,50.00,0.00,0.29,Fixed,0.0879,,0.00,,False,False,65.93,13.28
+2020-03-24,UIResidentialCustomers,"Starion Energy, Inc.",114131,False,25,12,,0.00,0.00,1.00,Fixed,0.0879,,0.00,Contact supplier regarding the renewable energy content of this offer.,False,True,65.93,13.28
+2020-03-24,UIResidentialCustomers,"Public Power, LLC",117941,False,26,12,,50.00,0.00,0.29,Fixed,0.0886,,0.00,,False,False,66.45,12.76
+2020-03-24,UIResidentialCustomers,"Constellation NewEnergy, Inc.",117106,False,27,36,,50.00,0.00,0.29,Fixed,0.0899,,0.00,,False,False,67.43,11.78
+2020-03-24,UIResidentialCustomers,"Verde Energy USA, Inc.",117221,False,28,12,,0.00,0.00,1.00,Fixed,0.0899,,0.00,Rebate offer.,True,True,67.43,11.78
+2020-03-24,UIResidentialCustomers,"Discount Power, Inc.",116116,False,29,9,,0.00,50.00,1.00,Fixed,0.0829,,0.00,Includes monthly online shopping/dining rewards program.,True,True,62.18,11.47
+2020-03-24,UIResidentialCustomers,Direct Energy,117626,False,30,36,,0.00,0.00,0.29,Fixed,0.0909,,0.00,,True,True,68.18,11.03
+2020-03-24,UIResidentialCustomers,Direct Energy,117616,False,31,12,,0.00,0.00,0.29,Fixed,0.0919,,0.00,,True,True,68.93,10.28
+2020-03-24,UIResidentialCustomers,Energy Rewards,118021,False,32,24,,50.00,0.00,1.00,Fixed,0.0929,,0.00,,False,False,69.68,9.53
+2020-03-24,UIResidentialCustomers,Energy Rewards,118016,False,33,12,,0.00,0.00,1.00,Fixed,0.0939,,0.00,,False,False,70.43,8.78
+2020-03-24,UIResidentialCustomers,Sunwave Gas &amp; Power,118556,False,34,5,,50.00,0.00,0.29,Fixed,0.0940,,0.00,,False,False,70.47,8.74
+2020-03-24,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117811,False,35,6,,50.00,0.00,0.29,Fixed,0.0950,,0.00,,False,False,71.25,7.96
+2020-03-24,UIResidentialCustomers,Direct Energy,117641,False,36,24,,0.00,0.00,1.00,Fixed,0.0959,,0.00,,True,True,71.93,7.28
+2020-03-24,UIResidentialCustomers,"Discount Power, Inc.",116121,False,37,9,,50.00,0.00,1.00,Fixed,0.0959,,0.00,Includes monthly online shopping/dining rewards program.,True,True,71.93,7.28
+2020-03-24,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117701,False,38,12,,50.00,0.00,0.50,Fixed,0.0959,,0.00,,False,False,71.93,7.28
+2020-03-24,UIResidentialCustomers,"Major Energy Electric Services, LLC",118131,False,39,24,,0.00,0.00,0.29,Fixed,0.0969,,0.00,,True,True,72.68,6.53
+2020-03-24,UIResidentialCustomers,"Starion Energy, Inc.",118481,False,40,8,,0.00,0.00,1.00,Fixed,0.0969,,0.00,Contact supplier regarding the renewable energy content of this offer.,False,True,72.68,6.53
+2020-03-24,UIResidentialCustomers,"Viridian Energy, LLC",118056,False,41,24,,50.00,0.00,0.50,Fixed,0.0976,,0.00,,False,False,73.20,6.01
+2020-03-24,UIResidentialCustomers,"Major Energy Electric Services, LLC",118121,False,42,12,,0.00,0.00,0.29,Fixed,0.0979,,0.00,,True,True,73.43,5.78
+2020-03-24,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117711,False,43,12,,50.00,0.00,0.29,Fixed,0.0979,,0.00,Supplier will make a charitable donation based on customer usage. Contact XOOM for details.,False,False,73.43,5.78
+2020-03-24,UIResidentialCustomers,"Viridian Energy, LLC",118051,False,44,12,,50.00,0.00,0.50,Fixed,0.0986,,0.00,,False,False,73.95,5.26
+2020-03-24,UIResidentialCustomers,"Major Energy Electric Services, LLC",118151,False,45,24,,0.00,0.00,1.00,Fixed,0.0989,,0.00,,True,True,74.18,5.03
+2020-03-24,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117841,False,46,18,,50.00,0.00,0.29,Fixed,0.0990,,0.00,,False,False,74.25,4.96
+2020-03-24,UIResidentialCustomers,Ambit Energy,114311,False,47,6,,0.00,0.00,0.29,Fixed,0.0995,,0.00,,False,False,74.63,4.58
+2020-03-24,UIResidentialCustomers,"Constellation NewEnergy, Inc.",117686,False,48,12,,50.00,0.00,0.29,Fixed,0.0999,,0.00,,False,False,74.93,4.28
+2020-03-24,UIResidentialCustomers,"Major Energy Electric Services, LLC",118141,False,49,12,,0.00,0.00,1.00,Fixed,0.0999,,0.00,,True,True,74.93,4.28
+2020-03-24,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117706,False,50,12,,50.00,0.00,0.29,Fixed,0.0999,,0.00,,False,False,74.93,4.28
+2020-03-24,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117731,False,51,18,,50.00,0.00,0.29,Fixed,0.0999,,0.00,,False,False,74.93,4.28
+2020-03-24,UIResidentialCustomers,Think Energy,113541,False,52,24,,45.00,0.00,1.00,Fixed,0.1000,,0.00,,False,True,75.00,4.21
+2020-03-24,UIResidentialCustomers,"Constellation NewEnergy, Inc.",117691,False,53,12,,50.00,0.00,1.00,Fixed,0.1019,,0.00,,False,False,76.43,2.78
+2020-03-24,UIResidentialCustomers,Think Energy,113531,False,54,12,,45.00,0.00,1.00,Fixed,0.1070,,0.00,,False,True,80.25,-1.04
+2020-03-24,UIResidentialCustomers,Think Energy,113536,False,55,18,,45.00,0.00,1.00,Fixed,0.1070,,0.00,,False,True,80.25,-1.04
+2020-03-24,UIResidentialCustomers,"Clearview Electric, Inc.",82371,False,56,12,,50.00,0.00,1.00,Fixed,0.1079,,0.00,"Electric vehicle charger rebate and free weekend EV charging, not to exceed 250 kWhrs per month. Contact supplier for details.",False,False,80.93,-1.72
+2020-03-24,UIResidentialCustomers,"Discount Power, Inc.",115346,False,57,36,,50.00,0.00,1.00,Fixed,0.1080,,0.00,Includes monthly online shopping/dining rewards program.,True,True,81.00,-1.79
+2020-03-24,UIResidentialCustomers,"Discount Power, Inc.",115341,False,58,24,,50.00,0.00,1.00,Fixed,0.1089,,0.00,Includes monthly online shopping/dining rewards program.,True,True,81.68,-2.47
+2020-03-24,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117826,False,59,36,,50.00,0.00,1.00,Fixed,0.1090,,0.00,,False,False,81.75,-2.54
+2020-03-24,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117821,False,60,24,,50.00,0.00,1.00,Fixed,0.1098,,0.00,,False,False,82.35,-3.14
+2020-03-24,UIResidentialCustomers,Ambit Energy,114301,False,61,12,,0.00,0.00,0.29,Fixed,0.1100,,0.00,,False,False,82.50,-3.29
+2020-03-24,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117816,False,62,12,,50.00,0.00,1.00,Fixed,0.1110,,0.00,,False,False,83.25,-4.04
+2020-03-24,UIResidentialCustomers,"Liberty Power Holdings, LLC",118576,False,63,24,,50.00,0.00,1.00,Fixed,0.1124,,0.00,Contact supplier for renewable energy information.,False,False,84.30,-5.09
+2020-03-24,UIResidentialCustomers,Think Energy,113526,False,64,6,,45.00,0.00,1.00,Fixed,0.1140,,0.00,,False,True,85.50,-6.29
+2020-03-24,UIResidentialCustomers,Town Square Energy,97701,False,65,12,,0.00,0.00,1.00,Fixed,0.1189,,0.00,,False,False,89.18,-9.97
+2020-03-24,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117846,False,66,48,,50.00,0.00,1.00,Fixed,0.1200,,0.00,,False,False,90.00,-10.79
+2020-03-24,UIResidentialCustomers,"Choice Energy, LLC",115191,False,67,24,,50.00,0.00,0.29,Fixed,0.1299,,0.00,"Effective 1/1/2020.   Offered until 12/31/2020, but may expire earlier at supplier's discretion.",False,True,97.43,-18.22
+2020-03-24,UIResidentialCustomers,Ambit Energy,114316,False,68,12,,0.00,0.00,1.00,Fixed,0.1300,,0.00,,False,False,97.50,-18.29
