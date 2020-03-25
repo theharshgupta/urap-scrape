@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import time
 import bs4 as bs
 
 driver = webdriver.Chrome()
@@ -24,16 +25,25 @@ close_button.click()
 
 
 action = ActionChains(driver)
-test_button = driver.find_element_by_class_name("compare_button1")
-action.move_to_element(test_button).perform()
-action.click(test_button).perform()
+
 
 lists = driver.find_elements_by_class_name("compare_button1")
 count = 0
 
 for test_button1 in lists:
     action.move_to_element(test_button1).perform()
-    action.click(test_button1).perform()
+    #action.click(test_button1).perform()
+    #while True:
+        #try:
+            #close = driver.find_element_by_class_name("ui-button-icon-primary ui-icon ui-icon-closethick")
+            #close2 = driver.find_element_by_class_name("ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close")
+
+            #action.move_to_element(close2).perform()
+            #action.click(close2).perform()
+            #break
+        #except Exception:
+            #time.sleep(3)
+            #print("wait")
     count += 1
     print(count)
 
