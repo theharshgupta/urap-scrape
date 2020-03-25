@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import bs4 as bs
@@ -21,6 +22,21 @@ WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.CLASS_NAME, 
 close_button = driver.find_element_by_class_name("clostPopup")
 close_button.click()
 
+
+action = ActionChains(driver)
+test_button = driver.find_element_by_class_name("compare_button1")
+action.move_to_element(test_button).perform()
+action.click(test_button).perform()
+
+lists = driver.find_elements_by_class_name("compare_button1")
+count = 0
+
+for test_button1 in lists:
+    action.move_to_element(test_button1).perform()
+    action.click(test_button1).perform()
+    count += 1
+    print(count)
+
 # Get the html
 html = driver.page_source
 
@@ -34,4 +50,3 @@ with open("out.html","w") as out:
         except Exception:
             1+1
 
-print(html)

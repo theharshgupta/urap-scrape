@@ -1,5 +1,4 @@
 import bs4 as bs
-<<<<<<< HEAD
 from selenium import webdriver
 import urllib.request
 import time
