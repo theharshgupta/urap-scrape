@@ -36,7 +36,7 @@ def varRate(row):
     return rates
 
 #fill suppliers with suppliers that have supplier information as instance variables
-def fill_suppliers():
+def fill_suppliers(suppliers, soup):
     table = soup.find_all('table', class_ = "nice_table responsive highlight_table display nowrap")[0]
     first = True
     planNum = 0
@@ -83,24 +83,24 @@ def fill_suppliers():
         planNum+=1
         suppliers.append(Supplier(info))
 
-def write_to_csv():
-    with open("TDU_ES.csv", mode='w') as csv_file:
+def write_to_csv(supplier, suppliers):
+    dateStr = date.today()
+    with open("./data/TDU_" + supplier + "_" + str(date.today()).replace("-", "_") + ".csv", mode='w') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())
         for supplier in suppliers:
             writer.writerow(supplier.info.values())
 
 
-
-#store all information as instance variables
+#store all information in a dictionary
 class Supplier:
     info = {}
     def __init__(self, info):
         self.info = info
 
-with open('es.html') as html:
-    soup = bs.BeautifulSoup(html, 'html.parser')
-
-suppliers = []
-fill_suppliers()
-write_to_csv()
+def run(supplier):
+    with open("./data/" + supplier + '.html') as html:
+        soup = bs.BeautifulSoup(html, 'html.parser')
+    suppliers = []
+    fill_suppliers(suppliers, soup)
+    write_to_csv(supplier, suppliers)
