@@ -58,7 +58,8 @@ def check_unique():
     print(f"The number of zipcodes checking for unique are :: ", len(all_files))
     for filename in all_files:
         df = pd.read_csv(filename, index_col=None,
-                         header=0, encoding='utf-8', float_precision='round_trip')
+                         header=0, encoding='utf-8',
+                         float_precision='round_trip')
         li.append(df)
 
     df = pd.concat(li, axis=0, ignore_index=True)
@@ -85,6 +86,9 @@ def diff_checker(old_file, new_file):
     :return: boolean true or false
     """
     from difflib import SequenceMatcher
+    print(old_file)
+    print(new_file)
+    exit()
 
     text1 = open(old_file).read()
     text2 = open(new_file).read()
@@ -103,7 +107,6 @@ def diff_checker(old_file, new_file):
     m = SequenceMatcher(None, text1, text2)
     print(f"\t Similarity between {old_file} and {new_file} :: {m.ratio()}")
     exit()
-
 
 
 def convert_cents_to_dollars(x):
@@ -130,14 +133,16 @@ def get_distribution_companies(zipcode):
     """
     post_data_1 = dict(customerClassId=1,
                        zipCode=str(zipcode))
-    r = requests.post("http://www.energyswitchma.gov/consumers/distributioncompaniesbyzipcode",
-                      data=post_data_1)
+    r = requests.post(
+        "http://www.energyswitchma.gov/consumers/distributioncompaniesbyzipcode",
+        data=post_data_1)
     jsonify_r = json.loads(r.text)
     # jsonify_r is a list of Python Dictionary each containing info about the TDU
     return jsonify_r
 
 
-def update_tracking(zipcode: str, is_new_entry: bool, timestamp: str, filename: str):
+def update_tracking(zipcode: str, is_new_entry: bool, timestamp: str,
+                    filename: str):
     """
     This function updates the tracking for each zipcode
     :param zipcode: zipcode
@@ -185,41 +190,55 @@ def get_suppliers(zipcode):
                              monthlyUsage=600,
                              zipCode=zipcode)
             # Making the second request, now to get the supplier's list for that particular TDU
-            r2 = requests.post("http://www.energyswitchma.gov/consumers/compare", data=post_data)
+            r2 = requests.post(
+                "http://www.energyswitchma.gov/consumers/compare",
+                data=post_data)
             suppliers_list = json.loads(r2.text)
             # Creating a Dataframe (a table like format) for easier analysis and exporting to CSV
             df = pd.DataFrame.from_dict(suppliers_list)
             # Mentioning the columns we want
-            df = df[['supplierName', 'pricingStructureDescription', 'pricePerMonth', 'pricePerUnit',
-                     'introductoryPrice', 'introductoryPrice', 'enrollmentFee', 'contractTerm',
-                     'earlyTerminationDetailExport',
-                     'hasAutomaticRenewal', 'automaticRenewalDetail',
-                     'renewableEnergyProductPercentage', 'renewableEnergyProductDetail',
-                     'otherProductServicesDetail',
-                     'isDistributionCompany', 'estimatedCost', 'otherProductServices']]
+            df = df[
+                ['supplierName', 'pricingStructureDescription', 'pricePerMonth',
+                 'pricePerUnit',
+                 'introductoryPrice', 'introductoryPrice', 'enrollmentFee',
+                 'contractTerm',
+                 'earlyTerminationDetailExport',
+                 'hasAutomaticRenewal', 'automaticRenewalDetail',
+                 'renewableEnergyProductPercentage',
+                 'renewableEnergyProductDetail',
+                 'otherProductServicesDetail',
+                 'isDistributionCompany', 'estimatedCost',
+                 'otherProductServices']]
             # Adding zipcode column to the Dataframe
             df["Zipcode"] = zipcode
             # Adding timestamp column to the Dataframe
             df["Date_Downloaded"] = timestamp_start.strftime('%m/%d/%y %H:%M')
             df['TDU_Service_Territory'] = company_name
             # Change column/header names as per convention
-            df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge', 'Variable_Rate',
+            df.columns = ['Supplier_Name', 'Rate_Type', 'Fixed_Charge',
+                          'Variable_Rate',
                           'Introductory_Rate',
-                          'Introductory_Price_Value', 'Enrollment_Fee', 'Contract_Term',
+                          'Introductory_Price_Value', 'Enrollment_Fee',
+                          'Contract_Term',
                           'Early_Termination_Fee', 'Automatic_Renewal_Type',
                           'Automatic_Renewal_Detail',
-                          'Percent_Renewable', 'Renewable_Description', 'Incentives_Special_Terms',
+                          'Percent_Renewable', 'Renewable_Description',
+                          'Incentives_Special_Terms',
                           'Incumbent_Flag',
-                          'Estimated_Cost', 'Other_Product_Services', 'Zipcode', 'Date_Downloaded',
+                          'Estimated_Cost', 'Other_Product_Services', 'Zipcode',
+                          'Date_Downloaded',
                           'TDU_Service_Territory']
             # Modifying variable rate column to convert to dollars
-            df['Variable_Rate'] = df['Variable_Rate'].apply(convert_cents_to_dollars)
+            df['Variable_Rate'] = df['Variable_Rate'].apply(
+                convert_cents_to_dollars)
             # Adding the introductory_rate column based on introductory_rate_value column
             df['Introductory_Rate'] = df['Introductory_Price_Value'].apply(
                 lambda x: True if x else False)
 
-            timestamp_filename_format = timestamp_start.strftime('%m%d%y_%H_%M_%S')
-            file_zipcode_ci = glob.glob(f'results_MA/{zipcode}_CI{company_id}*.csv')
+            timestamp_filename_format = timestamp_start.strftime(
+                '%m%d%y_%H_%M_%S')
+            file_zipcode_ci = glob.glob(
+                f'results_MA/{zipcode}_CI{company_id}*.csv')
             print(f"\t {file_zipcode_ci}")
             zipcode_filename = f'results_MA/{zipcode}_CI{company_id}_{timestamp_filename_format}.csv'
 
@@ -234,33 +253,33 @@ def get_suppliers(zipcode):
 
                 diff_checker(buffer_file, file_zipcode_ci[0])
 
-                """
-                df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
-                
-                df_previous.__delitem__('Date_Downloaded')
-                df_new.__delitem__('Date_Downloaded')
-                df_previous.__delitem__('Zipcode')
-                df_new.__delitem__('Zipcode')
+                # df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
+                #
+                # df_previous.__delitem__('Date_Downloaded')
+                # df_new.__delitem__('Date_Downloaded')
+                # # Remoce zipcode
+                # df_previous.__delitem__('Zipcode')
+                # df_new.__delitem__('Zipcode')
+                #
+                # if not df_previous.equals(df_new):
+                #     print("\tWriting to a new file: ", zipcode_filename)
+                #     df.to_csv(zipcode_filename, index=False, float_format="%.3f")
+                #     print("\t Updating tracking ...")
+                #     update_tracking(zipcode=zipcode,
+                #                     is_new_entry=False,
+                #                     timestamp=timestamp_start.strftime('%m/%d/%y %H:%M'),
+                #                     filename=zipcode_filename)
+                # else:
+                #     print("\t Previously scraped, no updates found.")
 
-                if not df_previous.equals(df_new):
-                    print("\tWriting to a new file: ", zipcode_filename)
-                    df.to_csv(zipcode_filename, index=False, float_format="%.3f")
-                    print("\t Updating tracking ...")
-                    update_tracking(zipcode=zipcode,
-                                    is_new_entry=False,
-                                    timestamp=timestamp_start.strftime('%m/%d/%y %H:%M'),
-                                    filename=zipcode_filename)
-                else:
-                    print("\t Previously scraped, no updates found.")
-
-                """
             else:
                 print("\t Writing to a new file: ", zipcode_filename)
                 df.to_csv(zipcode_filename, index=False, float_format="%.3f")
                 print("\t Updating tracking ...")
                 update_tracking(zipcode=zipcode,
                                 is_new_entry=True,
-                                timestamp=timestamp_start.strftime('%m/%d/%y %H:%M'),
+                                timestamp=timestamp_start.strftime(
+                                    '%m/%d/%y %H:%M'),
                                 filename=zipcode_filename)
 
             return True
@@ -298,10 +317,12 @@ def scrape():
 
     if not Path('run_history.txt').is_file():
         with open('run_history.txt', 'w') as run_file:
-            run_file.write(datetime.today().strftime('%m/%d/%y %H:%M:%S') + f", {success}")
+            run_file.write(
+                datetime.today().strftime('%m/%d/%y %H:%M:%S') + f", {success}")
     else:
         with open('run_history.txt', 'a', newline='') as run_file:
-            run_file.write("\n" + datetime.today().strftime('%m/%d/%y %H:%M:%S') + f", {success}")
+            run_file.write("\n" + datetime.today().strftime(
+                '%m/%d/%y %H:%M:%S') + f", {success}")
 
     if Path('results_MA/trash.csv').is_file():
         os.remove('results_MA/trash.csv')
@@ -311,6 +332,7 @@ def scrape():
 
 
 scrape()
+
 # try:
 #     # [ACTION REQUIRED] Select which function you want to run
 #     scrape()
@@ -318,4 +340,5 @@ scrape()
 # except Exception as err:
 #     # Send email
 #     error_traceback = traceback.extract_tb(err.__traceback__)
-#     send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")
+#     send_email(
+#         body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")

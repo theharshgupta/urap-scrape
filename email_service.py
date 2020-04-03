@@ -1,15 +1,12 @@
 import smtplib, ssl
 import json
 
-
 def send_email(body):
     import smtplib
     with open('..\credentials.json') as f:
        credentials = json.load(f)
     gmail_user = credentials['email']
     gmail_password = credentials['password']
-    print(gmail_password)
-    print(gmail_user)
 
     sent_from = gmail_user
     to = ['harsh@berkeley.edu']
@@ -27,5 +24,3 @@ def send_email(body):
         print('EMAIL SENT')
     except Exception as e:
         print("Err, something went wrong \n ", e)
-
-
