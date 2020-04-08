@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 from datetime import date
 import bs4 as bs
 
@@ -45,7 +46,7 @@ def fill_suppliers(suppliers, soup):
     for row in iterator:
         info = {}
         rowString = str(row)
-        info["date_downloaded"] = date.today()
+        info["date_downloaded"] = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
         if row.attrs['style'] == "display: none;":
             continue
         service = getValue(rowString, "data-ratetitle")
@@ -84,8 +85,8 @@ def fill_suppliers(suppliers, soup):
         suppliers.append(Supplier(info))
 
 def write_to_csv(supplier, suppliers):
-    dateStr = date.today()
-    with open("./data/TDU_" + supplier + "_" + str(date.today()).replace("-", "_") + ".csv", mode='w') as csv_file:
+    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H:%M"))
+    with open("./data/TDU_" + supplier + "_" + dateStr + ".csv", mode='w') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())
         for supplier in suppliers:
