@@ -1,7 +1,7 @@
 import bs4 as bs
 from datetime import date
 import csv
-
+import datetime
 
 class Supplier:
     info = {}
@@ -31,6 +31,18 @@ def write_to_csv():
         for supplier in suppliers:
             writer.writerow(supplier.info.values())
 
+def find_all_indexes(input_str, search_str):
+    l1 = []
+    length = len(input_str)
+    index = 0
+    while index < length:
+        i = input_str.find(search_str, index)
+        if i == -1:
+            return l1
+        l1.append(i)
+        index = i + 1
+    return l1
+
 
 
 def fill_suppliers():
@@ -38,8 +50,10 @@ def fill_suppliers():
     first = True
     planNum = 0
     iterator = iter(table.find_all('tr'))
+    year = datetime.date.today().year - 1
     next(iterator) #skip first entry, which is a header
     for row in iterator:
+        counter = 0
         info = {}
         rowString = str(row)
         info["date_downloaded"] = date.today()
@@ -53,13 +67,29 @@ def fill_suppliers():
             info["supplier_name"] = getValue(rowString, "data-friendly-name")
         info["plan_id"] = getValue(rowString, "id=\"plan-", 0)
         curr_id = info["plan_id"]
-        if soup.find(id = "low_value_" + curr_id):
-            info["past_low_value"] =  soup.find(id = "low_value_" + curr_id)
-            info["past_high_value"] =  soup.find(id = "high_value_" + curr_id)
+        curr_low = soup.find(id = "low_value_" + curr_id)
+        if curr_low and curr_low['value'].find(str(year)) != -1:
+            indexes = find_all_indexes(curr_low['value'],str(year))
+            indexes_2 = find_all_indexes(curr_low['value'],str(year+1))
+            low_list = []
+            for i in indexes:
+                low_list.append(curr_low['value'][i + 19: i + 23])
+            for i in indexes_2:
+                low_list.append(curr_low['value'][i + 19: i + 23])
+            info["past_low_value"] =  low_list
+            curr_high = soup.find(id = "low_value_" + curr_id)['value']
+            indexes = find_all_indexes(curr_high,str(year))
+            indexes_2 = find_all_indexes(curr_high,str(year+1))
+            high_list = []
+            for i in indexes:
+                high_list.append(curr_high[i + 19: i + 23])
+            for i in indexes_2:
+                high_list.append(curr_high[i + 19: i + 23])
+            info["past_high_value"] =  high_list
             planNum += 1
             first = False
             suppliers.append(Supplier(info))
 
 fill_suppliers()
-write_to_csv()
 
+write_to_csv()
