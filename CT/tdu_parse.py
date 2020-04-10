@@ -2,6 +2,8 @@ import csv
 from datetime import datetime
 from datetime import date
 import bs4 as bs
+from csv_diff import load_csv, compare
+import os
 
 #get's the value of an attribute using a certain offset (described below)
 def getValue(string, sub, offset=2):
@@ -84,13 +86,33 @@ def fill_suppliers(suppliers, soup):
         planNum+=1
         suppliers.append(Supplier(info))
 
+#writes all info into a csv
 def write_to_csv(supplier, suppliers):
-    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H:%M"))
+    dateStr = str(datetime.now().strftime("%m_%d_%Y"))
     with open("./data/TDU_" + supplier + "_" + dateStr + ".csv", mode='w') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())
-        for supplier in suppliers:
-            writer.writerow(supplier.info.values())
+        for s in suppliers:
+            writer.writerow(s.info.values())
+    diff_check(supplier)
+
+#deletes if there is no variation in plan_id from the last csv from the same supplier
+def diff_check(supplier):
+    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
+    for i in range(len(files)):
+        if supplier in str(files[i]):
+            now = files[i]
+            for j in range(i+1, len(files)):
+                if supplier in str(files[j]):
+                    recent = files[j]
+                    break
+            break
+    diff = compare(load_csv(open("./data/" + now), key="plan_id"), load_csv(open("./data/" + recent), key="plan_id"))
+    if diff['added'] == [] or diff['removed'] == []:
+        os.remove("./data/" + now)
+        print('deleted')
+    print(diff.keys())
+    print(now, recent)
 
 
 #store all information in a dictionary

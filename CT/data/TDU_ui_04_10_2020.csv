@@ -1,0 +1,70 @@
+date_downloaded,TDU_service_territory,supplier_name,plan_id,incumbent_flag,plan_order_rank,contract_term_1,contract_term_2,early_termination_fee,enrollment_fee,percent_renewable,rate_type,variable_rate_1,variable_rate_2,fixed_charge,additional_incentives,enroll_online,new_customer_only,estimated_monthly_cost,estimated_savings
+,UIResidentialCustomers,UIResidentialCustomers,54649,TRUE,0,,,0,0,0.29,Fixed,0.1056,,0,"Fixed until June 30, 2020.",FALSE,FALSE,79.2,0
+,UIResidentialCustomers,Town Square Energy,119601,FALSE,1,6,,50,0,0.29,Fixed,0.0692,,0,,FALSE,FALSE,51.9,27.31
+,UIResidentialCustomers,Sunwave Gas &amp; Power,119581,FALSE,2,6,,50,0,0.29,Fixed,0.0693,,0,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,FALSE,FALSE,51.94,27.27
+,UIResidentialCustomers,"Liberty Power Holdings, LLC (EA)",119831,FALSE,3,6,,50,0,0.29,Fixed,0.0709,,0,$25 Gift Card Offer upon completion of plan's 5th billing cycle.,FALSE,FALSE,53.18,26.03
+,UIResidentialCustomers,Town Square Energy,119401,FALSE,4,7,,0,0,0.29,Fixed,0.0711,,0,,FALSE,FALSE,53.33,25.88
+,UIResidentialCustomers,"Public Power, LLC (EA)",119371,FALSE,5,8,,0,0,0.29,Fixed,0.0539,,12.95,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",TRUE,TRUE,40.43,25.83
+,UIResidentialCustomers,"Public Power, LLC (EA)",119376,FALSE,6,8,,0,0,0.29,Fixed,0.0319,,30,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",TRUE,TRUE,23.92,25.29
+,UIResidentialCustomers,"Public Power, LLC (EA)",119366,FALSE,7,8,,0,0,0.29,Fixed,0.0719,,0,,TRUE,TRUE,53.93,25.28
+,UIResidentialCustomers,"Verde Energy USA, Inc.",119716,FALSE,8,6,,0,0,1,Fixed,0.0719,,0,,TRUE,TRUE,53.93,25.28
+,UIResidentialCustomers,"Clearview Electric, Inc.",118366,FALSE,9,6,,50,0,1,Fixed,0.0729,,0,,TRUE,FALSE,54.68,24.53
+,UIResidentialCustomers,"Clearview Electric, Inc.",117541,FALSE,10,9,,50,0,1,Fixed,0.0739,,0,,TRUE,FALSE,55.43,23.78
+,UIResidentialCustomers,"Starion Energy, Inc.",117596,FALSE,11,9,,0,0,0.29,Fixed,0.0739,,0,,FALSE,TRUE,55.43,23.78
+,UIResidentialCustomers,"Discount Power, Inc.",119161,FALSE,12,6,,0,50,1,Fixed,0.064,,0,Includes monthly online shopping/dining rewards program.,TRUE,TRUE,48,22.88
+,UIResidentialCustomers,Direct Energy,119496,FALSE,13,8,,0,0,0.29,Fixed,0.0759,,0,,TRUE,TRUE,56.93,22.28
+,UIResidentialCustomers,"Discount Power, Inc.",119171,FALSE,14,6,,0,0,0.29,Fixed,0.076,,0,Includes monthly online shopping/dining rewards program.,TRUE,TRUE,57,22.21
+,UIResidentialCustomers,"Major Energy Electric Services, LLC",119766,FALSE,15,6,,0,0,0.29,Fixed,0.0769,,0,,TRUE,TRUE,57.68,21.53
+,UIResidentialCustomers,"Public Power, LLC",117936,FALSE,16,4,,50,0,0.29,Fixed,0.077,,0,,FALSE,FALSE,57.75,21.46
+,UIResidentialCustomers,Sunwave Gas &amp; Power,119576,FALSE,17,12,,50,0,0.29,Fixed,0.078,,0,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,FALSE,FALSE,58.46,20.75
+,UIResidentialCustomers,"Discount Power, Inc.",119166,FALSE,18,6,,0,0,1,Fixed,0.078,,0,Includes monthly online shopping/dining rewards program.,TRUE,TRUE,58.5,20.71
+,UIResidentialCustomers,Town Square Energy,119036,FALSE,19,36,,50,0,0.29,Fixed,0.0787,,0,,FALSE,FALSE,59.03,20.18
+,UIResidentialCustomers,"Liberty Power Holdings, LLC",119641,FALSE,20,36,,50,0,0.29,Fixed,0.0788,,0,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,TRUE,FALSE,59.1,20.11
+,UIResidentialCustomers,"Liberty Power Holdings, LLC",119636,FALSE,21,36,,50,0,1,Fixed,0.082,,0,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,FALSE,FALSE,61.5,17.71
+,UIResidentialCustomers,North American Power,119246,FALSE,22,14,,50,0,0.29,Fixed,0.0829,,0,,FALSE,FALSE,62.18,17.03
+,UIResidentialCustomers,Town Square Energy,118421,FALSE,23,12,,0,0,0.29,Fixed,0.0837,,0,,FALSE,FALSE,62.78,16.43
+,UIResidentialCustomers,"Clearview Electric, Inc.",111631,FALSE,24,12,,50,0,1,Fixed,0.0839,,0,,TRUE,FALSE,62.93,16.28
+,UIResidentialCustomers,Direct Energy,119471,FALSE,25,18,,0,0,0.29,Fixed,0.0849,,0,,TRUE,TRUE,63.68,15.53
+,UIResidentialCustomers,North American Power,119241,FALSE,26,12,,50,0,0.29,Fixed,0.0849,,0,,FALSE,FALSE,63.68,15.53
+,UIResidentialCustomers,"Starion Energy, Inc.",114126,FALSE,27,12,,0,0,0.29,Fixed,0.0849,,0,,FALSE,TRUE,63.68,15.53
+,UIResidentialCustomers,"Verde Energy USA, Inc.",119726,FALSE,28,12,,0,0,1,Fixed,0.0849,,0,Rebate offer.,TRUE,TRUE,63.68,15.53
+,UIResidentialCustomers,Town Square Energy,115966,FALSE,29,22,,0,0,0.29,Fixed,0.0857,,0,,FALSE,FALSE,64.28,14.93
+,UIResidentialCustomers,"Public Power, LLC",117951,FALSE,30,36,,50,0,0.29,Fixed,0.0875,,0,,FALSE,FALSE,65.63,13.58
+,UIResidentialCustomers,"Public Power, LLC",117946,FALSE,31,24,,50,0,0.29,Fixed,0.0876,,0,,FALSE,FALSE,65.7,13.51
+,UIResidentialCustomers,"Starion Energy, Inc.",114131,FALSE,32,12,,0,0,1,Fixed,0.0879,,0,Contact supplier regarding the renewable energy content of this offer.,FALSE,TRUE,65.93,13.28
+,UIResidentialCustomers,"Public Power, LLC",117941,FALSE,33,12,,50,0,0.29,Fixed,0.0886,,0,,FALSE,FALSE,66.45,12.76
+,UIResidentialCustomers,Direct Energy,119466,FALSE,34,12,,0,0,0.29,Fixed,0.0889,,0,,TRUE,TRUE,66.68,12.53
+,UIResidentialCustomers,Direct Energy,119476,FALSE,35,36,,0,0,0.29,Fixed,0.0889,,0,,TRUE,TRUE,66.68,12.53
+,UIResidentialCustomers,"Major Energy Electric Services, LLC",119756,FALSE,36,12,,0,0,0.29,Fixed,0.0909,,0,,TRUE,TRUE,68.18,11.03
+,UIResidentialCustomers,Energy Rewards,118021,FALSE,37,24,,50,0,1,Fixed,0.0929,,0,,FALSE,FALSE,69.68,9.53
+,UIResidentialCustomers,Direct Energy,119491,FALSE,38,24,,0,0,1,Fixed,0.0939,,0,,TRUE,TRUE,70.43,8.78
+,UIResidentialCustomers,Energy Rewards,118016,FALSE,39,12,,0,0,1,Fixed,0.0939,,0,,FALSE,FALSE,70.43,8.78
+,UIResidentialCustomers,Sunwave Gas &amp; Power,118556,FALSE,40,5,,50,0,0.29,Fixed,0.094,,0,,FALSE,FALSE,70.47,8.74
+,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117811,FALSE,41,6,,50,0,0.29,Fixed,0.095,,0,,FALSE,FALSE,71.25,7.96
+,UIResidentialCustomers,"Discount Power, Inc.",119176,FALSE,42,18,,50,0,1,Fixed,0.0959,,0,Includes monthly online shopping/dining rewards program.,TRUE,TRUE,71.93,7.28
+,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117701,FALSE,43,12,,50,0,0.5,Fixed,0.0959,,0,,FALSE,FALSE,71.93,7.28
+,UIResidentialCustomers,"Starion Energy, Inc.",118481,FALSE,44,8,,0,0,1,Fixed,0.0969,,0,Contact supplier regarding the renewable energy content of this offer.,FALSE,TRUE,72.68,6.53
+,UIResidentialCustomers,"Viridian Energy, LLC",118056,FALSE,45,24,,50,0,0.5,Fixed,0.0976,,0,,FALSE,FALSE,73.2,6.01
+,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117711,FALSE,46,12,,50,0,0.29,Fixed,0.0979,,0,Supplier will make a charitable donation based on customer usage. Contact XOOM for details.,FALSE,FALSE,73.43,5.78
+,UIResidentialCustomers,"Viridian Energy, LLC",118051,FALSE,47,12,,50,0,0.5,Fixed,0.0986,,0,,FALSE,FALSE,73.95,5.26
+,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117841,FALSE,48,18,,50,0,0.29,Fixed,0.099,,0,,FALSE,FALSE,74.25,4.96
+,UIResidentialCustomers,Ambit Energy,114311,FALSE,49,6,,0,0,0.29,Fixed,0.0995,,0,,FALSE,FALSE,74.63,4.58
+,UIResidentialCustomers,"Constellation NewEnergy, Inc.",119221,FALSE,50,36,,50,0,0.29,Fixed,0.0999,,0,,FALSE,FALSE,74.93,4.28
+,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117706,FALSE,51,12,,50,0,0.29,Fixed,0.0999,,0,,FALSE,FALSE,74.93,4.28
+,UIResidentialCustomers,"XOOM Energy Connecticut, LLC",117731,FALSE,52,18,,50,0,0.29,Fixed,0.0999,,0,,FALSE,FALSE,74.93,4.28
+,UIResidentialCustomers,Think Energy,113541,FALSE,53,24,,45,0,1,Fixed,0.1,,0,,FALSE,TRUE,75,4.21
+,UIResidentialCustomers,"Constellation NewEnergy, Inc.",119216,FALSE,54,12,,50,0,0.29,Fixed,0.1069,,0,,FALSE,FALSE,80.18,-0.97
+,UIResidentialCustomers,Think Energy,113531,FALSE,55,12,,45,0,1,Fixed,0.107,,0,,FALSE,TRUE,80.25,-1.04
+,UIResidentialCustomers,Think Energy,113536,FALSE,56,18,,45,0,1,Fixed,0.107,,0,,FALSE,TRUE,80.25,-1.04
+,UIResidentialCustomers,"Clearview Electric, Inc.",82371,FALSE,57,12,,50,0,1,Fixed,0.1079,,0,"Electric vehicle charger rebate and free weekend EV charging, not to exceed 250 kWhrs per month. Contact supplier for details.",FALSE,FALSE,80.93,-1.72
+,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117826,FALSE,58,36,,50,0,1,Fixed,0.109,,0,,FALSE,FALSE,81.75,-2.54
+,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117821,FALSE,59,24,,50,0,1,Fixed,0.1098,,0,,FALSE,FALSE,82.35,-3.14
+,UIResidentialCustomers,"Constellation NewEnergy, Inc.",119226,FALSE,60,12,,50,0,1,Fixed,0.1099,,0,,FALSE,FALSE,82.43,-3.22
+,UIResidentialCustomers,Ambit Energy,114301,FALSE,61,12,,0,0,0.29,Fixed,0.11,,0,,FALSE,FALSE,82.5,-3.29
+,UIResidentialCustomers,"Liberty Power Holdings, LLC",119631,FALSE,62,24,,50,0,1,Fixed,0.1101,,0,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,FALSE,FALSE,82.58,-3.37
+,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117816,FALSE,63,12,,50,0,1,Fixed,0.111,,0,,FALSE,FALSE,83.25,-4.04
+,UIResidentialCustomers,Think Energy,113526,FALSE,64,6,,45,0,1,Fixed,0.114,,0,,FALSE,TRUE,85.5,-6.29
+,UIResidentialCustomers,Town Square Energy,97701,FALSE,65,12,,0,0,1,Fixed,0.1189,,0,,FALSE,FALSE,89.18,-9.97
+,UIResidentialCustomers,"Connecticut Gas &amp; Electric, Inc.",117846,FALSE,66,48,,50,0,1,Fixed,0.12,,0,,FALSE,FALSE,90,-10.79
+,UIResidentialCustomers,"Choice Energy, LLC",115191,FALSE,67,24,,50,0,0.29,Fixed,0.1299,,0,"Effective 1/1/2020.   Offered until 12/31/2020, but may expire earlier at supplier's discretion.",FALSE,TRUE,97.43,-18.22
+,UIResidentialCustomers,Ambit Energy,114316,FALSE,68,12,,0,0,1,Fixed,0.13,,0,,FALSE,FALSE,97.5,-18.29
