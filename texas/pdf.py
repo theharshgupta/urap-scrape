@@ -6,7 +6,6 @@ import warnings
 from urllib3.exceptions import InsecureRequestWarning
 from requests.exceptions import MissingSchema
 
-
 PDF_ROOT = "PDFs/"
 
 
