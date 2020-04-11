@@ -44,7 +44,6 @@ def find_all_indexes(input_str, search_str):
     return l1
 
 
-
 def fill_suppliers():
     table = soup.find_all('table', class_ = "nice_table responsive highlight_table display nowrap")[0]
     first = True
@@ -76,8 +75,11 @@ def fill_suppliers():
                 low_list.append(curr_low['value'][i + 19: i + 23])
             for i in indexes_2:
                 low_list.append(curr_low['value'][i + 19: i + 23])
-            info["past_low_value"] =  low_list
-            curr_high = soup.find(id = "low_value_" + curr_id)['value']
+            if len(low_list) > 12:
+                low_list = low_list[-12:]
+            while len(low_list) < 12:
+                low_list.append('N/A')
+            curr_high = soup.find(id = "high_value_" + curr_id)['value']
             indexes = find_all_indexes(curr_high,str(year))
             indexes_2 = find_all_indexes(curr_high,str(year+1))
             high_list = []
@@ -85,7 +87,13 @@ def fill_suppliers():
                 high_list.append(curr_high[i + 19: i + 23])
             for i in indexes_2:
                 high_list.append(curr_high[i + 19: i + 23])
-            info["past_high_value"] =  high_list
+            if len(high_list) > 12:
+                high_list = high_list[-12:]
+            while len(high_list) < 12:
+                high_list.append('N/A')
+            for i in range(12):
+                info["low data" + str(i + 1)] = low_list[i]
+                info["high data" + str(i + 1)] = high_list[i]
             planNum += 1
             first = False
             suppliers.append(Supplier(info))
