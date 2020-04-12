@@ -14,7 +14,7 @@ def exists(id_key):
     Checks if the pdf has already been downloaded
     :return: boolean
     """
-    return os.path.exists(PDF_ROOT + id_key + ".pdf")
+    return os.path.exists(PDF_ROOT + str(id_key) + ".pdf")
 
 
 def download_pdf(pdf_url, plan):

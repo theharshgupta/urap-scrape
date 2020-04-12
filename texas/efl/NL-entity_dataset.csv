@@ -1,0 +1,3 @@
+TRAIN,gs://cloud-ml-data/NL-entity/train.jsonl
+TEST,gs://cloud-ml-data/NL-entity/test.jsonl
+VALIDATION,gs://cloud-ml-data/NL-entity/validation.jsonl

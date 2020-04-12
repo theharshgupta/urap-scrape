@@ -1,6 +1,8 @@
 """
 Note: This script requires that pytesseract, Tesseract, and all Tesseract
 binaries are installed
+
+@author Jenya Kahn-Lang
 """
 import numpy as np
 import pandas as pd

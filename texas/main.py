@@ -50,7 +50,7 @@ class API:
         creates API object for all the zipcodes. The tqdm module is for a progress bar.
         :return: None
         """
-        for zipcode in tqdm(self.zipcodes, desc="Zipcode Mapping"):
+        for zipcode in tqdm(self.zipcodes, desc="Zipcode Mapping", disable=True):
             self.api_data(zipcode)
 
 
@@ -134,23 +134,23 @@ def parse_csv(filepath):
         print()
 
 
-def download(filepath):
+def download(csv_filepath):
     """
     Alan Comments: df2 is a slight variation of the df object above (I think?) We're iterating
     over each of the plans in df2, using their FactsURL to download the pdfs (with idKey as the
     name)
 
-    :param filepath:
+    :param csv_filepath:
     :return:
     """
-    df2 = pd.DataFrame(pd.read_csv(filepath))
-    df2 = df2[df2['[Language]'] == 'English']
-    df2.to_csv("master_data_en.csv", index=False)
+    # df2 = pd.DataFrame(pd.read_csv(filepath))
+    # df2 = df2[df2['[Language]'] == 'English']
+    df2 = pd.read_csv(csv_filepath)
     data_dict2 = df2.to_dict('records')
 
     for d in tqdm(data_dict2, desc="PDF Downloading"):
         plan = Plan(d)
-        block_print()
+        enable_print()
         download_pdf(pdf_url=plan.FactsURL, plan=plan)
 
 
@@ -188,7 +188,7 @@ def edit_csv(file, edited_file, id_zipcode_map):
 
 if __name__ == '__main__':
     # parse_csv("master_data.csv")
-    # download("master_data.csv")
-    block_print()
-    map_zipcode()
+    download(csv_filepath="master_data_en.csv")
+    # block_print()
+    # map_zipcode()
     # parse_csv("master_data_withZipcodes.csv")
