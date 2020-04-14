@@ -10,9 +10,14 @@ from pathlib import Path
 from datetime import datetime
 import glob
 import time
+import re
+
+os.chdir(r'C:\Users\mintm\Documents\ARE 2nd year paper\URAP\urap-scrape-master')
+#print(os.path.abspath(os.path.dirname(sys.argv[0])))
+
 from email_service import send_email
 from ma.zipcodes_list import ma_zipcodes
-
+from csv_diff import load_csv, compare
 
 def timeit(method):
     """
@@ -78,6 +83,7 @@ def check_unique():
     return all_df_shape, unique_df_shape
 
 
+# Function to try to quantify the similarity of two files - UNUSED
 def diff_checker(old_file, new_file):
     """
     Returns boolean if the two files are similar
@@ -237,44 +243,65 @@ def get_suppliers(zipcode):
 
             timestamp_filename_format = timestamp_start.strftime(
                 '%m%d%y_%H_%M_%S')
+            zipcode_filename = f'results_MA/{zipcode}_CI{company_id}_{timestamp_filename_format}.csv'
+            
+            # Identify the most recent filename
             file_zipcode_ci = glob.glob(
                 f'results_MA/{zipcode}_CI{company_id}*.csv')
-            print(f"\t {file_zipcode_ci}")
-            zipcode_filename = f'results_MA/{zipcode}_CI{company_id}_{timestamp_filename_format}.csv'
-
+            date_regex = re.compile("\d{6}")
+            date_num_list = []
+            for row in file_zipcode_ci:
+                date = date_regex.findall(row)[0]
+                date_num = int(date[4:6]+date[0:4])
+                date_num_list.append(date_num)
+            filename_prev = file_zipcode_ci[date_num_list.index(max(date_num_list))]
+            
+            # Check whether there have been any plan updates since the last data pull
             if len(file_zipcode_ci) > 0:
-                buffer_file = "results_MA/trash.csv"
-                df_buffer = df
-                df_buffer.__delitem__('Date_Downloaded')
-                df_buffer.__delitem__('Zipcode')
+                df.to_csv("results_MA/trash.csv", index=False, float_format="%.5f")
+                df_new = pd.read_csv("results_MA/trash.csv")
+                df_new.__delitem__('Date_Downloaded')
+                df_new.__delitem__('Zipcode') 
+                df_new.fillna(value=pd.np.nan, inplace=True)
+                df_new = df_new.replace(r'^\s*$', pd.np.nan, regex=True)
+                df_new = df_new.replace('\\n|\\r|\s','', regex=True)
+                df_new['Key'] = df_new.apply(
+                    lambda row: '_'.join(row.values.astype(str)), axis=1)
+                df_new.to_csv("results_MA/trash.csv", index=False,
+                              float_format="%.5f")
+                
+                df_previous = pd.read_csv(filename_prev)
+                df_previous.__delitem__('Date_Downloaded')
+                df_previous.__delitem__('Zipcode') 
+                df_previous.fillna(value=pd.np.nan, inplace=True)
+                df_previous = df_previous.replace(r'^\s*$', pd.np.nan, regex=True)
+                df_previous = df_previous.replace('\\n|\\r|\s','', regex=True)
+                df_previous['Key'] = df_previous.apply(
+                    lambda row: '_'.join(row.values.astype(str)), axis=1)
+                df_previous.to_csv("results_MA/trash_old.csv", index=False,
+                                   float_format="%.5f")
+                
+                diff = compare(load_csv(
+                        open("results_MA/trash_old.csv"), key="Key"), load_csv(
+                                open("results_MA/trash.csv"), key="Key"))
+                
+                #df_previous = pd.read_csv(file_zipcode_ci[0], float_precision='round_trip')
+                #df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
 
-                df_buffer.to_csv(buffer_file, index=False, float_format="%.3f")
-                # df_previous = pd.read_csv(file_zipcode_ci[0], float_precision='round_trip')
-
-                diff_checker(buffer_file, file_zipcode_ci[0])
-
-                # df_new = pd.read_csv("results_MA/trash.csv", float_precision='round_trip')
-                #
-                # df_previous.__delitem__('Date_Downloaded')
-                # df_new.__delitem__('Date_Downloaded')
-                # # Remoce zipcode
-                # df_previous.__delitem__('Zipcode')
-                # df_new.__delitem__('Zipcode')
-                #
-                # if not df_previous.equals(df_new):
-                #     print("\tWriting to a new file: ", zipcode_filename)
-                #     df.to_csv(zipcode_filename, index=False, float_format="%.3f")
-                #     print("\t Updating tracking ...")
-                #     update_tracking(zipcode=zipcode,
-                #                     is_new_entry=False,
-                #                     timestamp=timestamp_start.strftime('%m/%d/%y %H:%M'),
-                #                     filename=zipcode_filename)
-                # else:
-                #     print("\t Previously scraped, no updates found.")
+                if (diff['added'] == []) and (diff['removed'] == []) and (diff['changed'] == []):
+                    print("\t Previously scraped, no updates found.")
+                else:
+                    print("\tWriting to a new file: ", zipcode_filename)
+                    df.to_csv(zipcode_filename, index=False, float_format="%.5f")
+                    print("\t Updating tracking ...")
+                    update_tracking(zipcode=zipcode,
+                                    is_new_entry=False,
+                                    timestamp=timestamp_start.strftime('%m/%d/%y %H:%M'),
+                                    filename=zipcode_filename)
 
             else:
                 print("\t Writing to a new file: ", zipcode_filename)
-                df.to_csv(zipcode_filename, index=False, float_format="%.3f")
+                df.to_csv(zipcode_filename, index=False, float_format="%.5f")
                 print("\t Updating tracking ...")
                 update_tracking(zipcode=zipcode,
                                 is_new_entry=True,
@@ -306,9 +333,9 @@ def scrape():
     # Formats the zipcodes in the right format
     zipcodes_ma_0 = list(set(map(lambda x: '0' + str(x), ma_zipcodes)))
     # [ACTION REQUIRED] Set the number of zipcodes you want to run the script for
-    runnable_zipcdes = zipcodes_ma_0[:100]
+    #runnable_zipcdes = zipcodes_ma_0[:100]
+    runnable_zipcdes = zipcodes_ma_0
     print(f"Number of zipcodes running for: {len(runnable_zipcdes)}")
-    runnable_zipcdes = ["01005"]
 
     for zip in runnable_zipcdes:
         print("Running for zipcode:", zip)
@@ -326,19 +353,19 @@ def scrape():
 
     if Path('results_MA/trash.csv').is_file():
         os.remove('results_MA/trash.csv')
+        
+    if Path('results_MA/trash_old.csv').is_file():
+        os.remove('results_MA/trash_old.csv')
 
     # The success variable to see how many zipcodes were actually extracted
     print(f'The number of zipcodes successfully scraped are: {success}')
 
 
-scrape()
-
-# try:
-#     # [ACTION REQUIRED] Select which function you want to run
-#     scrape()
-#     # check_unique()
-# except Exception as err:
-#     # Send email
-#     error_traceback = traceback.extract_tb(err.__traceback__)
-#     send_email(
-#         body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")
+try:
+    # [ACTION REQUIRED] Select which function you want to run
+    scrape()
+    # check_unique()
+except Exception as err:
+    # Send email
+    error_traceback = traceback.extract_tb(err.__traceback__)
+    send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")
