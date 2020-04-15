@@ -11,13 +11,17 @@ from datetime import datetime
 import glob
 import time
 import re
+from ma.zipcodes_list import ma_zipcodes
 
-os.chdir(r'C:\Users\mintm\Documents\ARE 2nd year paper\URAP\urap-scrape-master')
-#print(os.path.abspath(os.path.dirname(sys.argv[0])))
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(Path(dir_path).parent)
 
 from email_service import send_email
-from ma.zipcodes_list import ma_zipcodes
+
+os.chdir(dir_path)
+
 from csv_diff import load_csv, compare
+
 
 def timeit(method):
     """
@@ -244,20 +248,21 @@ def get_suppliers(zipcode):
             timestamp_filename_format = timestamp_start.strftime(
                 '%m%d%y_%H_%M_%S')
             zipcode_filename = f'results_MA/{zipcode}_CI{company_id}_{timestamp_filename_format}.csv'
-            
-            # Identify the most recent filename
             file_zipcode_ci = glob.glob(
-                f'results_MA/{zipcode}_CI{company_id}*.csv')
-            date_regex = re.compile("\d{6}")
-            date_num_list = []
-            for row in file_zipcode_ci:
-                date = date_regex.findall(row)[0]
-                date_num = int(date[4:6]+date[0:4])
-                date_num_list.append(date_num)
-            filename_prev = file_zipcode_ci[date_num_list.index(max(date_num_list))]
+                    f'results_MA/{zipcode}_CI{company_id}*.csv')
             
-            # Check whether there have been any plan updates since the last data pull
+            # If this is not the first time the file was written, check for plan updates
             if len(file_zipcode_ci) > 0:
+                # Identify the most recent filename
+                date_regex = re.compile("\d{6}")
+                date_num_list = []
+                for row in file_zipcode_ci:
+                    date = date_regex.findall(row)[0]
+                    date_num = int(date[4:6]+date[0:4])
+                    date_num_list.append(date_num)
+                filename_prev = file_zipcode_ci[date_num_list.index(max(date_num_list))]
+            
+                # Check whether there have been any plan updates since the last data pull
                 df.to_csv("results_MA/trash.csv", index=False, float_format="%.5f")
                 df_new = pd.read_csv("results_MA/trash.csv")
                 df_new.__delitem__('Date_Downloaded')
