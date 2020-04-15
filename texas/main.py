@@ -4,10 +4,14 @@ from datetime import datetime
 import requests
 from requests.exceptions import Timeout
 import json
+import logging
 from texas.pdf import download_pdf
 from texas.utils import block_print, enable_print
-# from pdf import download_pdf
 from tqdm import tqdm
+
+
+logging.basicConfig(format="%(asctime)s: %(message)s")
+# Set timeout limit in seconds
 
 
 class API:
@@ -34,8 +38,8 @@ class API:
             return
         # Each data row has an plan_id that should be same to the idKey in the CSV
         data = json.loads(response.text)['data']
-        print('_' + str(zipcode), " has plan data:", len(data) != 0,
-              " timemouts:", timeouts)
+        print('Zipcode: ' + str(zipcode), " has plan data:", len(data) != 0,
+              ". Time outs:", timeouts)
         for row in data:
             if row['plan_id'] in self.id_zipcode_map.keys():
                 # This appends new zipcodes to the current planID.
@@ -50,7 +54,7 @@ class API:
         creates API object for all the zipcodes. The tqdm module is for a progress bar.
         :return: None
         """
-        for zipcode in tqdm(self.zipcodes, desc="Zipcode Mapping", disable=True):
+        for zipcode in tqdm(self.zipcodes, desc="Zipcode Mapping"):
             self.api_data(zipcode)
 
 
@@ -61,77 +65,35 @@ class Plan:
         Constructor for the class for the Plan
         :param row_data: type Python dictionary
         """
-        """
-        if isinstance(row_data, dict):
-            self.supplier_name = row_data['[RepCompany]']
-            self.plan_name = row_data['[Product]']
-            self.rate_type = row_data['RateType']
-            self.fixed_charge = row_data['supplier_name']
-            self.variable_rate = row_data['supplier_name']
-            self.introductory_rate = row_data['introductory_rate']
-            self.introductory_price_value = row_data['introductory_price_value']
-            self.enrollment_fee = row_data['enrollment_fee']
-            self.contract_term = row_data['contract_term']
-            self.early_termination_fee = row_data['early_termination_fee']
-            self.automatic_renewal_type = row_data['automatic_renewal_type']
-            self.automatic_renewal_detail = row_data['automatic_renewal_detail']
-            self.percent_renewable = row_data['percent_renewable']
-            self.renewable_description = row_data['renewable_description']
-            self.incentives_special_terms = row_data['incentives_special_terms']
-            self.incumbent_flag = row_data['incumbent_flag']
-            self.estimated_cost = row_data['estimated_cost']
-            self.other_product_service = row_data['other_product_service']
-            self.zipcode = row_data['zipcode']
-            self.tdu_service_territory = row_data['[TduCompanyName]']
-            self.variable_rate_500 = row_data['[kwh500]']
-            self.variable_rate_1000 = row_data['[kwh1000]']
-            self.variable_rate_2000 = row_data['[kwh2000]']
-        """
-        self.idKey = row_data.get("[idKey]")
-        self.TduCompanyName = row_data.get("[TduCompanyName]")
-        self.RepCompany = row_data.get("[RepCompany]")
-        self.Product = row_data.get("[Product]")
+        self.id_key = row_data.get("[idKey]")
+        self.tdu_company_name = row_data.get("[TduCompanyName]")
+        self.rep_company = row_data.get("[RepCompany]")
+        self.product = row_data.get("[Product]")
         self.kwh500 = row_data.get("[kwh500]")
         self.kwh1000 = row_data.get("[kwh1000]")
         self.kwh2000 = row_data.get("[kwh2000]")
-        self.Fees_Credits = row_data.get("[Fees/Credits]")
-        self.PrePaid = row_data.get("[PrePaid]")
-        self.TimeOfUse = row_data.get("[TimeOfUse]")
-        self.Fixed = row_data.get("[Fixed]")
-        self.RateType = row_data.get("[RateType]")
-        self.Renewable = row_data.get("[Renewable]")
-        self.TermValue = row_data.get("[TermValue]")
-        self.CancelFee = row_data.get("[CancelFee]")
-        self.Website = row_data.get("[Website]")
-        self.SpecialTerms = row_data.get("[SpecialTerms]")
-        self.TermsURL = row_data.get("[TermsURL]")
-        self.Promotion = row_data.get("[Promotion]")
-        self.PromotionDesc = row_data.get("[PromotionDesc]")
-        self.FactsURL = row_data.get("[FactsURL]")
-        self.EnrollURL = row_data.get("[EnrollURL]")
-        self.PrepaidURL = row_data.get("[PrepaidURL]")
-        self.EnrollPhone = row_data.get("[EnrollPhone]")
-        self.NewCustomer = row_data.get("[NewCustomer]")
-        self.MinUsageFeesCredits = row_data.get("[MinUsageFeesCredits]")
-        self.Language = row_data.get("[Language]")
-        self.Rating = row_data.get("[Rating]")
+        self.fees_credits = row_data.get("[Fees/Credits]")
+        self.pre_paid = row_data.get("[PrePaid]")
+        self.time_of_use = row_data.get("[TimeOfUse]")
+        self.fixed = row_data.get("[Fixed]")
+        self.rate_type = row_data.get("[RateType]")
+        self.renewable = row_data.get("[Renewable]")
+        self.term_value = row_data.get("[TermValue]")
+        self.cancel_fee = row_data.get("[CancelFee]")
+        self.website = row_data.get("[Website]")
+        self.special_terms = row_data.get("[SpecialTerms]")
+        self.terms_url = row_data.get("[TermsURL]")
+        self.promotion = row_data.get("[Promotion]")
+        self.promotion_desc = row_data.get("[PromotionDesc]")
+        self.facts_url = row_data.get("[FactsURL]")
+        self.enroll_url = row_data.get("[EnrollURL]")
+        self.prepaid_url = row_data.get("[PrepaidURL]")
+        self.enroll_phone = row_data.get("[EnrollPhone]")
+        self.new_customer = row_data.get("[NewCustomer]")
+        self.min_usage_fees_credits = row_data.get("[MinUsageFeesCredits]")
+        self.language = row_data.get("[Language]")
+        self.rating = row_data.get("[Rating]")
         self.zipcodes = []
-
-
-def parse_csv(filepath):
-    """
-    Parsing the exported csv from PowerToChoose website
-    :param filepath: the location of the CSV file to parse
-    :return: void
-    """
-    df = pd.read_csv(filepath)
-    headers = df.columns
-    data_dict = json.loads(
-        pd.DataFrame(df).reset_index().to_json(orient='records'))
-
-    for d in data_dict:
-        print(d)
-        print()
 
 
 def download(csv_filepath):
@@ -150,8 +112,8 @@ def download(csv_filepath):
 
     for d in tqdm(data_dict2, desc="PDF Downloading"):
         plan = Plan(d)
-        enable_print()
-        download_pdf(pdf_url=plan.FactsURL, plan=plan)
+        logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
+        download_pdf(pdf_url=plan.facts_url, plan=plan)
 
 
 def map_zipcode():
@@ -161,14 +123,14 @@ def map_zipcode():
     for each of the plans in the input CSV -
     :return: the mapping
     """
-    # api key has 250 lookups per month
+    # API key has 250 lookups per month
     response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
                             "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
     all_zipcodes = response.json()
     print(all_zipcodes)
     id_zipcode_map = API(all_zipcodes).id_zipcode_map
     print(id_zipcode_map)
-    edit_csv('master_data.csv', 'master_data_withZipcodes.csv', id_zipcode_map)
+    edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
     return id_zipcode_map
 
 
@@ -188,7 +150,6 @@ def edit_csv(file, edited_file, id_zipcode_map):
 
 if __name__ == '__main__':
     # parse_csv("master_data.csv")
-    download(csv_filepath="master_data_en.csv")
+    # download(csv_filepath="master_data_en.csv")
     # block_print()
-    # map_zipcode()
-    # parse_csv("master_data_withZipcodes.csv")
+    map_zipcode()

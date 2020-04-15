@@ -14,3 +14,5 @@ def enable_print():
     :return: None
     """
     sys.stdout = sys.__stdout__
+
+TIMEOUT_LIMIT = 5
