@@ -4,6 +4,7 @@ from datetime import date
 import bs4 as bs
 from csv_diff import load_csv, compare
 import os
+import email_error
 
 #get's the value of an attribute using a certain offset (described below)
 def getValue(string, sub, offset=2):
@@ -28,6 +29,8 @@ def billingCycle(row):
     for elem in mobilerateDiv.find("div", class_="companyShortData").contents:
         if "Billing Cycle" in elem:
             contractTerms.append(''.join(x for x in elem if x.isdigit()))
+    if len(contractTerms) > 2:
+        email_error.send_email("more than two fixed tiers")
     return contractTerms
 
 def varRate(row):
@@ -48,11 +51,15 @@ def fill_suppliers(suppliers, soup):
     for row in iterator:
         info = {}
         rowString = str(row)
-        info["date_downloaded"] = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-        if row.attrs['style'] == "display: none;":
+        if row.attrs['style'] == "display: none;": #some elements are hidden
             continue
+        info["date_downloaded"] = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
         service = getValue(rowString, "data-ratetitle")
-        info["TDU_service_territory"] = "Eversource" if "Eversource" in service else service
+        if "Eversource" in service:
+            service = "Eversource"
+        elif "UI" in service:
+            service = "UI"    
+        info["TDU_service_territory"] = service
         if first:
             info["supplier_name"] = info["TDU_service_territory"]
         else:
@@ -61,12 +68,14 @@ def fill_suppliers(suppliers, soup):
         info["incumbent_flag"] = first
         info["plan_order_rank"] = planNum
         months = billingCycle(row)
-        for i in [1,2]: #need to see if there are more than 2 tiers max
+        for i in [1,2]:
             key = "contract_term_" + str(i)
             info[key] = months[i-1] if len(months) >= i else ""
         info["early_termination_fee"] = '{:,.2f}'.format(getNum(row, "id", "can_value"))
         info["enrollment_fee"] = '{:,.2f}'.format(getNum(row, "id", "enroll_value"))
-        info["percent_renewable"] = '{:,.2f}'.format(getNum(row, "data-th", "RENEWABLE ENERGY")/100)
+        renewable = getNum(row, "data-th", "RENEWABLE ENERGY")/100
+        assert 0<=renewable<=1, "renewable percentage is not within range: " + str(renewable)
+        info["percent_renewable"] = '{:,.2f}'.format(renewable)
         info["rate_type"] = getValue(rowString, "data-priceplan")
         rates = varRate(row)
         for i in [1,2]: #need to see if there are more than 2 tiers max
@@ -85,6 +94,7 @@ def fill_suppliers(suppliers, soup):
         first = False
         planNum+=1
         suppliers.append(Supplier(info))
+    
 
 #writes all info into a csv
 def write_to_csv(supplier, suppliers):
@@ -99,6 +109,9 @@ def write_to_csv(supplier, suppliers):
 #deletes if there is no variation in plan_id from the last csv from the same supplier
 def diff_check(supplier):
     files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
+    if len(files) < 2:
+        email_error.send_email("not enough files to compare")
+        return
     for i in range(len(files)):
         if supplier in str(files[i]):
             now = files[i]
@@ -111,8 +124,6 @@ def diff_check(supplier):
     if diff['added'] == [] or diff['removed'] == []:
         os.remove("./data/" + now)
         print('deleted')
-    print(diff.keys())
-    print(now, recent)
 
 
 #store all information in a dictionary
@@ -122,8 +133,11 @@ class Supplier:
         self.info = info
 
 def run(supplier):
-    with open("./data/" + supplier + '.html') as html:
-        soup = bs.BeautifulSoup(html, 'html.parser')
-    suppliers = []
-    fill_suppliers(suppliers, soup)
-    write_to_csv(supplier, suppliers)
+    try:
+        with open("./data/" + supplier + '.html') as html:
+            soup = bs.BeautifulSoup(html, 'html.parser')
+        suppliers = []
+        fill_suppliers(suppliers, soup)
+        write_to_csv(supplier, suppliers)
+    except Exception as e:
+        email_error.send_email("general error: " + str(e))

@@ -5,7 +5,7 @@ def send_email(error, receiver = "michael.li.gb@berkeley.edu"):
     smtp_server = "smtp.gmail.com"
     port = 587  # For starttls
     password = input("Type your password and press enter: ")
-    sender =  "michael.li.gb@gmail.com"
+    sender =  "bbqiu888@gmail.com"
     # Create a secure SSL context
     context = ssl.create_default_context()
 
@@ -25,5 +25,3 @@ def send_email(error, receiver = "michael.li.gb@berkeley.edu"):
         print('EMAIL SENT')
     except Exception as e:
         print("Err, something went wrong \n ", e)
-
-send_email("test")
