@@ -1,0 +1,71 @@
+date_downloaded,TDU_service_territory,supplier_name,plan_id,incumbent_flag,plan_order_rank,contract_term_1,contract_term_2,early_termination_fee,enrollment_fee,percent_renewable,rate_type,variable_rate_1,variable_rate_2,fixed_charge,additional_incentives,enroll_online,new_customer_only,estimated_monthly_cost,estimated_savings
+04/15/2020 12:00:09,UI,UI,54649,True,0,,,0.00,0.00,0.29,Fixed,0.1056,,0.00,"Fixed until June 30, 2020.",False,False,79.20,0.00
+04/15/2020 12:00:09,UI,Town Square Energy,119601,False,1,6,,50.00,0.00,0.29,Fixed,0.0692,,0.00,,False,False,51.90,27.31
+04/15/2020 12:00:09,UI,Sunwave Gas &amp; Power,119581,False,2,6,,50.00,0.00,0.29,Fixed,0.0693,,0.00,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,False,False,51.94,27.27
+04/15/2020 12:00:09,UI,"Starion Energy, Inc.",119946,False,3,6,,0.00,0.00,0.29,Fixed,0.0699,,0.00,,False,True,52.43,26.78
+04/15/2020 12:00:09,UI,"Liberty Power Holdings, LLC (EA)",119831,False,4,6,,50.00,0.00,0.29,Fixed,0.0709,,0.00,$25 Gift Card Offer upon completion of plan's 5th billing cycle.,False,False,53.18,26.03
+04/15/2020 12:00:09,UI,Town Square Energy,119401,False,5,7,,0.00,0.00,0.29,Fixed,0.0711,,0.00,,False,False,53.33,25.88
+04/15/2020 12:00:09,UI,"Public Power, LLC (EA)",119371,False,6,8,,0.00,0.00,0.29,Fixed,0.0539,,12.95,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",True,True,40.43,25.83
+04/15/2020 12:00:09,UI,"Public Power, LLC (EA)",119376,False,7,8,,0.00,0.00,0.29,Fixed,0.0319,,30.00,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",True,True,23.92,25.29
+04/15/2020 12:00:09,UI,"Public Power, LLC (EA)",119366,False,8,8,,0.00,0.00,0.29,Fixed,0.0719,,0.00,,True,True,53.93,25.28
+04/15/2020 12:00:09,UI,"Verde Energy USA, Inc.",119716,False,9,6,,0.00,0.00,1.00,Fixed,0.0719,,0.00,,True,True,53.93,25.28
+04/15/2020 12:00:09,UI,"Clearview Electric, Inc.",118366,False,10,6,,50.00,0.00,1.00,Fixed,0.0729,,0.00,,True,False,54.68,24.53
+04/15/2020 12:00:09,UI,"Starion Energy, Inc.",119931,False,11,6,,0.00,0.00,1.00,Fixed,0.0729,,0.00,Contact supplier regarding the renewable energy content of this offer.,False,True,54.68,24.53
+04/15/2020 12:00:09,UI,"Clearview Electric, Inc.",117541,False,12,9,,50.00,0.00,1.00,Fixed,0.0739,,0.00,,True,False,55.43,23.78
+04/15/2020 12:00:09,UI,"Discount Power, Inc.",119161,False,13,6,,0.00,50.00,1.00,Fixed,0.0640,,0.00,Includes monthly online shopping/dining rewards program.,True,True,48.00,22.88
+04/15/2020 12:00:09,UI,Direct Energy,119496,False,14,8,,0.00,0.00,0.29,Fixed,0.0759,,0.00,,True,True,56.93,22.28
+04/15/2020 12:00:09,UI,"Discount Power, Inc.",119171,False,15,6,,0.00,0.00,0.29,Fixed,0.0760,,0.00,Includes monthly online shopping/dining rewards program.,True,True,57.00,22.21
+04/15/2020 12:00:09,UI,"Major Energy Electric Services, LLC",119766,False,16,6,,0.00,0.00,0.29,Fixed,0.0769,,0.00,,True,True,57.68,21.53
+04/15/2020 12:00:09,UI,"Public Power, LLC",117936,False,17,4,,50.00,0.00,0.29,Fixed,0.0770,,0.00,,False,False,57.75,21.46
+04/15/2020 12:00:09,UI,Sunwave Gas &amp; Power,119576,False,18,12,,50.00,0.00,0.29,Fixed,0.0780,,0.00,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,False,False,58.46,20.75
+04/15/2020 12:00:09,UI,"Discount Power, Inc.",119166,False,19,6,,0.00,0.00,1.00,Fixed,0.0780,,0.00,Includes monthly online shopping/dining rewards program.,True,True,58.50,20.71
+04/15/2020 12:00:09,UI,Town Square Energy,119036,False,20,36,,50.00,0.00,0.29,Fixed,0.0787,,0.00,,False,False,59.03,20.18
+04/15/2020 12:00:09,UI,"Liberty Power Holdings, LLC",119641,False,21,36,,50.00,0.00,0.29,Fixed,0.0788,,0.00,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,True,False,59.10,20.11
+04/15/2020 12:00:09,UI,"Starion Energy, Inc.",119951,False,22,12,,0.00,0.00,0.29,Fixed,0.0799,,0.00,,False,True,59.93,19.28
+04/15/2020 12:00:09,UI,"Liberty Power Holdings, LLC",119636,False,23,36,,50.00,0.00,1.00,Fixed,0.0820,,0.00,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,False,False,61.50,17.71
+04/15/2020 12:00:09,UI,North American Power,119246,False,24,14,,50.00,0.00,0.29,Fixed,0.0829,,0.00,,False,False,62.18,17.03
+04/15/2020 12:00:09,UI,Town Square Energy,118421,False,25,12,,0.00,0.00,0.29,Fixed,0.0837,,0.00,,False,False,62.78,16.43
+04/15/2020 12:00:09,UI,"Clearview Electric, Inc.",111631,False,26,12,,50.00,0.00,1.00,Fixed,0.0839,,0.00,,True,False,62.93,16.28
+04/15/2020 12:00:09,UI,Direct Energy,119471,False,27,18,,0.00,0.00,0.29,Fixed,0.0849,,0.00,,True,True,63.68,15.53
+04/15/2020 12:00:09,UI,North American Power,119241,False,28,12,,50.00,0.00,0.29,Fixed,0.0849,,0.00,,False,False,63.68,15.53
+04/15/2020 12:00:09,UI,"Verde Energy USA, Inc.",119726,False,29,12,,0.00,0.00,1.00,Fixed,0.0849,,0.00,Rebate offer.,True,True,63.68,15.53
+04/15/2020 12:00:09,UI,Town Square Energy,115966,False,30,22,,0.00,0.00,0.29,Fixed,0.0857,,0.00,,False,False,64.28,14.93
+04/15/2020 12:00:09,UI,"Public Power, LLC",117951,False,31,36,,50.00,0.00,0.29,Fixed,0.0875,,0.00,,False,False,65.63,13.58
+04/15/2020 12:00:09,UI,"Public Power, LLC",117946,False,32,24,,50.00,0.00,0.29,Fixed,0.0876,,0.00,,False,False,65.70,13.51
+04/15/2020 12:00:09,UI,"Public Power, LLC",117941,False,33,12,,50.00,0.00,0.29,Fixed,0.0886,,0.00,,False,False,66.45,12.76
+04/15/2020 12:00:09,UI,Direct Energy,119466,False,34,12,,0.00,0.00,0.29,Fixed,0.0889,,0.00,,True,True,66.68,12.53
+04/15/2020 12:00:09,UI,Direct Energy,119476,False,35,36,,0.00,0.00,0.29,Fixed,0.0889,,0.00,,True,True,66.68,12.53
+04/15/2020 12:00:09,UI,"Major Energy Electric Services, LLC",119756,False,36,12,,0.00,0.00,0.29,Fixed,0.0909,,0.00,,True,True,68.18,11.03
+04/15/2020 12:00:09,UI,Energy Rewards,118021,False,37,24,,50.00,0.00,1.00,Fixed,0.0929,,0.00,,False,False,69.68,9.53
+04/15/2020 12:00:09,UI,Direct Energy,119491,False,38,24,,0.00,0.00,1.00,Fixed,0.0939,,0.00,,True,True,70.43,8.78
+04/15/2020 12:00:09,UI,Energy Rewards,118016,False,39,12,,0.00,0.00,1.00,Fixed,0.0939,,0.00,,False,False,70.43,8.78
+04/15/2020 12:00:09,UI,"Starion Energy, Inc.",119936,False,40,6,,0.00,0.00,1.00,Fixed,0.0939,,0.00,Contact supplier regarding the renewable energy content of this offer.,False,True,70.43,8.78
+04/15/2020 12:00:09,UI,Sunwave Gas &amp; Power,118556,False,41,5,,50.00,0.00,0.29,Fixed,0.0940,,0.00,,False,False,70.47,8.74
+04/15/2020 12:00:09,UI,"Connecticut Gas &amp; Electric, Inc.",117811,False,42,6,,50.00,0.00,0.29,Fixed,0.0950,,0.00,,False,False,71.25,7.96
+04/15/2020 12:00:09,UI,"Discount Power, Inc.",119176,False,43,18,,50.00,0.00,1.00,Fixed,0.0959,,0.00,Includes monthly online shopping/dining rewards program.,True,True,71.93,7.28
+04/15/2020 12:00:09,UI,"XOOM Energy Connecticut, LLC",117701,False,44,12,,50.00,0.00,0.50,Fixed,0.0959,,0.00,,False,False,71.93,7.28
+04/15/2020 12:00:09,UI,"Viridian Energy, LLC",118056,False,45,24,,50.00,0.00,0.50,Fixed,0.0976,,0.00,,False,False,73.20,6.01
+04/15/2020 12:00:09,UI,"XOOM Energy Connecticut, LLC",117711,False,46,12,,50.00,0.00,0.29,Fixed,0.0979,,0.00,Supplier will make a charitable donation based on customer usage. Contact XOOM for details.,False,False,73.43,5.78
+04/15/2020 12:00:09,UI,"Viridian Energy, LLC",118051,False,47,12,,50.00,0.00,0.50,Fixed,0.0986,,0.00,,False,False,73.95,5.26
+04/15/2020 12:00:09,UI,"Connecticut Gas &amp; Electric, Inc.",117841,False,48,18,,50.00,0.00,0.29,Fixed,0.0990,,0.00,,False,False,74.25,4.96
+04/15/2020 12:00:09,UI,Ambit Energy,114311,False,49,6,,0.00,0.00,0.29,Fixed,0.0995,,0.00,,False,False,74.63,4.58
+04/15/2020 12:00:09,UI,"Constellation NewEnergy, Inc.",119221,False,50,36,,50.00,0.00,0.29,Fixed,0.0999,,0.00,,False,False,74.93,4.28
+04/15/2020 12:00:09,UI,"XOOM Energy Connecticut, LLC",117706,False,51,12,,50.00,0.00,0.29,Fixed,0.0999,,0.00,,False,False,74.93,4.28
+04/15/2020 12:00:09,UI,"XOOM Energy Connecticut, LLC",117731,False,52,18,,50.00,0.00,0.29,Fixed,0.0999,,0.00,,False,False,74.93,4.28
+04/15/2020 12:00:09,UI,Think Energy,113541,False,53,24,,45.00,0.00,1.00,Fixed,0.1000,,0.00,,False,True,75.00,4.21
+04/15/2020 12:00:09,UI,"Starion Energy, Inc.",119941,False,54,12,,0.00,0.00,1.00,Fixed,0.1029,,0.00,Contact supplier regarding the renewable energy content of this offer.,False,True,77.18,2.03
+04/15/2020 12:00:09,UI,"Constellation NewEnergy, Inc.",119216,False,55,12,,50.00,0.00,0.29,Fixed,0.1069,,0.00,,False,False,80.18,-0.97
+04/15/2020 12:00:09,UI,Think Energy,113531,False,56,12,,45.00,0.00,1.00,Fixed,0.1070,,0.00,,False,True,80.25,-1.04
+04/15/2020 12:00:09,UI,Think Energy,113536,False,57,18,,45.00,0.00,1.00,Fixed,0.1070,,0.00,,False,True,80.25,-1.04
+04/15/2020 12:00:09,UI,"Clearview Electric, Inc.",82371,False,58,12,,50.00,0.00,1.00,Fixed,0.1079,,0.00,"Electric vehicle charger rebate and free weekend EV charging, not to exceed 250 kWhrs per month. Contact supplier for details.",False,False,80.93,-1.72
+04/15/2020 12:00:09,UI,"Connecticut Gas &amp; Electric, Inc.",117826,False,59,36,,50.00,0.00,1.00,Fixed,0.1090,,0.00,,False,False,81.75,-2.54
+04/15/2020 12:00:09,UI,"Connecticut Gas &amp; Electric, Inc.",117821,False,60,24,,50.00,0.00,1.00,Fixed,0.1098,,0.00,,False,False,82.35,-3.14
+04/15/2020 12:00:09,UI,"Constellation NewEnergy, Inc.",119226,False,61,12,,50.00,0.00,1.00,Fixed,0.1099,,0.00,,False,False,82.43,-3.22
+04/15/2020 12:00:09,UI,Ambit Energy,114301,False,62,12,,0.00,0.00,0.29,Fixed,0.1100,,0.00,,False,False,82.50,-3.29
+04/15/2020 12:00:09,UI,"Liberty Power Holdings, LLC",119631,False,63,24,,50.00,0.00,1.00,Fixed,0.1101,,0.00,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,False,False,82.58,-3.37
+04/15/2020 12:00:09,UI,"Connecticut Gas &amp; Electric, Inc.",117816,False,64,12,,50.00,0.00,1.00,Fixed,0.1110,,0.00,,False,False,83.25,-4.04
+04/15/2020 12:00:09,UI,Think Energy,113526,False,65,6,,45.00,0.00,1.00,Fixed,0.1140,,0.00,,False,True,85.50,-6.29
+04/15/2020 12:00:09,UI,Town Square Energy,97701,False,66,12,,0.00,0.00,1.00,Fixed,0.1189,,0.00,,False,False,89.18,-9.97
+04/15/2020 12:00:09,UI,"Connecticut Gas &amp; Electric, Inc.",117846,False,67,48,,50.00,0.00,1.00,Fixed,0.1200,,0.00,,False,False,90.00,-10.79
+04/15/2020 12:00:09,UI,"Choice Energy, LLC",115191,False,68,24,,50.00,0.00,0.29,Fixed,0.1299,,0.00,"Effective 1/1/2020.   Offered until 12/31/2020, but may expire earlier at supplier's discretion.",False,True,97.43,-18.22
+04/15/2020 12:00:09,UI,Ambit Energy,114316,False,69,12,,0.00,0.00,1.00,Fixed,0.1300,,0.00,,False,False,97.50,-18.29
