@@ -8,3 +8,4 @@ zipcodes==1.0.5
 Pillow==6.0.0
 pdf2image==1.9.0
 pytesseract==0.3.0
+csv_diff==0.6

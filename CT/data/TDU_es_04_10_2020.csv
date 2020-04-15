@@ -1,0 +1,72 @@
+date_downloaded,TDU_service_territory,supplier_name,plan_id,incumbent_flag,plan_order_rank,contract_term_1,contract_term_2,early_termination_fee,enrollment_fee,percent_renewable,rate_type,variable_rate_1,variable_rate_2,fixed_charge,additional_incentives,enroll_online,new_customer_only,estimated_monthly_cost,estimated_savings
+04/10/2020 05:20:04,Eversource,Eversource,54645,True,0,,,0.00,0.00,0.29,Fixed,0.0941,,0.00,"Fixed until June 30, 2020.",False,False,70.61,0.00
+04/10/2020 05:20:04,Eversource,Town Square Energy,119816,False,1,6,,50.00,0.00,0.29,Fixed,0.0685,,0.00,,False,False,51.38,19.23
+04/10/2020 05:20:04,Eversource,"Liberty Power Holdings, LLC (EA)",119826,False,2,6,,50.00,0.00,0.29,Fixed,0.0686,,0.00,$25 Gift Card Offer upon completion of plan's 5th billing cycle.,False,False,51.42,19.19
+04/10/2020 05:20:04,Eversource,Town Square Energy,119386,False,3,7,,0.00,0.00,0.29,Fixed,0.0687,,0.00,,False,False,51.53,19.08
+04/10/2020 05:20:04,Eversource,"Clearview Electric, Inc.",119666,False,4,6,,50.00,0.00,1.00,Fixed,0.0689,,0.00,,True,False,51.68,18.93
+04/10/2020 05:20:04,Eversource,"Public Power, LLC (EA)",119346,False,5,8,,0.00,0.00,0.29,Fixed,0.0689,,0.00,,True,True,51.68,18.93
+04/10/2020 05:20:04,Eversource,"Public Power, LLC (EA)",119356,False,6,8,,0.00,0.00,0.29,Fixed,0.0289,,30.00,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",True,True,21.68,18.93
+04/10/2020 05:20:04,Eversource,"Public Power, LLC (EA)",119361,False,7,8,,0.00,0.00,0.29,Fixed,0.0519,,12.95,"Monthly Capacity Fee is fixed for the term of the offer and billed separately by the supplier. Estimated annual usage must not exceed 30,000 kWh.",True,True,38.93,18.73
+04/10/2020 05:20:04,Eversource,"Discount Power, Inc.",119141,False,8,6,,0.00,0.00,0.29,Fixed,0.0699,,0.00,Includes monthly online shopping/dining rewards program.,True,True,52.43,18.18
+04/10/2020 05:20:04,Eversource,Sunwave Gas &amp; Power,119561,False,9,6,,50.00,0.00,0.29,Fixed,0.0704,,0.00,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,False,False,52.78,17.83
+04/10/2020 05:20:04,Eversource,Direct Energy,119021,False,10,8,,0.00,0.00,0.29,Fixed,0.0707,,0.00,,True,True,53.03,17.58
+04/10/2020 05:20:04,Eversource,"Discount Power, Inc.",119136,False,11,6,,0.00,0.00,1.00,Fixed,0.0709,,0.00,Includes monthly online shopping/dining rewards program.,True,True,53.18,17.43
+04/10/2020 05:20:04,Eversource,"Clearview Electric, Inc.",117476,False,12,9,,50.00,0.00,1.00,Fixed,0.0719,,0.00,,True,False,53.93,16.68
+04/10/2020 05:20:04,Eversource,"Major Energy Electric Services, LLC",119746,False,13,6,,0.00,0.00,0.29,Fixed,0.0719,,0.00,,True,True,53.93,16.68
+04/10/2020 05:20:04,Eversource,"Starion Energy, Inc.",117586,False,14,9,,0.00,0.00,0.29,Fixed,0.0729,,0.00,,False,True,54.68,15.93
+04/10/2020 05:20:04,Eversource,"Verde Energy USA, Inc.",119706,False,15,6,,0.00,0.00,1.00,Fixed,0.0739,,0.00,,True,True,55.43,15.18
+04/10/2020 05:20:04,Eversource,"Public Power, LLC",117916,False,16,4,,50.00,0.00,0.29,Fixed,0.0757,,0.00,,False,False,56.78,13.83
+04/10/2020 05:20:04,Eversource,Town Square Energy,119596,False,17,36,,50.00,0.00,0.29,Fixed,0.0767,,0.00,,False,False,57.53,13.08
+04/10/2020 05:20:04,Eversource,"Liberty Power Holdings, LLC",119616,False,18,36,,50.00,0.00,0.29,Fixed,0.0768,,0.00,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,True,False,57.60,13.01
+04/10/2020 05:20:04,Eversource,"Discount Power, Inc.",119126,False,19,6,,0.00,50.00,1.00,Fixed,0.0660,,0.00,Includes monthly online shopping/dining rewards program.,True,True,49.50,12.78
+04/10/2020 05:20:04,Eversource,Town Square Energy,116141,False,20,10,12,50.00,0.00,0.29,Tiered,0.0787,0.0887,0.00,,False,False,59.03,11.58
+04/10/2020 05:20:04,Eversource,Sunwave Gas &amp; Power,119556,False,21,12,,50.00,0.00,0.29,Fixed,0.0790,,0.00,Offer designed for customers with 60% Load Factor energy consumption or better. Requires usage review and supplier approval. Contact supplier for details and information regarding cancellation fee.,False,False,59.21,11.40
+04/10/2020 05:20:04,Eversource,"Liberty Power Holdings, LLC",119611,False,22,36,,50.00,0.00,1.00,Fixed,0.0799,,0.00,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,False,False,59.96,10.65
+04/10/2020 05:20:04,Eversource,Town Square Energy,115946,False,23,22,,0.00,0.00,0.29,Fixed,0.0808,,0.00,,False,False,60.60,10.01
+04/10/2020 05:20:04,Eversource,Direct Energy,119461,False,24,18,,0.00,0.00,0.29,Fixed,0.0819,,0.00,,True,True,61.43,9.18
+04/10/2020 05:20:04,Eversource,Town Square Energy,118416,False,25,12,,0.00,0.00,0.29,Fixed,0.0827,,0.00,,False,False,62.03,8.58
+04/10/2020 05:20:04,Eversource,"Clearview Electric, Inc.",111626,False,26,12,,50.00,0.00,1.00,Fixed,0.0829,,0.00,,True,False,62.18,8.43
+04/10/2020 05:20:04,Eversource,North American Power,119236,False,27,14,,50.00,0.00,0.29,Fixed,0.0829,,0.00,,False,False,62.18,8.43
+04/10/2020 05:20:04,Eversource,"Starion Energy, Inc.",114116,False,28,12,,0.00,0.00,0.29,Fixed,0.0829,,0.00,,False,True,62.18,8.43
+04/10/2020 05:20:04,Eversource,Town Square Energy,114731,False,29,24,,50.00,0.00,0.29,Fixed,0.0847,,0.00,,False,False,63.53,7.08
+04/10/2020 05:20:04,Eversource,"Major Energy Electric Services, LLC",119736,False,30,12,,0.00,0.00,0.29,Fixed,0.0849,,0.00,,True,True,63.68,6.93
+04/10/2020 05:20:04,Eversource,North American Power,119231,False,31,12,,50.00,0.00,0.29,Fixed,0.0849,,0.00,,False,False,63.68,6.93
+04/10/2020 05:20:04,Eversource,Direct Energy,119456,False,32,12,,0.00,0.00,0.29,Fixed,0.0859,,0.00,,True,True,64.43,6.17
+04/10/2020 05:20:04,Eversource,Direct Energy,119481,False,33,36,,0.00,0.00,0.29,Fixed,0.0859,,0.00,,True,True,64.43,6.17
+04/10/2020 05:20:04,Eversource,"Starion Energy, Inc.",114121,False,34,12,,0.00,0.00,1.00,Fixed,0.0859,,0.00,Contact supplier regarding the renewable energy content of this offer.,False,True,64.43,6.17
+04/10/2020 05:20:04,Eversource,"Verde Energy USA, Inc.",119696,False,35,12,,0.00,0.00,1.00,Fixed,0.0869,,0.00,Rebate offer.,True,True,65.18,5.42
+04/10/2020 05:20:04,Eversource,"Public Power, LLC",117926,False,36,24,,50.00,0.00,0.29,Fixed,0.0871,,0.00,,False,False,65.33,5.28
+04/10/2020 05:20:04,Eversource,"Public Power, LLC",117931,False,37,36,,50.00,0.00,0.29,Fixed,0.0872,,0.00,,False,False,65.40,5.20
+04/10/2020 05:20:04,Eversource,"Constellation NewEnergy, Inc.",119206,False,38,36,,50.00,0.00,0.29,Fixed,0.0879,,0.00,,False,False,65.93,4.67
+04/10/2020 05:20:04,Eversource,"Public Power, LLC",117921,False,39,12,,50.00,0.00,0.29,Fixed,0.0880,,0.00,,False,False,66.00,4.61
+04/10/2020 05:20:04,Eversource,"Discount Power, Inc.",119156,False,40,18,,50.00,0.00,1.00,Fixed,0.0899,,0.00,Includes monthly online shopping/dining rewards program.,True,True,67.43,3.17
+04/10/2020 05:20:04,Eversource,"XOOM Energy Connecticut, LLC",117756,False,41,18,,50.00,0.00,0.29,Fixed,0.0899,,0.00,,False,False,67.43,3.17
+04/10/2020 05:20:04,Eversource,Ambit Energy,114296,False,42,6,,0.00,0.00,0.29,Fixed,0.0900,,0.00,,False,False,67.50,3.11
+04/10/2020 05:20:04,Eversource,Direct Energy,119486,False,43,24,,0.00,0.00,1.00,Fixed,0.0909,,0.00,,True,True,68.18,2.42
+04/10/2020 05:20:04,Eversource,Energy Rewards,118006,False,44,24,,50.00,0.00,1.00,Fixed,0.0919,,0.00,,False,False,68.93,1.67
+04/10/2020 05:20:04,Eversource,Sunwave Gas &amp; Power,118551,False,45,5,,50.00,0.00,0.29,Fixed,0.0927,,0.00,,False,False,69.50,1.11
+04/10/2020 05:20:04,Eversource,"Constellation NewEnergy, Inc.",119201,False,46,12,,50.00,0.00,0.29,Fixed,0.0929,,0.00,,False,False,69.68,0.92
+04/10/2020 05:20:04,Eversource,Energy Rewards,118001,False,47,12,,0.00,0.00,1.00,Fixed,0.0929,,0.00,,False,False,69.68,0.92
+04/10/2020 05:20:04,Eversource,"XOOM Energy Connecticut, LLC",117741,False,48,12,,50.00,0.00,0.29,Fixed,0.0929,,0.00,,False,False,69.68,0.92
+04/10/2020 05:20:04,Eversource,"Connecticut Gas &amp; Electric, Inc.",117781,False,49,6,,50.00,0.00,0.29,Fixed,0.0939,,0.00,,False,False,70.43,0.17
+04/10/2020 05:20:04,Eversource,"XOOM Energy Connecticut, LLC",117746,False,50,12,,50.00,0.00,0.50,Fixed,0.0939,,0.00,,False,False,70.43,0.17
+04/10/2020 05:20:04,Eversource,"Constellation NewEnergy, Inc.",119211,False,51,12,,50.00,0.00,1.00,Fixed,0.0949,,0.00,,False,False,71.18,-0.58
+04/10/2020 05:20:04,Eversource,"Starion Energy, Inc.",118476,False,52,8,,0.00,0.00,1.00,Fixed,0.0949,,0.00,Contact supplier regarding the renewable energy content of this offer.,False,True,71.18,-0.58
+04/10/2020 05:20:04,Eversource,"Viridian Energy, LLC",118041,False,53,24,,50.00,0.00,0.50,Fixed,0.0971,,0.00,,False,False,72.83,-2.22
+04/10/2020 05:20:04,Eversource,"Connecticut Gas &amp; Electric, Inc.",117836,False,54,18,,50.00,0.00,0.29,Fixed,0.0979,,0.00,,False,False,73.43,-2.83
+04/10/2020 05:20:04,Eversource,"XOOM Energy Connecticut, LLC",117751,False,55,12,,50.00,0.00,0.29,Fixed,0.0979,,0.00,Supplier will make a charitable donation based on customer usage. Contact XOOM for details.,False,False,73.43,-2.83
+04/10/2020 05:20:04,Eversource,Think Energy,113551,False,56,24,,45.00,0.00,1.00,Fixed,0.0980,,0.00,,False,True,73.50,-2.89
+04/10/2020 05:20:04,Eversource,"Viridian Energy, LLC",118036,False,57,12,,50.00,0.00,0.50,Fixed,0.0980,,0.00,,False,False,73.50,-2.89
+04/10/2020 05:20:04,Eversource,"Clearview Electric, Inc.",82356,False,58,12,,50.00,0.00,1.00,Fixed,0.1019,,0.00,"Electric vehicle charger rebate and free weekend EV charging, not to exceed 250 kWhrs per month. Contact supplier for details.",False,False,76.43,-5.83
+04/10/2020 05:20:04,Eversource,Think Energy,113546,False,59,18,,45.00,0.00,1.00,Fixed,0.1020,,0.00,,False,True,76.50,-5.89
+04/10/2020 05:20:04,Eversource,"Liberty Power Holdings, LLC",119606,False,60,24,,50.00,0.00,1.00,Fixed,0.1031,,0.00,$30 Gift Card Offer upon completion of plan’s 6th billing cycle.,False,False,77.33,-6.72
+04/10/2020 05:20:04,Eversource,Think Energy,113521,False,61,12,,45.00,0.00,1.00,Fixed,0.1070,,0.00,,False,True,80.25,-9.64
+04/10/2020 05:20:04,Eversource,"Connecticut Gas &amp; Electric, Inc.",117791,False,62,24,,50.00,0.00,1.00,Fixed,0.1089,,0.00,,False,False,81.68,-11.08
+04/10/2020 05:20:04,Eversource,"Connecticut Gas &amp; Electric, Inc.",117801,False,63,36,,50.00,0.00,1.00,Fixed,0.1089,,0.00,,False,False,81.68,-11.08
+04/10/2020 05:20:04,Eversource,Ambit Energy,114286,False,64,12,,0.00,0.00,0.29,Fixed,0.1100,,0.00,,False,False,82.50,-11.89
+04/10/2020 05:20:04,Eversource,"Connecticut Gas &amp; Electric, Inc.",117786,False,65,12,,50.00,0.00,1.00,Fixed,0.1109,,0.00,,False,False,83.18,-12.58
+04/10/2020 05:20:04,Eversource,Think Energy,113516,False,66,6,,45.00,0.00,1.00,Fixed,0.1120,,0.00,,False,True,84.00,-13.39
+04/10/2020 05:20:04,Eversource,Town Square Energy,97691,False,67,12,,0.00,0.00,1.00,Fixed,0.1187,,0.00,,False,False,89.03,-18.42
+04/10/2020 05:20:04,Eversource,"Connecticut Gas &amp; Electric, Inc.",117806,False,68,48,,50.00,0.00,1.00,Fixed,0.1199,,0.00,,False,False,89.93,-19.33
+04/10/2020 05:20:04,Eversource,"Choice Energy, LLC",115186,False,69,24,,50.00,0.00,0.29,Fixed,0.1279,,0.00,"Effective 1/1/2020.   Offered until 12/31/2020, but may expire earlier at supplier's discretion.",False,True,95.93,-25.33
+04/10/2020 05:20:04,Eversource,Ambit Energy,114291,False,70,12,,0.00,0.00,1.00,Fixed,0.1300,,0.00,,False,False,97.50,-26.89
