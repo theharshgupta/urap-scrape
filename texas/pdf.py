@@ -39,15 +39,15 @@ def download_pdf(pdf_url, plan):
     :return: Saves the pdf in the PDF folder in the texas folder
     """
     # Checks if the pdf is already downloaded before and if yes then returns 0
-    if exists(plan.idKey):
+    if exists(plan.id_key):
         print("PDF already downloaded, exiting ...")
-        return 0
+        return True
 
     # wraps pdf_url to string for safety
     pdf_url = str(pdf_url)
     # url_extension = str(pdf_url).split('.')[-1].lower()
 
-    print(f"Trying to fetch ID {plan.idKey} and URL {pdf_url} ")
+    print(f"Trying to fetch ID {plan.id_key} and URL {pdf_url} ")
     try:
         try:
             try:
@@ -60,7 +60,7 @@ def download_pdf(pdf_url, plan):
             return False
     except requests.exceptions.SSLError:
         # If it throws SSLError, you set verify=False in the argument list for GET
-        print(f"\t SSL Error for {plan.idKey}")
+        print(f"\t SSL Error for {plan.id_key}")
         warnings.simplefilter('ignore', InsecureRequestWarning)
         try:
             response = requests.get(url=pdf_url, stream=True, verify=False, timeout=5)
@@ -95,5 +95,5 @@ def download_pdf(pdf_url, plan):
     # if pdf, normally save it
     elif 'application/pdf' in content_type:
         # print("\t Saving but not saving")
-        with open(f"{PDF_ROOT}{plan.idKey}.pdf", 'wb') as f:
+        with open(f"{PDF_ROOT}{plan.id_key}.pdf", 'wb') as f:
             f.write(response.content)

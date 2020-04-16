@@ -9,7 +9,7 @@ from texas.pdf import download_pdf
 from texas.utils import block_print, enable_print
 from tqdm import tqdm
 
-
+block_print()
 logging.basicConfig(format="%(asctime)s: %(message)s")
 # Set timeout limit in seconds
 
@@ -127,7 +127,6 @@ def map_zipcode():
     response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
                             "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
     all_zipcodes = response.json()
-    print(all_zipcodes)
     id_zipcode_map = API(all_zipcodes).id_zipcode_map
     print(id_zipcode_map)
     edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
