@@ -65,11 +65,24 @@ def dataset():
         print("Found @" + str(pos))
 
 
+def stratify():
+    """
+    Selecting different suppliers.
+    :return:
+    """
+    df = pd.read_csv("../master_data_en.csv", encoding="utf-8")
+    df2 = df[df['[MinUsageFeesCredits]'] == True]
+    df2.to_csv("dataset_rows_minusage.csv", index=False, float_format="%.5f")
 
+    objs = []
+    i = 0
 
+    for a, b in df.groupby("[RepCompany]"):
+        for c, d in b.groupby("[TduCompanyName]"):
+            objs.append(d.sample())
 
-
-
+    df_concat = pd.concat(objs)
+    pd.DataFrame(df_concat).to_csv("dataset_rows.csv", index=False, float_format="%.5f")
 
 
 def classify_pdf():
@@ -109,4 +122,4 @@ def create_bucket():
 
 
 if __name__ == '__main__':
-    dataset()
+    stratify()
