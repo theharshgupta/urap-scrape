@@ -50,6 +50,7 @@ def fill_suppliers():
     planNum = 0
     iterator = iter(table.find_all('tr'))
     year = datetime.date.today().year - 1
+    duplicate = []
     next(iterator) #skip first entry, which is a header
     for row in iterator:
         counter = 0
@@ -62,7 +63,11 @@ def fill_suppliers():
         info["TDU_service_territory"] = "Eversource" if "Eversource" in service else service
         if first:
             info["supplier_name"] = info["TDU_service_territory"]
+        elif getValue(rowString, "data-friendly-name") in duplicate:
+            print(getValue(rowString, "data-friendly-name"))
+            continue
         else:
+            duplicate.append(getValue(rowString, "data-friendly-name"))
             info["supplier_name"] = getValue(rowString, "data-friendly-name")
         info["plan_id"] = getValue(rowString, "id=\"plan-", 0)
         curr_id = info["plan_id"]
@@ -72,9 +77,9 @@ def fill_suppliers():
             indexes_2 = find_all_indexes(curr_low['value'],str(year+1))
             low_list = []
             for i in indexes:
-                low_list.append(curr_low['value'][i + 19: i + 23])
+                low_list.append(float(curr_low['value'][i + 19: i + 23]) / 100)
             for i in indexes_2:
-                low_list.append(curr_low['value'][i + 19: i + 23])
+                low_list.append(float(curr_low['value'][i + 19: i + 23]) / 100)
             if len(low_list) > 12:
                 low_list = low_list[-12:]
             while len(low_list) < 12:
@@ -84,19 +89,20 @@ def fill_suppliers():
             indexes_2 = find_all_indexes(curr_high,str(year+1))
             high_list = []
             for i in indexes:
-                high_list.append(curr_high[i + 19: i + 23])
+                high_list.append(float(curr_high[i + 19: i + 23]) / 100)
             for i in indexes_2:
-                high_list.append(curr_high[i + 19: i + 23])
+                high_list.append(float(curr_high[i + 19: i + 23]) / 100)
             if len(high_list) > 12:
                 high_list = high_list[-12:]
             while len(high_list) < 12:
                 high_list.append('N/A')
             for i in range(12):
-                info["low data" + str(i + 1)] = low_list[i]
-                info["high data" + str(i + 1)] = high_list[i]
+                info["Low_lag" + str(i + 1)] = low_list[11 - i]
+                info["High_lag" + str(i + 1)] = high_list[11 - i]
             planNum += 1
             first = False
-            suppliers.append(Supplier(info))
+            if 0 not in low_list :
+                suppliers.append(Supplier(info))
 
 fill_suppliers()
 
