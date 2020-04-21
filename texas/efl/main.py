@@ -1,6 +1,7 @@
 from google.cloud import storage
 import pdfplumber as plum
 from string import Template
+import numpy as np
 import pathlib
 import pandas as pd
 import os
@@ -71,18 +72,26 @@ def stratify():
     :return:
     """
     df = pd.read_csv("../master_data_en.csv", encoding="utf-8")
-    df2 = df[df['[MinUsageFeesCredits]'] == True]
-    df2.to_csv("dataset_rows_minusage.csv", index=False, float_format="%.5f")
+    df_minuse = df[df['[MinUsageFeesCredits]'] == True]
+    df_minuse_false = df[df['[MinUsageFeesCredits]'] == False]
+    # df2.to_csv("dataset_rows_minusage.csv", index=False, float_format="%.5f")
 
     objs = []
-    i = 0
+    objs2 = []
 
-    for a, b in df.groupby("[RepCompany]"):
-        for c, d in b.groupby("[TduCompanyName]"):
-            objs.append(d.sample())
+    for a, b in df_minuse.groupby("[RepCompany]"):
+            objs.append(b.sample(frac=0.5))
 
-    df_concat = pd.concat(objs)
-    pd.DataFrame(df_concat).to_csv("dataset_rows.csv", index=False, float_format="%.5f")
+    for a, b in df_minuse_false.groupby("[RepCompany]"):
+        objs2.append(b.sample(frac=0.1))
+
+    df_minuse = pd.concat(objs)
+    df_minuse_false = pd.concat(objs2)
+
+    print(df_minuse.to_string())
+    print(df_minuse.shape)
+
+    # pd.DataFrame(df_concat).to_csv("dataset_rows.csv", index=False, float_format="%.5f")
 
 
 def classify_pdf():
