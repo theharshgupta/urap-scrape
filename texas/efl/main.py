@@ -88,8 +88,9 @@ def stratify():
     df_minuse = pd.concat(objs)
     df_minuse_false = pd.concat(objs2)
 
-    print(df_minuse.to_string())
-    print(df_minuse.shape)
+    df_merge = pd.concat([df_minuse, df_minuse_false])
+    print(df_merge)
+
 
     # pd.DataFrame(df_concat).to_csv("dataset_rows.csv", index=False, float_format="%.5f")
 
