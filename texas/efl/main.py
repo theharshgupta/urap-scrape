@@ -6,6 +6,9 @@ import pathlib
 import pandas as pd
 import os
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
+
 BUCKET_NAME = "zckharsh"
 PDF_FOLDER = pathlib.Path("/Users/harsh/Desktop/coding/urap-scrape/texas/PDFs/")
 
@@ -79,16 +82,17 @@ def stratify():
     objs2 = []
 
     for a, b in df_minuse.groupby("[RepCompany]"):
-            objs.append(b.sample(frac=0.5))
+            objs.append(b.sample(n=10, replace = True, random_state = 1))
 
     for a, b in df_minuse_false.groupby("[RepCompany]"):
-        objs2.append(b.sample(frac=0.1))
+        objs2.append(b.sample(frac=.25, random_state = 1))
 
     df_minuse = pd.concat(objs)
     df_minuse_false = pd.concat(objs2)
 
     df_merge = pd.concat([df_minuse, df_minuse_false])
-    print(df_merge)
+    df_merge = df_merge.drop_duplicates()
+    return(df_merge)
 
 
     # pd.DataFrame(df_concat).to_csv("dataset_rows.csv", index=False, float_format="%.5f")
@@ -131,4 +135,5 @@ def create_bucket():
 
 
 if __name__ == '__main__':
-    stratify()
+    df_merge = stratify()
+    df_merge.to_csv("training_set_sample.csv")
