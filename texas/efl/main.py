@@ -74,7 +74,6 @@ def stratify():
     df = pd.read_csv("../master_data_en.csv", encoding="utf-8")
     df_minuse = df[df['[MinUsageFeesCredits]'] == True]
     df_minuse_false = df[df['[MinUsageFeesCredits]'] == False]
-    # df2.to_csv("dataset_rows_minusage.csv", index=False, float_format="%.5f")
 
     objs = []
     objs2 = []
