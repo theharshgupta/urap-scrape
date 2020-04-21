@@ -5,21 +5,24 @@ from pandas.testing import assert_frame_equal
 import os
 import csv
 import difflib
+import sys
 import traceback
 from pathlib import Path
 from datetime import datetime
 import glob
 import time
 import re
-from ma.zipcodes_list import ma_zipcodes
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(Path(dir_path).parent)
+sys.path.append(os.getcwd())
+sys.path.append(dir_path)
 
 from email_service import send_email
 
 os.chdir(dir_path)
 
+from zipcodes_list import ma_zipcodes
 from csv_diff import load_csv, compare
 
 
