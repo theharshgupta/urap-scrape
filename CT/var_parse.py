@@ -116,7 +116,7 @@ def fill_suppliers(soup, suppliers):
 
 def run(supplier):
     try:
-        with open("./data/" + "ES_PVD.html") as html:
+        with open("./data/" + supplier + "_PVD.html") as html:
             soup = bs.BeautifulSoup(html, 'html.parser')
         suppliers = []
         fill_suppliers(soup, suppliers)
@@ -124,3 +124,5 @@ def run(supplier):
     except Exception as e:
         print("error encountered: " + str(e))
         email_error.send_email("general error: " + str(e))
+
+run("UI")
