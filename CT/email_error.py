@@ -1,11 +1,12 @@
-import smtplib, ssl
+import smtplib, ssl, json
 
-
-def send_email(error, receiver = "michael.li.gb@berkeley.edu"):
+def send_email(error, receiver = "michael.li.gb@berkeley.edu, bbqiu@berkeley.edu"):
     smtp_server = "smtp.gmail.com"
     port = 587  # For starttls
-    password = input("Type your password and press enter: ")
-    sender =  "bbqiu888@gmail.com"
+    with open('../credentials.json') as f:
+       credentials = json.load(f)
+    sender = credentials['email']
+    password = credentials['password']
     # Create a secure SSL context
     context = ssl.create_default_context()
 

@@ -65,7 +65,7 @@ def fill_suppliers(soup, suppliers):
         if first:
             info["supplier_name"] = info["TDU_service_territory"]
         elif getValue(rowString, "data-friendly-name") in duplicate:
-            print(getValue(rowString, "data-friendly-name"))
+            # print(getValue(rowString, "data-friendly-name"))
             continue
         else:
             duplicate.append(getValue(rowString, "data-friendly-name"))
@@ -74,7 +74,7 @@ def fill_suppliers(soup, suppliers):
         curr_id = info["plan_id"]
         curr_low = soup.find(id = "low_value_" + curr_id)
         if curr_low and curr_low['value'].find(str(year)) != -1:
-            print("1")
+            # print("1")
             indexes = find_all_indexes(curr_low['value'],str(year))
             indexes_2 = find_all_indexes(curr_low['value'],str(year+1))
             low_list = []

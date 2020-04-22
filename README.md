@@ -8,9 +8,7 @@ Currently, this project is for 4 states
 3. Module 3 - Texas
 4. Module 4 - Connecticut
 
-# Module - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
-
-## Installation
+# Installation
 
 1. Download the project repository
 ```bash
@@ -24,6 +22,8 @@ cd urap-scrape
     1. [Download](https://chromedriver.storage.googleapis.com/index.html?path=76.0.3809.126/) Chromedriver 76 or before (for Mac/Windows/Linux). Unzip this and add `chromedriver` file to the project folder
 
     2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
+
+# Module 1 - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
 
 ### Quickstart
 **Scraping results from [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
@@ -45,7 +45,7 @@ cd urap-scrape
 
 By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed.
 
-# Module - New York
+# Module 2 - New York
 
 1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 
@@ -54,18 +54,13 @@ By default you should have all the modules except pandas. Pandas is a big packag
 3. Run `python3 scrape.py`
 
 
-# Module CT - Spring 2020
-- The `CT` folder contains all the files necessary for scraping from https://www.energizect.com/compare-energy-suppliers.
-- Running `python3 main.py` once inside the `CT` folder will scrape data for both EverSource and UI service territories and stores them as CSVs within the data folder.
-- You will need `smtplib, ssl, selenium, difflib, time, bs4, os, csv_diff, datetime, csv, webdriver`.  A majority should come preinstalled with python, but you can install any that you're missing by running `pip install -r requirements.txt` when inside the `urap-scrape` folder.
-- Running `python3 var_scrape.py` inside the `CT` folder would generate a HTML file for both EverSource and UI service territories, containing the past variable rates for all suppliers for the most recent 12 months. The code will take awhile to run, and make sure your device does not go to sleep while scraping the website.
-- After running `python3 var_scrape.py`, run `python3 var_parse.py` to parse the previous data into the csv form.
-
-
-
-# Module - Texas - Spring 2020
+# Module 3 - Texas - Spring 2020
 The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
 
+# Module 4 CT - Spring 2020
+- The `CT` folder contains all the files necessary for scraping from https://www.energizect.com/compare-energy-suppliers.
+- Running `python3 main.py` once inside the `CT` folder will scrape all current plan data and past variable rate data for both EverSource and UI service territories and stores them as CSVs within the data folder.
+- You will need `smtplib, ssl, selenium, difflib, time, bs4, os, csv_diff, datetime, csv, json, and a chrome webdriver`.  A majority should come preinstalled with python, but you can install any that you're missing by running `pip install -r requirements.txt` when inside the `urap-scrape` folder.
 
 
 
