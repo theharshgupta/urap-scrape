@@ -1,14 +1,12 @@
 # Residential Electricity Price Scraping - UC Berkeley
 A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
 
-Currently, this project is for 3 states 
+Currently, this project is for 4 states 
 
 1. Module 1 - Massachussets 
 2. Module 2 - New York 
 3. Module 3 - Texas
-
-# Module - Texas - Spring 2020
-The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing. 
+4. Module 4 - Connecticut
 
 # Module - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
 
@@ -56,6 +54,20 @@ By default you should have all the modules except pandas. Pandas is a big packag
 3. Run `python3 scrape.py`
 
 
+# Module CT - Spring 2020
+- The `CT` folder contains all the files necessary for scraping from https://www.energizect.com/compare-energy-suppliers. 
+- Running `python3 main.py` once inside the `CT` folder will scrape data for both EverSource and UI service territories and stores them as CSVs within the data - folder.
+- You will need `smtplib, ssl, selenium, difflib, time, bs4, os, csv_diff, datetime, csv`.  A majority should come preinstalled with python, but you can install any that you're missing by running `pip install -r requirements.txt` when inside the `urap-scrape` folder.
+
+
+# Module - Texas - Spring 2020
+The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing. 
+
+
+
+
+
+
 # DEPRECATED - Texas - Fall 2019
 
 #### Dependencies
@@ -86,3 +98,4 @@ python csv_generate.py <zip_code> <number_of_plans>
 
 example:
 `python csv_generate.py 75001 10`
+
