@@ -45,7 +45,7 @@ def scrape(supplier):
             time.sleep(5)
             print("slept")
         count += 1
-        print(count)
+        # print(count)
 
 
     html = driver.page_source

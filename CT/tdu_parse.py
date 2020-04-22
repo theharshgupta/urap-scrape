@@ -151,6 +151,7 @@ def run(supplier):
         suppliers = []
         fill_suppliers(suppliers, soup)
         write_to_csv(supplier, suppliers)
+        assert False
     except Exception as e:
         print("error encountered: " + str(e))
         email_error.send_email("general error: " + str(e))
