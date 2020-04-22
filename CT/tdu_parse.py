@@ -7,8 +7,8 @@ import os
 import email_error
 
 #get's the value of an attribute using a certain offset (described below)
-def getValue(string, sub, offset=2):
-    start = string.index(sub) + len(sub) + offset 
+def getValue(string, attribute, offset=2):
+    start = string.index(attribute) + len(attribute) + offset 
     #+2 for ="
     #0 if need id="plan
     end = string.index("\"", start)
@@ -16,7 +16,10 @@ def getValue(string, sub, offset=2):
 
 #get's the number inside the content of a block with a certain attribute value
 def getNum(row, attribute, value):
-    content = str(row.find(attrs={attribute : value}).contents)
+    try:
+        content = str(row.find(attrs={attribute : value}).contents)
+    except:
+        email_error("No such attribute and value exist. Attribute: " + attribute + " Value: " + value)
     s = ''.join(x for x in content if x.isdigit()) #gets all numbers within the contents
     if s:
         return int(s)
@@ -24,7 +27,10 @@ def getNum(row, attribute, value):
         return 0
 
 def billingCycle(row):
-    mobilerateDiv = row.findAll("div", class_="mobilerate")[1]
+    try:
+        mobilerateDiv = row.findAll("div", class_="mobilerate")[1]
+    except:
+        email_error("There is no div with value mobilerate.")
     contractTerms = []
     for elem in mobilerateDiv.find("div", class_="companyShortData").contents:
         if "Billing Cycle" in elem:
@@ -35,6 +41,8 @@ def billingCycle(row):
 
 def varRate(row):
     supplyRates = row.findAll("b", class_="supply_rate")
+    if supplyRates == []:
+        email_error("Empty array for supply_rate class (no variable rate corresponding to this).")
     rates = []
     for rate in supplyRates:
         stripped = str(rate.contents[0]).replace("\n", "").strip()
@@ -72,7 +80,9 @@ def fill_suppliers(suppliers, soup):
             key = "contract_term_" + str(i)
             info[key] = months[i-1] if len(months) >= i else ""
         info["early_termination_fee"] = '{:,.2f}'.format(getNum(row, "id", "can_value"))
+        assert float(info["early_termination_fee"]) >= 0, "the early_termination_fee should be nonnegative"
         info["enrollment_fee"] = '{:,.2f}'.format(getNum(row, "id", "enroll_value"))
+        assert float(info["enrollment_fee"]) >= 0, "the enrollment_fee should be nonnegative"
         renewable = getNum(row, "data-th", "RENEWABLE ENERGY")/100
         assert 0<=renewable<=1, "renewable percentage is not within range: " + str(renewable)
         info["percent_renewable"] = '{:,.2f}'.format(renewable)
@@ -82,11 +92,13 @@ def fill_suppliers(suppliers, soup):
             key = "variable_rate_" + str(i)
             info[key] = rates[i-1] if len(rates) >= i else ""
         info["fixed_charge"] = '{:,.2f}'.format(getNum(row, "id", "recur_value")/100)
+        assert float(info["fixed_charge"]) >= 0, "the fixed_charge should be nonnegative"
         addInfo = row.find("td", class_="col_7").contents;
         info["additional_incentives"] = addInfo[0].replace("\n", "").strip() if len(addInfo) != 0 else "";
         info["enroll_online"] = "Online Enrollment" in rowString
         info["new_customer_only"] = "New Customer" in rowString
         info["estimated_monthly_cost"] = '{:,.2f}'.format(getNum(row, "data-th", "GENERATION SUPPLY COST PER MONTH")/100)
+        assert float(info["estimated_monthly_cost"]) >= 0, "the estimated_monthly_cost should be nonnegative"
         if first:
             info["estimated_savings"] = "0.00"
         else:
@@ -140,4 +152,5 @@ def run(supplier):
         fill_suppliers(suppliers, soup)
         write_to_csv(supplier, suppliers)
     except Exception as e:
+        print("error encountered: " + str(e))
         email_error.send_email("general error: " + str(e))
