@@ -2,6 +2,7 @@ import bs4 as bs
 from datetime import date
 import csv
 import datetime
+import email_error
 
 class Supplier:
     info = {}
@@ -27,6 +28,7 @@ def write_to_csv(supplier, suppliers):
         writer.writerow(suppliers[0].info.keys())
         for supplier in suppliers:
             writer.writerow(supplier.info.values())
+
 
 def find_all_indexes(input_str, search_str):
     l1 = []
@@ -91,9 +93,15 @@ def fill_suppliers(soup, suppliers):
             indexes_2 = find_all_indexes(curr_high,str(year+1))
             high_list = []
             for i in indexes:
-                high_list.append(float(curr_high[i + 19: i + 23]) / 100)
+                try:
+                    high_list.append(float(curr_high[i + 19: i + 23]) / 100)
+                except Exception as e:
+                    email_error.send_email("Format of website changed, the value of high value is not numeric")
             for i in indexes_2:
-                high_list.append(float(curr_high[i + 19: i + 23]) / 100)
+                try:
+                    high_list.append(float(curr_high[i + 19: i + 23]) / 100)
+                except Exception as e:
+                    email_error.send_email("Format of website changed, the value of low value is not numeric")
             if len(high_list) > 12:
                 high_list = high_list[-12:]
             while len(high_list) < 12:
@@ -107,8 +115,12 @@ def fill_suppliers(soup, suppliers):
                 suppliers.append(Supplier(info))
 
 def run(supplier):
-    with open("./data/" + "ES_PVD.html") as html:
-        soup = bs.BeautifulSoup(html, 'html.parser')
-    suppliers = []
-    fill_suppliers(soup, suppliers)
-    write_to_csv(supplier, suppliers)
+    try:
+        with open("./data/" + "ES_PVD.html") as html:
+            soup = bs.BeautifulSoup(html, 'html.parser')
+        suppliers = []
+        fill_suppliers(soup, suppliers)
+        write_to_csv(supplier, suppliers)
+    except Exception as e:
+        print("error encountered: " + str(e))
+        email_error.send_email("general error: " + str(e))
