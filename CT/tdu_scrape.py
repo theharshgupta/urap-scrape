@@ -20,12 +20,9 @@ def scrape(supplier):
     compare_now_button = driver.find_element_by_class_name("supplier_form_submit")
     compare_now_button.click()
 
-    # Wait *up to* 10 seconds to make sure the page has finished loading (check that the button no longer exists)
-    # WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.CLASS_NAME, "supplier_form_submit")))
-
-    #wait for the x to show up 
+    # Wait *up to* 20 seconds for the popup to show up 
     try:
-        WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.CLASS_NAME, "close_anchor")))
+        WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.CLASS_NAME, "close_anchor")))
     except: 
         email_error.send_email("selenium timed out")
 
@@ -46,6 +43,8 @@ def scrape(supplier):
             except Exception:
                 1+1
     newHTML = open("./data/" + supplier + ".html").read()
+
+    #calculates percentage difference between this and the last relevant HTML file
     matcher = SequenceMatcher(None, oldHTML, newHTML).quick_ratio()
     if matcher < 0.5:
         email_error.send_email("difference between HTML files is: ", matcher)
