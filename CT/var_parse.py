@@ -10,10 +10,7 @@ class Supplier:
         self.info = info
 
 
-with open("./data/" + 'example.html') as html:
-    soup = bs.BeautifulSoup(html, 'html.parser')
 
-suppliers = []
 
 
 def getValue(string, sub, offset=2):
@@ -24,8 +21,8 @@ def getValue(string, sub, offset=2):
     return string[start: end]
 
 
-def write_to_csv():
-    with open("./data/"+ "PVD_ES.csv", mode='w') as csv_file:
+def write_to_csv(supplier, suppliers):
+    with open("./data/"+ "PVD_" + supplier +"_"+ str(datetime.date.today()) + ".csv", mode='w') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())
         for supplier in suppliers:
@@ -44,7 +41,7 @@ def find_all_indexes(input_str, search_str):
     return l1
 
 
-def fill_suppliers():
+def fill_suppliers(soup, suppliers):
     table = soup.find_all('table', class_ = "nice_table responsive highlight_table display nowrap")[0]
     first = True
     planNum = 0
@@ -60,7 +57,11 @@ def fill_suppliers():
         if row.attrs['style'] == "display: none;":
             continue
         service = getValue(rowString, "data-ratetitle")
-        info["TDU_service_territory"] = "Eversource" if "Eversource" in service else service
+        if "Eversource" in service:
+            service = "Eversource"
+        elif "UI" in service:
+            service = "UI"
+        info["TDU_service_territory"] = service
         if first:
             info["supplier_name"] = info["TDU_service_territory"]
         elif getValue(rowString, "data-friendly-name") in duplicate:
@@ -73,6 +74,7 @@ def fill_suppliers():
         curr_id = info["plan_id"]
         curr_low = soup.find(id = "low_value_" + curr_id)
         if curr_low and curr_low['value'].find(str(year)) != -1:
+            print("1")
             indexes = find_all_indexes(curr_low['value'],str(year))
             indexes_2 = find_all_indexes(curr_low['value'],str(year+1))
             low_list = []
@@ -104,6 +106,9 @@ def fill_suppliers():
             if 0 not in low_list :
                 suppliers.append(Supplier(info))
 
-fill_suppliers()
-
-write_to_csv()
+def run(supplier):
+    with open("./data/" + "ES_PVD.html") as html:
+        soup = bs.BeautifulSoup(html, 'html.parser')
+    suppliers = []
+    fill_suppliers(soup, suppliers)
+    write_to_csv(supplier, suppliers)

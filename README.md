@@ -1,10 +1,10 @@
 # Residential Electricity Price Scraping - UC Berkeley
 A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
 
-Currently, this project is for 4 states 
+Currently, this project is for 4 states
 
-1. Module 1 - Massachussets 
-2. Module 2 - New York 
+1. Module 1 - Massachussets
+2. Module 2 - New York
 3. Module 3 - Texas
 4. Module 4 - Connecticut
 
@@ -19,33 +19,33 @@ cd urap-scrape
 ```
 2. Make sure Python 3 is set [Download Python](https://www.python.org/downloads/)
 
-3. Downloading **dependencies** 
+3. Downloading **dependencies**
 
     1. [Download](https://chromedriver.storage.googleapis.com/index.html?path=76.0.3809.126/) Chromedriver 76 or before (for Mac/Windows/Linux). Unzip this and add `chromedriver` file to the project folder
-    
+
     2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
-### Quickstart 
+### Quickstart
 **Scraping results from [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
 
-1. In the **root directory**, open `req_method.py` file. 
+1. In the **root directory**, open `req_method.py` file.
 2. In the `scrape()` function in the file, change the items marked **\[ACTION REQUIRED\]** and choose how many zipcodes you want to run the script for.
 
 ### Scraping the data                                           
-4. You can just call the function `scrape` by writing `scrape()` in the main code block as mentioned in the previous step. 
-5. After the zipcode level csv have been downloaded in the result_MA folder, you can now replace the main code block to call the function `check_unique()` and can comment out `scrape`. 
+4. You can just call the function `scrape` by writing `scrape()` in the main code block as mentioned in the previous step.
+5. After the zipcode level csv have been downloaded in the result_MA folder, you can now replace the main code block to call the function `check_unique()` and can comment out `scrape`.
 ## Packages required for running MA
 
-1. requests module 
+1. requests module
 2. pandas (if you dont have pandas, just run pip3 install pandas)
 3. pathlib
-4. json 
+4. json
 5. glob
-6. datetime 
+6. datetime
 
-By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed. 
+By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed.
 
-# Module - New York 
+# Module - New York
 
 1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 
@@ -55,13 +55,16 @@ By default you should have all the modules except pandas. Pandas is a big packag
 
 
 # Module CT - Spring 2020
-- The `CT` folder contains all the files necessary for scraping from https://www.energizect.com/compare-energy-suppliers. 
-- Running `python3 main.py` once inside the `CT` folder will scrape data for both EverSource and UI service territories and stores them as CSVs within the data - folder.
-- You will need `smtplib, ssl, selenium, difflib, time, bs4, os, csv_diff, datetime, csv`.  A majority should come preinstalled with python, but you can install any that you're missing by running `pip install -r requirements.txt` when inside the `urap-scrape` folder.
+- The `CT` folder contains all the files necessary for scraping from https://www.energizect.com/compare-energy-suppliers.
+- Running `python3 main.py` once inside the `CT` folder will scrape data for both EverSource and UI service territories and stores them as CSVs within the data folder.
+- You will need `smtplib, ssl, selenium, difflib, time, bs4, os, csv_diff, datetime, csv, webdriver`.  A majority should come preinstalled with python, but you can install any that you're missing by running `pip install -r requirements.txt` when inside the `urap-scrape` folder.
+- Running `python3 var_scrape.py` inside the `CT` folder would generate a HTML file for both EverSource and UI service territories, containing the past variable rates for all suppliers for the most recent 12 months. The code will take awhile to run, and make sure your device does not go to sleep while scraping the website.
+- After running `python3 var_scrape.py`, run `python3 var_parse.py` to parse the previous data into the csv form.
+
 
 
 # Module - Texas - Spring 2020
-The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing. 
+The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
 
 
 
@@ -98,4 +101,3 @@ python csv_generate.py <zip_code> <number_of_plans>
 
 example:
 `python csv_generate.py 75001 10`
-

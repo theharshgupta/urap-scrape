@@ -8,3 +8,10 @@ tdu_parse.run('es')
 tdu_scrape.scrape('ui')
 tdu_parse.run('ui')
 # Past_Variable_Data_Parse()
+
+var_scrape.scrape('ES')
+var_parse.run('ES')
+
+var_scrape.scrape('UI')
+var_parse.run('UI')
+
