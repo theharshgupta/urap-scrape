@@ -81,9 +81,9 @@ def fill_suppliers(soup, suppliers):
             indexes_2 = find_all_indexes(curr_low['value'],str(year+1))
             low_list = []
             for i in indexes:
-                low_list.append(float(curr_low['value'][i + 19: i + 23]) / 100)
+                low_list.append('{0:g}'.format(float(curr_low['value'][i + 19: i + 23]) / 100))
             for i in indexes_2:
-                low_list.append(float(curr_low['value'][i + 19: i + 23]) / 100)
+                low_list.append('{0:g}'.format(float(curr_low['value'][i + 19: i + 23]) / 100))
             if len(low_list) > 12:
                 low_list = low_list[-12:]
             while len(low_list) < 12:
@@ -94,12 +94,12 @@ def fill_suppliers(soup, suppliers):
             high_list = []
             for i in indexes:
                 try:
-                    high_list.append(float(curr_high[i + 19: i + 23]) / 100)
+                    high_list.append('{0:g}'.format(float(curr_high[i + 19: i + 23]) / 100))
                 except Exception as e:
                     email_error.send_email("Format of website changed, the value of high value is not numeric")
             for i in indexes_2:
                 try:
-                    high_list.append(float(curr_high[i + 19: i + 23]) / 100)
+                    high_list.append('{0:g}'.format(float(curr_high[i + 19: i + 23]) / 100))
                 except Exception as e:
                     email_error.send_email("Format of website changed, the value of low value is not numeric")
             if len(high_list) > 12:
