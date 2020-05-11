@@ -1,5 +1,6 @@
 import sys, os
 
+
 def block_print():
     """
     Blocks all print statements when called
@@ -14,5 +15,6 @@ def enable_print():
     :return: None
     """
     sys.stdout = sys.__stdout__
+
 
 TIMEOUT_LIMIT = 5

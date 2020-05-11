@@ -134,7 +134,15 @@ def map_zipcode():
     return id_zipcode_map
 
 
-def edit_csv(file, edited_file, id_zipcode_map):
+def edit_csv(file: str, edited_file: str, id_zipcode_map):
+    """
+    Helper function to write zipcode HashMap to the CSV.
+    :param file: Name of the original file.
+    :param edited_file: Name of the edited file.
+    :param id_zipcode_map: Python dictionary of the zipcode HashMap.
+    :return: None.
+    :author: Alan
+    """
     with open(file, 'r', encoding='utf-8') as read_obj, \
             open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
         csv_reader = csv.reader(read_obj, delimiter=',')
@@ -152,4 +160,4 @@ if __name__ == '__main__':
     # parse_csv("master_data.csv")
     download(csv_filepath="master_data_en.csv")
     # block_print()
-    # map_zipcode()
+    map_zipcode()
