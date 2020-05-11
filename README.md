@@ -1,3 +1,4 @@
+
 # Residential Electricity Price Scraping - UC Berkeley
 Web scraping residential electricity prices in the United States. 
 
@@ -21,77 +22,69 @@ cd urap-scrape
 
     2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
-# Module 1 - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
+# Massachussets 
+Term: Fall 2019
+Links: [energyswitchma.gov](http://www.energyswitchma.gov/#/), [Youtube Demonstration](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
+
+### Packages required for running MA
+Install everything in `\ma\requirements.txt`
 
 ### Quickstart
-**Website: [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
+1. In the **\\ma\\**, open `req_method.py` file.
+2. In the `scrape()` function in the file, change the items marked [ACTION REQUIRED] and choose the number of zip codes to analyze.
 
-1. In the **root directory**, open `req_method.py` file.
-2. In the `scrape()` function in the file, change the items marked **\[ACTION REQUIRED\]** and choose how many zipcodes you want to run the script for.
+### Running the script                                           
+4. Call  `scrape()` function in the main code block (marked as [ACTION REQUIRED]).
+5. After the zip code level CSV file has been downloaded in the `results_MA` folder, you can now replace the main code block to call the function `check_unique()` and can comment out `scrape()`.
 
-### Scraping the data                                           
-4. You can just call the function `scrape` by writing `scrape()` in the main code block as mentioned in the previous step.
-5. After the zipcode level csv have been downloaded in the result_MA folder, you can now replace the main code block to call the function `check_unique()` and can comment out `scrape`.
-## Packages required for running MA
-
-1. requests module
-2. pandas (if you dont have pandas, just run pip3 install pandas)
-3. pathlib
-4. json
-5. glob
-6. datetime
-
-By default you should have all the modules except pandas. Pandas is a big package and may take some minutes to get installed.
-
-# Module 2 - New York
-
-1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
-
-2. Enter the project folder in the terminal (make sure scrape.py is in your current directory)
-
-3. Run `python3 scrape.py`
-
-
-# Module 3 - Texas - Spring 2020
-The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
-
-# Module 4 CT - Spring 2020
+# Connecticut
+Term: Spring 2020
 - The `CT` folder contains all the files necessary for scraping from https://www.energizect.com/compare-energy-suppliers.
 - Running `python3 main.py` once inside the `CT` folder will scrape all current plan data and past variable rate data for both EverSource and UI service territories and stores them as CSVs within the data folder.
 - You will need `smtplib, ssl, selenium, difflib, time, bs4, os, csv_diff, datetime, csv, json, and a chrome webdriver`.  A majority should come preinstalled with python, but you can install any that you're missing by running `pip install -r requirements.txt` when inside the `urap-scrape` folder.
 - The var_parse and var_scrape function should be run at a frequency around once per week in order to get the most updated version of data.
 
+# Texas 
+Term: Spring 2020 
 
+Links: [http://powertochoose.org/](http://powertochoose.org/)
 
+The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
 
+## _PDF Parsing_
+### Model
+The project uses Google AutoML Vision (Entity Extraction) to build a machine learning based PDF parser. [Here]([https://cloud.google.com/natural-language/automl/docs/quickstart](https://cloud.google.com/natural-language/automl/docs/quickstart)) is a quickstart guide for AutoML. 
 
-# DEPRECATED - Texas - Fall 2019
+### Training 
+PDFs are manually labelled using AutoML dashboard UI. All the PDFs for labelling, training and testing are uploaded in [Buckets]([https://cloud.google.com/storage/docs/listing-buckets#storage-list-buckets-python](https://cloud.google.com/storage/docs/listing-buckets#storage-list-buckets-python)) with Google Storage.  
 
-#### Dependencies
+`efl\main.py` Creates the storage bucket objects of PDFs, [JSONLines]([http://jsonlines.org/](http://jsonlines.org/)) (different from JSON) file, and CSV and then uploads them to the cloud. The `stratify()` function selects different data rows from the raw CSV for labeling and training.  
 
-| Name          | Installation Link                             | Purpose                                   |
-| :---          |    :----:                                     |          :---:                            |
-| Poppler       | https://poppler.freedesktop.org               | Used to perform OCR on PDfs               |
-| wkhtmltopdf   | https://docs.bitnami.com/installer/apps/odoo/configuration/install-wkhtmltopdf/        | Used to convert HTML pages into PDFs      |
+### Running the script 
+Authorized users can generate `credentials.json` from the Google Console and run `google.cloud` module in the script to run aforementioned functions. 
 
-#### Possible Errors
+## _Scrape_
+`texas\main.py` manipulates data of a locally stored CSV of all the plans (downloaded from the main website).  First, Spanish data rows are filtered from the downloaded CSV. 
+### PDF Downloading 
+1. The `download()` function takes the file path of the CSV.
+2. It converts it to a `pandas.Dataframe` and then to a python dictionary for iteration.
+3. For each plan in the CSV, a `Plan` class object is created.
+4. `texas\pdf.py` recursive function `download_pdf()` takes the URL and the `Plan` object and downloads the PDF to location mentioned at `PDF_ROOT` variable. 
 
-| Name          | Meaning                             | Fix                                   | Where |
-| :---          |    :---:                           |          ---:                          | ---:  |
-| TesseractNotFound | Invalid path to Tesseract | [link](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) | ocr() function in pdfReader.py |
-| No wkhtmltopdf executable found | Invalid path to wkhtmltopdf | [link](https://stackoverflow.com/questions/27673870/cant-create-pdf-using-python-pdfkit-error-no-wkhtmltopdf-executable-found) | downloadUsingPDFKit() function in scrapeHelpers.py |
+## _Zipcode Mapping_
+The raw CSV from the main website data does not contain zip code information. As a workaround, a request to an official API can be made. 
 
-#### Run
+Function: `map_zipcode()` 
 
-**NOTE: the scripts need to be executed from the PowerToChoose folder or else it will fail**
+1. A list of recently updated zip codes is fetched from [api.zip-codes.com]([http://api.zip-codes.com/](http://api.zip-codes.com/)) (250 monthly requests).
+2. An `API` class object is created with the input list of zip codes. The class constructors calls internal methods to create a Python dictionary (HashMap).
+3. For each zipcode, _powertochoose.com_ API is requested which returns data for all the plans in that zip code. Now each of those plans are mapped back to the original CSV, hence creating a HashMap with Plan ID as the Key and List of zip codes as the Value.  
+4. A new CSV _master_data_en_zipcodes.csv_ is saved locally that contains an additional column of a list of zip codes for each corresponding plan. 
 
-**IMPORTANT: make sure you have folders named "PDFs" and "Terms of Services" in the "PowerToChoose" folder (case-sensitive)**
+# New York
+Term: Fall 2019
+1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 
-from the project folder, run:
-```
-cd PowerToChoose
-python csv_generate.py <zip_code> <number_of_plans>
-```
+2. Enter the project folder in the terminal (make sure scrape.py is in your current directory)
 
-example:
-`python csv_generate.py 75001 10`
+3. Run `python3 scrape.py`
