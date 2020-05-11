@@ -1,8 +1,7 @@
 # from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
 from selenium.common.exceptions import NoSuchElementException
 
-from ma.scrape import get_zipcodes
-from datetime import datetime
+from newyork.scrape import get_zipcodes
 from selenium import webdriver
 from pathlib import Path
 from datetime import datetime
@@ -10,7 +9,6 @@ import csv
 import time
 import os
 import pandas as pd
-from email_service import send_email
 
 STATE = 'Massachusetts'
 MA_ZIPCODE_LEVEL = 'ma_zipcode_level.csv'
