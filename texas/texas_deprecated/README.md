@@ -23,18 +23,3 @@ Authorized users can generate `credentials.json` from the Google Console and run
 #### Run
 
 **NOTE: the scripts need to be executed from the PowerToChoose folder or else it will fail**
-# New York
-
-**IMPORTANT: make sure you have folders named "PDFs" and "Terms of Services" in the "PowerToChoose" folder (case-sensitive)**
-1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
-
-from the project folder, run:
-```
-cd PowerToChoose
-python csv_generate.py <zip_code> <number_of_plans>
-```
-2. Enter the project folder in the terminal (make sure scrape.py is in your current directory)
-
-example:
-`python csv_generate.py 75001 10`
-3. Run `python3 scrape.py`
