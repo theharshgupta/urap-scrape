@@ -1,7 +1,6 @@
 import requests
 import json
 import pandas as pd
-from pandas.testing import assert_frame_equal
 import os
 import csv
 import sys
@@ -41,16 +40,6 @@ def timeit(method):
         return result
 
     return timed
-
-
-def df_is_equal(df1, df2):
-    """
-    This is a function that uses pandas.testing to check if two dataframes are equals
-    :param df1: first dataframe
-    :param df2: second dataframe
-    :return: bool
-    """
-    assert_frame_equal(left=df1, right=df2)
 
 
 def check_unique():
