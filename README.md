@@ -21,7 +21,7 @@ cd urap-scrape
 
     1. [Download](https://chromedriver.storage.googleapis.com/index.html?path=76.0.3809.126/) Chromedriver 76 or before (for Mac/Windows/Linux). Unzip this and add `chromedriver` file to the project folder
 
-    2. Install  project dependencies from **_requirements.txt_** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory) [Note: Use [pigar](https://github.com/damnever/pigar) _requirements.txt]
+    2. Install  project dependencies from **_requirements.txt_** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory) [Note: Use [pigar](https://github.com/damnever/pigar) to generate new _requirements.txt_]
 
 # Massachussets 
 [MA Instructions](https://github.com/theharshgupta/urap-scrape/tree/master/ma)
