@@ -47,10 +47,3 @@ Term: Spring 2020
 # Texas 
 [Instructions](https://github.com/theharshgupta/urap-scrape/tree/master/texas)
 
-# New York
-Term: Fall 2019
-1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
-
-2. Enter the project folder in the terminal (make sure scrape.py is in your current directory)
-
-3. Run `python3 scrape.py`
