@@ -22,8 +22,8 @@ cd urap-scrape
 
     2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
-# Module 1 - Massachussets 
-
+# Massachussets 
+Term: Fall 2019
 Links: [energyswitchma.gov](http://www.energyswitchma.gov/#/), [Youtube Demonstration](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
 
 ### Packages required for running MA
@@ -37,13 +37,15 @@ Install everything in `\ma\requirements.txt`
 4. Call  `scrape()` function in the main code block (marked as [ACTION REQUIRED]).
 5. After the zip code level CSV file has been downloaded in the `results_MA` folder, you can now replace the main code block to call the function `check_unique()` and can comment out `scrape()`.
 
-# CT - Spring 2020
+# Connecticut
+Term: Spring 2020
 - The `CT` folder contains all the files necessary for scraping from https://www.energizect.com/compare-energy-suppliers.
 - Running `python3 main.py` once inside the `CT` folder will scrape all current plan data and past variable rate data for both EverSource and UI service territories and stores them as CSVs within the data folder.
 - You will need `smtplib, ssl, selenium, difflib, time, bs4, os, csv_diff, datetime, csv, json, and a chrome webdriver`.  A majority should come preinstalled with python, but you can install any that you're missing by running `pip install -r requirements.txt` when inside the `urap-scrape` folder.
 - The var_parse and var_scrape function should be run at a frequency around once per week in order to get the most updated version of data.
 
-# Texas - Spring 2020
+# Texas 
+Term: Spring 2020
 Links: [http://powertochoose.org/](http://powertochoose.org/)
 The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
 
@@ -66,7 +68,7 @@ Authorized users can generate `credentials.json` from the Google Console and run
 
 
 # New York
-
+Term: Fall 2019
 1. Download/Clone the repository to a local folder. Follow the steps here [Github Cloning Repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 
 2. Enter the project folder in the terminal (make sure scrape.py is in your current directory)
