@@ -1,4 +1,5 @@
 
+
 # Residential Electricity Price Scraping - UC Berkeley
 Web scraping residential electricity prices in the United States. 
 
@@ -31,3 +32,5 @@ cd urap-scrape
 # Texas 
 [TEXAS Instructions](https://github.com/theharshgupta/urap-scrape/tree/master/texas)
 
+# New York 
+[NEW YORK Instructions](https://github.com/theharshgupta/urap-scrape/tree/master/newyork)
