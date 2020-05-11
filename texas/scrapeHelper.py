@@ -23,10 +23,10 @@ def getCurrentDate():
 
 def getResponseText(zip_code):
     """
-        Send an API request to texas_depracated and return the response
+        Send an API request to PowerToChoose and return the response
         Input:  1)  the zip code of the city
     """
-    link = 'http://api.powertochoose.org/api/texas_depracated/plans?zip_code=' + str(
+    link = 'http://api.powertochoose.org/api/PowerToChoose/plans?zip_code=' + str(
         zip_code)
     response = requests.get(link, verify=False)
     return response.text

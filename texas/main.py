@@ -16,7 +16,7 @@ dataset_planids = [12820,16606,12822,16612,16761,16690,16769,18359,18361,16759,1
 
 class API:
     zipcodes = None
-    base_url = "http://api.powertochoose.org/api/texas_depracated/plans?zip_code="
+    base_url = "http://api.powertochoose.org/api/PowerToChoose/plans?zip_code="
     id_zipcode_map = {}
 
     def __init__(self, zipcodes):
@@ -25,7 +25,7 @@ class API:
 
     def api_data(self, zipcode):
         """
-        Gets data and parses it as per texas_depracated module specifications
+        Gets data and parses it as per PowerToChoose module specifications
         :param zipcode: zipcode of the place
         :return: None
         """
