@@ -1,11 +1,9 @@
 # Residential Electricity Price Scraping - UC Berkeley
-A repository for web scraping for URAP research project - Investigationg residential electricity prices in the US
+Web scraping residential electricity prices in the United States. 
 
-Currently, this project is for 4 states
-
-1. Module 1 - Massachussets
-2. Module 2 - New York
-3. Module 3 - Texas
+1. Module 1 - Massachusetts
+2. Module 2 - New York (Incomplete)
+3. Module 3 - Texas (Incomplete)
 4. Module 4 - Connecticut
 
 # Installation
@@ -26,7 +24,7 @@ cd urap-scrape
 # Module 1 - Massachussets - [Youtube Demo](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
 
 ### Quickstart
-**Scraping results from [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
+**Website: [energyswitchma.gov](http://www.energyswitchma.gov/#/)**
 
 1. In the **root directory**, open `req_method.py` file.
 2. In the `scrape()` function in the file, change the items marked **\[ACTION REQUIRED\]** and choose how many zipcodes you want to run the script for.
