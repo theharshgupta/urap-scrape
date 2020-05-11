@@ -1,5 +1,5 @@
 import sys
-from texas.PowerToChoose.scrapeHelper import getJSON
+from texas.texas_deprecated.scrapeHelper import getJSON
 
 sys.path.append('..')
 
