@@ -23,19 +23,7 @@ cd urap-scrape
     2. Install  project dependencies from **`requirements.txt`** using `pip install -r requirements.txt` (make sure when you run this command from your terminal, you are in your project directory)
 
 # Massachussets 
-Term: Fall 2019
-Links: [energyswitchma.gov](http://www.energyswitchma.gov/#/), [Youtube Demonstration](https://www.youtube.com/watch?v=hpB_RoIlrFI&list=PLpSsC5dbVHV-Uf1VJ2ekMPUIohRoZYe8n&index=1)
-
-### Packages required for running MA
-Install everything in `\ma\requirements.txt`
-
-### Quickstart
-1. In the **\\ma\\**, open `req_method.py` file.
-2. In the `scrape()` function in the file, change the items marked [ACTION REQUIRED] and choose the number of zip codes to analyze.
-
-### Running the script                                           
-4. Call  `scrape()` function in the main code block (marked as [ACTION REQUIRED]).
-5. After the zip code level CSV file has been downloaded in the `results_MA` folder, you can now replace the main code block to call the function `check_unique()` and can comment out `scrape()`.
+[MA Instructions](https://github.com/theharshgupta/urap-scrape/tree/master/ma)
 
 # Connecticut
 Term: Spring 2020
@@ -45,5 +33,5 @@ Term: Spring 2020
 - The var_parse and var_scrape function should be run at a frequency around once per week in order to get the most updated version of data.
 
 # Texas 
-[Instructions](https://github.com/theharshgupta/urap-scrape/tree/master/texas)
+[TEXAS Instructions](https://github.com/theharshgupta/urap-scrape/tree/master/texas)
 
