@@ -3,10 +3,10 @@
 # Residential Electricity Price Scraping - UC Berkeley
 Web scraping residential electricity prices in the United States. 
 
-1. Module 1 - Massachusetts
-2. Module 2 - New York (Incomplete)
-3. Module 3 - Texas (Incomplete)
-4. Module 4 - Connecticut
+1. Massachusetts
+2. Connecticut
+3. Texas (Incomplete)
+4. New York (Incomplete) 
 
 # Installation
 
