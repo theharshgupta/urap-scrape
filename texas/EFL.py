@@ -1,4 +1,6 @@
 """
+DEPRECATED. Not used in the latest implementation. Moved to Google AutoML Vision Machine Learning model. 
+
 Note: This script requires that pytesseract, Tesseract, and all Tesseract
 binaries are installed
 
