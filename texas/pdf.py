@@ -33,11 +33,10 @@ def html_to_pdf(url, filepath):
         path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
         if not exists(path_wkhtmltopdf):
             path_wkhtmltopdf = r'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf.exe'
-        options = {'quite': ''}
         config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-        pdfkit.from_url(url, filepath, options=options, configuration=config)
+        pdfkit.from_url(url, filepath, configuration=config, options={'quiet': ''})
     elif platform == "darwin":
-        pdfkit.from_url(url, filepath)
+        pdfkit.from_url(url, filepath, options={'quiet': ''})
 
 
 def download_pdf(pdf_url, plan):
