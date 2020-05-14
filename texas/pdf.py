@@ -9,8 +9,6 @@ import logging
 from urllib3.exceptions import InsecureRequestWarning
 from requests.exceptions import MissingSchema, Timeout
 
-logging.basicConfig(filename=LOGS_PATH, level=logging.DEBUG,
-                    format='%(asctime)s:%(message)s')
 
 """
 Logging Guide 
@@ -30,10 +28,16 @@ def html_to_pdf(url, filepath):
     :param url: URL of the page.
     :return: None.
     """
-    options = {'quiet': ''}
-    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    pdfkit.from_url(url, filepath, configuration=config, options=options)
+    platform = sys.platform
+    if "win" in platform[0:3]:
+        path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+        if not exists(path_wkhtmltopdf):
+            path_wkhtmltopdf = r'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf.exe'
+        options = {'quite': ''}
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+        pdfkit.from_url(url, filepath, options=options, configuration=config)
+    elif platform == "darwin":
+        pdfkit.from_url(url, filepath)
 
 
 def download_pdf(pdf_url, plan):
@@ -42,6 +46,8 @@ def download_pdf(pdf_url, plan):
     Recursion included.
     :return: Saves the pdf in the PDF folder in the texas folder
     """
+    logging.basicConfig(filename=LOGS_PATH, level=logging.DEBUG,
+                        format='%(asctime)s:%(message)s')
 
     # Checks if the pdf is already downloaded before and if yes then returns 0
     pdf_filepath = PDF_DIR + str(plan.id_key) + ".pdf"

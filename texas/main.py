@@ -138,8 +138,9 @@ def download(csv_filepath):
 
     for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
         plan = Plan(d)
-        logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
-        download_pdf(pdf_url=plan.facts_url, plan=plan)
+        if "PULSE" in plan.rep_company:
+            logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
+            download_pdf(pdf_url=plan.facts_url, plan=plan)
 
 
 def setup():
@@ -151,6 +152,7 @@ def setup():
         os.mkdir(utils.PDF_DIR)
     if not utils.exists(utils.DATA_DIR):
         os.mkdir(utils.DATA_DIR)
+    print(utils.exists(utils.LOGS_DIR))
     if not utils.exists(utils.LOGS_DIR):
         os.mkdir(utils.LOGS_DIR)
 
