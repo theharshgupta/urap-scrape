@@ -15,10 +15,6 @@ Authorized users can generate `credentials.json` from the Google Console and run
 | :---          |    :---:                           |          ---:                          | ---:  |
 | TesseractNotFound | Invalid path to Tesseract | [link](https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i) | ocr() function in pdfReader.py |
 | No wkhtmltopdf executable found | Invalid path to wkhtmltopdf | [link](https://stackoverflow.com/questions/27673870/cant-create-pdf-using-python-pdfkit-error-no-wkhtmltopdf-executable-found) | downloadUsingPDFKit() function in scrapeHelpers.py |
-## Scrape
-`texas\main.py` manipulates data of a locally stored CSV of all the plans (downloaded from the main website).  First, Spanish data rows are filtered from the downloaded CSV. 
-### PDF Downloading 
-1. The `parse_csv` function takes the file path of the CSV 
 
 #### Run
 
