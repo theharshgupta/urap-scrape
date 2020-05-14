@@ -152,7 +152,6 @@ def setup():
         os.mkdir(utils.PDF_DIR)
     if not utils.exists(utils.DATA_DIR):
         os.mkdir(utils.DATA_DIR)
-    print(utils.exists(utils.LOGS_DIR))
     if not utils.exists(utils.LOGS_DIR):
         os.mkdir(utils.LOGS_DIR)
 
@@ -218,6 +217,11 @@ if __name__ == '__main__':
     # parse_csv("master_data.csv")
     # Step 0 - Set up folders.
     setup()
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+
+    logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
+                        format='%(asctime)s:%(message)s')
     # Step 1 - Download the CSV
     auto_download_csv(utils.CSV_LINK, utils.MASTER_CSV_PATH)
     # Step 2 - Run the difference checker TBD.

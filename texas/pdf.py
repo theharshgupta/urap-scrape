@@ -46,9 +46,6 @@ def download_pdf(pdf_url, plan):
     Recursion included.
     :return: Saves the pdf in the PDF folder in the texas folder
     """
-    logging.basicConfig(filename=LOGS_PATH, level=logging.DEBUG,
-                        format='%(asctime)s:%(message)s')
-
     # Checks if the pdf is already downloaded before and if yes then returns 0
     pdf_filepath = PDF_DIR + str(plan.id_key) + ".pdf"
     if exists(pdf_filepath):
@@ -100,14 +97,14 @@ def download_pdf(pdf_url, plan):
                 logging.info(f"Extracting in frame PDF at {plan.facts_url} calling recursively.")
                 download_pdf(pdf_url=pdf_url, plan=plan)
             elif table_exists and (soup.body.findAll(text=HTML_KEYWORDS[0] or soup.body.findAll(text=HTML_KEYWORDS[1]))):
-                html_to_pdf(url=pdf_url, filepath=f"{PDF_DIR}{plan.id_key}.pdf")
+                html_to_pdf(url=pdf_url, filepath=f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf")
                 logging.info(f"Converting HTML for {plan.facts_url} to PDF")
             else:
                 print("\t HTML nothing found.")
 
     elif 'application/pdf' in content_type:
         if len(response.content) > 0:
-            with open(f"{PDF_DIR}{plan.id_key}.pdf", 'wb') as f:
+            with open(f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf", 'wb') as f:
                 f.write(response.content)
         else:
             logging.info(f"ERROR - 0 BYTES IN THE PDF CONTENT {plan.id_key} URL {plan.facts_url}")

@@ -7,10 +7,10 @@ CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
 MASTER_CSV_PATH = os.path.join("data", "raw.csv")
 MASTER_CSV_OLD = os.path.join("data", "old.csv")
 MASTER_CSV_ZIP = os.path.join("data", "raw_zipcodes.csv")
-DATA_DIR = "data" + os.path.sep
-PDF_DIR = "PDFs" + os.path.sep
-LOGS_DIR = "logs" + os.path.sep
-LOGS_PATH = os.path.join("logs", "download.log")
+DATA_DIR = "data"
+PDF_DIR = "PDFs"
+LOGS_DIR = "logs"
+LOGS_PATH = os.path.join(LOGS_DIR, "download.log")
 HTML_KEYWORDS = ["Electricity Price", "Average Monthly Use"]
 
 
