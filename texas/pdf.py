@@ -3,13 +3,13 @@ from bs4 import BeautifulSoup
 import bs4
 from texas.utils import *
 import os
+import pdfkit
 import warnings
 import logging
 from urllib3.exceptions import InsecureRequestWarning
 from requests.exceptions import MissingSchema, Timeout
 
-PDF_ROOT = "PDFs/"
-logging.basicConfig(filename="test.log", level=logging.DEBUG,
+logging.basicConfig(filename=LOGS_PATH, level=logging.DEBUG,
                     format='%(asctime)s:%(message)s')
 
 """
@@ -24,12 +24,16 @@ There are five levels of Logs
 """
 
 
-def exists(id_key):
+def html_to_pdf(url, filepath):
     """
-    Checks if the pdf has already been downloaded
-    :return: boolean
+    Executed for URLs that have HTML table.
+    :param url: URL of the page.
+    :return: None.
     """
-    return os.path.exists(PDF_ROOT + str(id_key) + ".pdf")
+    options = {'quiet': ''}
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    pdfkit.from_url(url, filepath, configuration=config, options=options)
 
 
 def download_pdf(pdf_url, plan):
@@ -38,15 +42,14 @@ def download_pdf(pdf_url, plan):
     Recursion included.
     :return: Saves the pdf in the PDF folder in the texas folder
     """
+
     # Checks if the pdf is already downloaded before and if yes then returns 0
-    if exists(plan.id_key):
-        print("PDF already downloaded, exiting ...")
+    pdf_filepath = PDF_DIR + str(plan.id_key) + ".pdf"
+    if exists(pdf_filepath):
+        # print("PDF already downloaded, exiting ...")
         return True
 
-    # wraps pdf_url to string for safety
-    pdf_url = str(pdf_url)
     # url_extension = str(pdf_url).split('.')[-1].lower()
-
     print(f"Trying to fetch ID {plan.id_key} and URL {pdf_url} ")
     try:
         try:
@@ -54,7 +57,7 @@ def download_pdf(pdf_url, plan):
                 response = requests.get(url=pdf_url, stream=True, timeout=5)
             except Timeout:
                 logging.info(f"Timeout after {TIMEOUT_LIMIT}")
-                return False
+                return
         except MissingSchema:
             print("\t Invalid URL: ", pdf_url)
             return False
@@ -82,18 +85,24 @@ def download_pdf(pdf_url, plan):
                 download_pdf(pdf_url=pdf_url, plan=plan)
             except Exception as e:
                 print("\t The PDF could not be downloaded. :(")
+                return
         else:
-            print("\t HTML PAGE IFRAME SEARCH")
             frame_element = soup.find("iframe")
-
+            table_exists = soup.find("table")
             if frame_element:
                 pdf_url = frame_element.attrs["src"]
+                logging.info(f"Extracting in frame PDF at {plan.facts_url} calling recursively.")
                 download_pdf(pdf_url=pdf_url, plan=plan)
+            elif table_exists and (soup.body.findAll(text=HTML_KEYWORDS[0] or soup.body.findAll(text=HTML_KEYWORDS[1]))):
+                html_to_pdf(url=pdf_url, filepath=f"{PDF_DIR}{plan.id_key}.pdf")
+                logging.info(f"Converting HTML for {plan.facts_url} to PDF")
             else:
-                print("\t IFRAME not Found")
+                print("\t HTML nothing found.")
 
-    # if pdf, normally save it
     elif 'application/pdf' in content_type:
-        # print("\t Saving but not saving")
-        with open(f"{PDF_ROOT}{plan.id_key}.pdf", 'wb') as f:
-            f.write(response.content)
+        if len(response.content) > 0:
+            with open(f"{PDF_DIR}{plan.id_key}.pdf", 'wb') as f:
+                f.write(response.content)
+        else:
+            logging.info(f"ERROR - 0 BYTES IN THE PDF CONTENT {plan.id_key} URL {plan.facts_url}")
+
