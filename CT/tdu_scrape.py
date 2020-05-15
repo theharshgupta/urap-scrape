@@ -23,11 +23,10 @@ def scrape(supplier):
     #TEMPERORARY FOR THE POPUP ABOUT STANDARD PRICES
     try:
         WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.CLASS_NAME, "ui-dialog-titlebar-close")))
+        close_button = driver.find_element_by_class_name("ui-dialog-titlebar-close")
+        close_button.click()
     except: 
-        email_error.send_email("selenium timed out")
-
-    close_button = driver.find_element_by_class_name("ui-dialog-titlebar-close")
-    close_button.click()
+        print("no seasonal popup")
 
     # Wait *up to* 20 seconds for the popup to show up 
     try:
