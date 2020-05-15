@@ -1,10 +1,10 @@
-import smtplib, ssl
 import json
+import smtplib
+
 
 def send_email(body):
-    import smtplib
     with open('..\credentials.json') as f:
-       credentials = json.load(f)
+        credentials = json.load(f)
     gmail_user = credentials['email']
     gmail_password = credentials['password']
 

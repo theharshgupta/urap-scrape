@@ -185,9 +185,11 @@ def auto_download_csv(url):
     urllib.request.urlretrieve(url, filepath)
     utils.filter_spanish_rows(csv_filepath=filepath)
 
+
 def diff_check():
     """
-    Checks for differences between the last downloaded CSV and the newly downloaded one, deleting the new one if there are no differences.
+    Checks for differences between the last downloaded CSV and the newly
+    downloaded one, deleting the new one if there are no differences.
     """
     files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
     if len(files) < 2:
@@ -205,6 +207,7 @@ def diff_check():
     if same:
         os.remove("./data/" + now)
         print('deleted')
+
 
 def map_zipcode():
     """
