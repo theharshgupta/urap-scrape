@@ -180,7 +180,7 @@ def auto_download_csv(url):
     :return: None.
     """
 
-    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H:%M"))
+    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H_%M"))
     filepath = "./data/" + dateStr + ".csv"
     urllib.request.urlretrieve(url, filepath)
     utils.filter_spanish_rows(csv_filepath=filepath)
