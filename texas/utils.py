@@ -1,17 +1,21 @@
 import sys, os
 import pathlib
 import pandas as pd
+from datetime import datetime
+import shutil
+import pytz
 
 TIMEOUT_LIMIT = 5
 CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
-MASTER_CSV_PATH = os.path.join("data", "raw.csv")
-MASTER_CSV_OLD = os.path.join("data", "old.csv")
+LATEST_CSV_PATH = os.path.join("data", "latest.csv")
 MASTER_CSV_ZIP = os.path.join("data", "raw_zipcodes.csv")
 DATA_DIR = "data"
 PDF_DIR = "PDFs"
 LOGS_DIR = "logs"
 LOGS_PATH = os.path.join(LOGS_DIR, "download.log")
 HTML_KEYWORDS = ["Electricity Price", "Average Monthly Use"]
+PLANS_DIR = os.path.join(DATA_DIR, ".plans")
+MASTER_DIR = os.path.join(DATA_DIR, "master")
 
 
 def block_print():
@@ -62,4 +66,23 @@ def filter_spanish_rows(csv_filepath):
     df = pd.DataFrame(pd.read_csv(csv_filepath))
     df_english = df[df['[Language]'] == 'English']
     df_english.to_csv(csv_filepath, index=False)
+
+
+def get_datetime():
+    """
+    Function to return current datetime in format MM/DD/YYYY HH:MM:SS.
+    :return: the string of current datetime.
+    """
+    return datetime.today().astimezone(pytz.timezone('US/Pacific')).strftime('%m%d%y_%H_%M_%S')
+
+
+def copy(curr, dest):
+    """
+    Copies the file.
+    :param curr: Curr location.
+    :param dest: New location.
+    :return: None.
+    """
+    shutil.copy(src=curr, dst=dest)
+
 

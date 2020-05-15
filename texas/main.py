@@ -1,7 +1,7 @@
 import csv
 import os
 import pathlib
-
+import pickle
 import pandas as pd
 from datetime import datetime
 import requests
@@ -124,6 +124,17 @@ class Plan:
         self.rating = row_data.get("[Rating]")
         self.zipcodes = []
 
+    def equals(self, plan2):
+        """
+        Compare two plans.
+        :param plan2: The other plan.
+        :return: True or false.
+        """
+        if self.id_key == plan2.id_key:
+            return True
+
+
+
 
 def download(csv_filepath):
     """
@@ -155,6 +166,10 @@ def setup():
         os.mkdir(utils.DATA_DIR)
     if not utils.exists(utils.LOGS_DIR):
         os.mkdir(utils.LOGS_DIR)
+    if not utils.exists(utils.PLANS_DIR):
+        os.mkdir(utils.PLANS_DIR)
+    if not utils.exists(utils.MASTER_DIR):
+        os.mkdir(utils.MASTER_DIR)
 
 
 def auto_download_csv(url):
@@ -195,7 +210,7 @@ def map_zipcode():
     """
     This function will be mapping zipcodes to idKey (plan_id in dict)
     So key = idKey, value = list(zipcodes with that plan)
-    for each of the plans in the input CSV -
+    for eac`h of the plans in the input CSV -
     :return: the mapping
     """
     # API key has 250 lookups per month
@@ -205,7 +220,7 @@ def map_zipcode():
     id_zipcode_map = API(all_zipcodes).id_zipcode_map
     print(id_zipcode_map)
     # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
-    edit_csv(utils.MASTER_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
+    edit_csv(utils.LATEST_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
     return id_zipcode_map
 
 
@@ -236,6 +251,7 @@ if __name__ == '__main__':
     # parse_csv("master_data.csv")
     # Step 0 - Set up folders.
     setup()
+
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
 
@@ -246,6 +262,6 @@ if __name__ == '__main__':
     # Step 2 - Run the difference checker TBD.
     diff_check()
     # Step 3 - Run the code for the differences.
-    download(csv_filepath=utils.MASTER_CSV_PATH)
+    download(csv_filepath=utils.LATEST_CSV_PATH)
     # block_print()
     # map_zipcode()
