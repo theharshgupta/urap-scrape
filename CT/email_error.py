@@ -1,9 +1,9 @@
 import smtplib, ssl, json
 
-def send_email(error, receiver = "michael.li.gb@berkeley.edu, bbqiu@berkeley.edu"):
+def send_email(error, receiver = ["michael.li.gb@berkeley.edu", "bbqiu@berkeley.edu"]):
     smtp_server = "smtp.gmail.com"
     port = 587  # For starttls
-    with open('../credentials.json') as f:
+    with open('../../credentials.json') as f:
        credentials = json.load(f)
     sender = credentials['email']
     password = credentials['password']
@@ -11,7 +11,7 @@ def send_email(error, receiver = "michael.li.gb@berkeley.edu, bbqiu@berkeley.edu
     context = ssl.create_default_context()
 
     SUBJECT = 'CT Scrape Error'
-    TEXT = error + "\n\n\n Testing"
+    TEXT = error
 
     email_text = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
 

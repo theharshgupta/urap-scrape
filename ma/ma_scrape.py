@@ -26,7 +26,7 @@ def get_datetime():
     Function to return current datetime in format MM/DD/YYYY HH:MM
     :return: the string of current datetime
     """
-    return datetime.today().strftime('%m/%d/%y %H:%M')
+    return datetime.today().strftime('%m/%d/%y %H:%M:%S')
 
 
 def check_unqiue():

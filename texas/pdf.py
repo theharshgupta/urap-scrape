@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import bs4
-from texas.utils import *
+from utils import *
 import os
 import pdfkit
 import warnings

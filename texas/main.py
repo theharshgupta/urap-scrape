@@ -1,7 +1,7 @@
 import csv
 import os
 import pathlib
-
+import pickle
 import pandas as pd
 from datetime import datetime
 import requests
@@ -9,9 +9,10 @@ from requests.exceptions import Timeout
 import json
 import urllib.request
 import logging
-from texas.pdf import download_pdf
-import texas.utils as utils
+import pdf
+import utils
 from tqdm import tqdm
+from csv_diff import load_csv, compare
 
 
 logging.basicConfig(format="%(asctime)s: %(message)s")
@@ -123,6 +124,17 @@ class Plan:
         self.rating = row_data.get("[Rating]")
         self.zipcodes = []
 
+    def equals(self, plan2):
+        """
+        Compare two plans.
+        :param plan2: The other plan.
+        :return: True or false.
+        """
+        if self.id_key == plan2.id_key:
+            return True
+
+
+
 
 def download(csv_filepath):
     """
@@ -140,7 +152,7 @@ def download(csv_filepath):
         plan = Plan(d)
         if "PULSE" in plan.rep_company:
             logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
-            download_pdf(pdf_url=plan.facts_url, plan=plan)
+            pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
 
 
 def setup():
@@ -154,9 +166,13 @@ def setup():
         os.mkdir(utils.DATA_DIR)
     if not utils.exists(utils.LOGS_DIR):
         os.mkdir(utils.LOGS_DIR)
+    if not utils.exists(utils.PLANS_DIR):
+        os.mkdir(utils.PLANS_DIR)
+    if not utils.exists(utils.MASTER_DIR):
+        os.mkdir(utils.MASTER_DIR)
 
 
-def auto_download_csv(url, filepath):
+def auto_download_csv(url):
     """
     Download raw CSV from PTC website.
     :param url: URL to make a request.
@@ -164,19 +180,40 @@ def auto_download_csv(url, filepath):
     :return: None.
     """
 
-    if utils.exists(utils.MASTER_CSV_PATH):
-        if utils.exists(utils.MASTER_CSV_OLD):
-            os.remove(utils.MASTER_CSV_OLD)
-        utils.rename(utils.MASTER_CSV_PATH, utils.MASTER_CSV_OLD)
+    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H_%M"))
+    filepath = "./data/" + dateStr + ".csv"
     urllib.request.urlretrieve(url, filepath)
     utils.filter_spanish_rows(csv_filepath=filepath)
+
+
+def diff_check():
+    """
+    Checks for differences between the last downloaded CSV and the newly
+    downloaded one, deleting the new one if there are no differences.
+    """
+    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
+    if len(files) < 2:
+        # email_error.send_email("not enough files to compare")
+        return
+    now = files[0]
+    recent = files[1]
+    diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
+    same = True
+    for i in range(len(diff['added'])):
+        for key in diff['added'][i].keys():
+            if diff['added'][i][key] != diff['removed'][i][key]:
+                same = False
+                break
+    if same:
+        os.remove("./data/" + now)
+        print('deleted')
 
 
 def map_zipcode():
     """
     This function will be mapping zipcodes to idKey (plan_id in dict)
     So key = idKey, value = list(zipcodes with that plan)
-    for each of the plans in the input CSV -
+    for eac`h of the plans in the input CSV -
     :return: the mapping
     """
     # API key has 250 lookups per month
@@ -186,7 +223,7 @@ def map_zipcode():
     id_zipcode_map = API(all_zipcodes).id_zipcode_map
     print(id_zipcode_map)
     # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
-    edit_csv(utils.MASTER_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
+    edit_csv(utils.LATEST_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
     return id_zipcode_map
 
 
@@ -217,15 +254,17 @@ if __name__ == '__main__':
     # parse_csv("master_data.csv")
     # Step 0 - Set up folders.
     setup()
+
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
 
     logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
                         format='%(asctime)s:%(message)s')
     # Step 1 - Download the CSV
-    auto_download_csv(utils.CSV_LINK, utils.MASTER_CSV_PATH)
+    auto_download_csv(utils.CSV_LINK)
     # Step 2 - Run the difference checker TBD.
+    diff_check()
     # Step 3 - Run the code for the differences.
-    download(csv_filepath=utils.MASTER_CSV_PATH)
+    download(csv_filepath=utils.LATEST_CSV_PATH)
     # block_print()
     # map_zipcode()

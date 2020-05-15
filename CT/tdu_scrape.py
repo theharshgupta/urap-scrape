@@ -20,11 +20,19 @@ def scrape(supplier):
     compare_now_button = driver.find_element_by_class_name("supplier_form_submit")
     compare_now_button.click()
 
+    #TEMPERORARY FOR THE POPUP ABOUT STANDARD PRICES
+    try:
+        WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.CLASS_NAME, "ui-dialog-titlebar-close")))
+        close_button = driver.find_element_by_class_name("ui-dialog-titlebar-close")
+        close_button.click()
+    except: 
+        print("no seasonal popup")
+
     # Wait *up to* 20 seconds for the popup to show up 
     try:
         WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.CLASS_NAME, "close_anchor")))
     except: 
-        email_error.send_email("selenium timed out")
+        email_error.send_email("no close anchor")
 
     #click the x for a disclaimer
     close_button = driver.find_element_by_class_name("clostPopup")
