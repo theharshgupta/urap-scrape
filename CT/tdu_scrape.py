@@ -8,9 +8,11 @@ import email_error
 import time
 import bs4 as bs
 
+
 def scrape(supplier):
     oldHTML = open("./data/" + supplier + ".html").read()
     driver = webdriver.Chrome()
+    #driver = webdriver.Chrome(r'C:/Program Files/Chromedriver/chromedriver.exe') 
     driver.get("https://www.energizect.com/compare-energy-suppliers")  # get the page
 
     if (supplier == "ui"):

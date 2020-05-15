@@ -1,6 +1,6 @@
-import csv
 import os
-import pathlib
+from pathlib import Path
+import csv
 
 import pandas as pd
 from datetime import datetime
@@ -13,6 +13,8 @@ from texas.pdf import download_pdf
 import texas.utils as utils
 from tqdm import tqdm
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(Path(dir_path).parent)
 
 logging.basicConfig(format="%(asctime)s: %(message)s")
 # Set timeout limit in seconds
