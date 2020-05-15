@@ -1,0 +1,13 @@
+# X:\Python\urap-scrape\ma\scrape.py: 8
+beautifulsoup4 == 4.7.1
+
+# X:\Python\urap-scrape\ma\req_method.py: 14
+csv_diff == 0.6
+
+# X:\Python\urap-scrape\ma\ma_scrape.py: 12
+# X:\Python\urap-scrape\ma\req_method.py: 3
+# X:\Python\urap-scrape\ma\scrape.py: 9
+pandas == 0.24.2
+
+# X:\Python\urap-scrape\ma\req_method.py: 1
+requests == 2.22.0

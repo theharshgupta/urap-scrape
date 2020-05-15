@@ -1,18 +1,46 @@
 import csv
+import os
+import pathlib
+
 import pandas as pd
 from datetime import datetime
 import requests
 from requests.exceptions import Timeout
 import json
+import urllib.request
 import logging
 from texas.pdf import download_pdf
-from texas.utils import block_print, enable_print
+import texas.utils as utils
 from tqdm import tqdm
+
 
 logging.basicConfig(format="%(asctime)s: %(message)s")
 # Set timeout limit in seconds
+dataset_planids = [12820, 16606, 12822, 16612, 16761, 16690, 16769, 18359, 18361, 16759, 16765,
+                   18423, 18419, 18421, 12406, 12411, 18462, 18465, 18463, 18464, 17620, 17621,
+                   16146, 16141, 17622, 22032, 22034, 22029, 22039, 18735, 18736, 11561, 11547,
+                   11502, 11512, 11513, 11535, 11536, 11528, 20854, 20864, 20866, 20859, 20861,
+                   20846, 20848, 4152, 1883, 1986, 1879, 1820, 2859, 1821, 1987, 22845, 22120,
+                   22290, 22419, 22210, 21834, 22413, 22647, 5506, 22624, 6165, 6168, 5503, 6163,
+                   5886, 355, 456, 59, 132, 16822, 16826, 11119, 11115, 16823, 16821, 11118, 4125,
+                   142, 250, 2023, 1874, 2027, 66, 4118, 21197, 22172, 9628, 16466, 16442, 16426,
+                   16469, 22772, 17319, 17317, 22771, 20509, 20516, 20515, 20505, 18540, 16539,
+                   16531, 16509, 16523, 22783, 22451, 21694, 22454, 22455, 21496, 18374, 17577,
+                   18370, 11681, 18373, 18367, 21855, 21857, 20724, 22397, 20090, 22719, 22708,
+                   22721, 22703, 22712, 21869, 21792, 21636, 21520, 21790, 20474, 20472, 19452,
+                   21934, 20215, 20200, 20738, 20744, 20743, 20735, 21211, 21213, 22221, 22732,
+                   22243, 22512, 22261, 22254, 22730, 22744, 22258, 19845, 22689, 22687, 21371,
+                   21124, 19025, 21370, 21486, 22544, 22547, 22013, 22012, 22018, 21921, 21329,
+                   12060, 18860, 21016, 18779, 18786, 18774, 18772, 12292, 22674, 22909, 17279,
+                   17301, 18521, 18537, 18536, 18520, 20789, 20805, 20793, 20798, 20788, 13322,
+                   13333, 619, 620, 20850, 20867, 22445, 22443, 20178, 20408, 20373, 21944, 21943,
+                   21931, 20670, 20668, 20673, 20655, 20678, 20664, 16771, 20929, 20927, 20935,
+                   20904, 20944, 20920, 19787, 22890, 21629, 20959, 22841, 22237, 22364, 22825,
+                   15958, 12885, 13014, 13017, 13021, 22411, 22429, 22431, 22762, 17257, 17255,
+                   22761, 22602, 22575, 22594, 22586, 22607, 13151, 13141, 13140, 13150, 3200, 3199,
+                   11372, 3119, 3061, 18982, 18954, 246, 18981, 21147, 19872, 21344, 20022, 18865,
+                   12431, 17234, 18632, 22167, 22518, 22748, 15963, 12973, 12965, 15954]
 
-dataset_planids = [12820,16606,12822,16612,16761,16690,16769,18359,18361,16759,16765,18423,18419,18421,12406,12411,18462,18465,18463,18464,17620,17621,16146,16141,17622,22032,22034,22029,22039,18735,18736,11561,11547,11502,11512,11513,11535,11536,11528,20854,20864,20866,20859,20861,20846,20848,4152,1883,1986,1879,1820,2859,1821,1987,22845,22120,22290,22419,22210,21834,22413,22647,5506,22624,6165,6168,5503,6163,5886,355,456,59,132,16822,16826,11119,11115,16823,16821,11118,4125,142,250,2023,1874,2027,66,4118,21197,22172,9628,16466,16442,16426,16469,22772,17319,17317,22771,20509,20516,20515,20505,18540,16539,16531,16509,16523,22783,22451,21694,22454,22455,21496,18374,17577,18370,11681,18373,18367,21855,21857,20724,22397,20090,22719,22708,22721,22703,22712,21869,21792,21636,21520,21790,20474,20472,19452,21934,20215,20200,20738,20744,20743,20735,21211,21213,22221,22732,22243,22512,22261,22254,22730,22744,22258,19845,22689,22687,21371,21124,19025,21370,21486,22544,22547,22013,22012,22018,21921,21329,12060,18860,21016,18779,18786,18774,18772,12292,22674,22909,17279,17301,18521,18537,18536,18520,20789,20805,20793,20798,20788,13322,13333,619,620,20850,20867,22445,22443,20178,20408,20373,21944,21943,21931,20670,20668,20673,20655,20678,20664,16771,20929,20927,20935,20904,20944,20920,19787,22890,21629,20959,22841,22237,22364,22825,15958,12885,13014,13017,13021,22411,22429,22431,22762,17257,17255,22761,22602,22575,22594,22586,22607,13151,13141,13140,13150,3200,3199,11372,3119,3061,18982,18954,246,18981,21147,19872,21344,20022,18865,12431,17234,18632,22167,22518,22748,15963,12973,12965,15954]
 
 class API:
     zipcodes = None
@@ -105,16 +133,43 @@ def download(csv_filepath):
     :param csv_filepath:
     :return:
     """
-    # df2 = pd.DataFrame(pd.read_csv(filepath))
-    # df2 = df2[df2['[Language]'] == 'English']
-    df2 = pd.read_csv(csv_filepath)
-    data_dict2 = df2.to_dict('records')
+    df = pd.read_csv(csv_filepath)
+    data_dict = df.to_dict('records')
 
-    for d in tqdm(data_dict2, desc="PDF Downloading"):
+    for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
         plan = Plan(d)
-        if plan.id_key in dataset_planids:
+        if "PULSE" in plan.rep_company:
             logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
             download_pdf(pdf_url=plan.facts_url, plan=plan)
+
+
+def setup():
+    """
+    Sets up the folders for all functions to run.
+    :return: None.
+    """
+    if not utils.exists(utils.PDF_DIR):
+        os.mkdir(utils.PDF_DIR)
+    if not utils.exists(utils.DATA_DIR):
+        os.mkdir(utils.DATA_DIR)
+    if not utils.exists(utils.LOGS_DIR):
+        os.mkdir(utils.LOGS_DIR)
+
+
+def auto_download_csv(url, filepath):
+    """
+    Download raw CSV from PTC website.
+    :param url: URL to make a request.
+    :param filepath: file path to save the CSV.
+    :return: None.
+    """
+
+    if utils.exists(utils.MASTER_CSV_PATH):
+        if utils.exists(utils.MASTER_CSV_OLD):
+            os.remove(utils.MASTER_CSV_OLD)
+        utils.rename(utils.MASTER_CSV_PATH, utils.MASTER_CSV_OLD)
+    urllib.request.urlretrieve(url, filepath)
+    utils.filter_spanish_rows(csv_filepath=filepath)
 
 
 def map_zipcode():
@@ -130,11 +185,20 @@ def map_zipcode():
     all_zipcodes = response.json()
     id_zipcode_map = API(all_zipcodes).id_zipcode_map
     print(id_zipcode_map)
-    edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
+    # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
+    edit_csv(utils.MASTER_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
     return id_zipcode_map
 
 
-def edit_csv(file, edited_file, id_zipcode_map):
+def edit_csv(file: str, edited_file: str, id_zipcode_map):
+    """
+    Helper function to write zipcode HashMap to the CSV.
+    :param file: Name of the original file.
+    :param edited_file: Name of the edited file.
+    :param id_zipcode_map: Python dictionary of the zipcode HashMap.
+    :return: None.
+    :@author: Alan
+    """
     with open(file, 'r', encoding='utf-8') as read_obj, \
             open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
         csv_reader = csv.reader(read_obj, delimiter=',')
@@ -142,14 +206,26 @@ def edit_csv(file, edited_file, id_zipcode_map):
         for row in csv_reader:
             if len(row) == 0 or row[0] == '[idKey]' or row[0] == 'END OF FILE':
                 continue
-            if int(row[
-                       0]) in id_zipcode_map:  # if the idKey is in i_z_m, we append i_z_m's corresponding value (a list of zipcodes for that idKey) to the row in the csv
+            if int(row[0]) in id_zipcode_map:
+                # if the idKey is in i_z_m, we append i_z_m's corresponding value (a list of
+                # zipcodes for that idKey) to the row in the csv
                 row.append(id_zipcode_map[int(row[0])])
             csv_writer.writerow(row)
 
 
 if __name__ == '__main__':
     # parse_csv("master_data.csv")
-    download(csv_filepath="master_data_en.csv")
+    # Step 0 - Set up folders.
+    setup()
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+
+    logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
+                        format='%(asctime)s:%(message)s')
+    # Step 1 - Download the CSV
+    auto_download_csv(utils.CSV_LINK, utils.MASTER_CSV_PATH)
+    # Step 2 - Run the difference checker TBD.
+    # Step 3 - Run the code for the differences.
+    download(csv_filepath=utils.MASTER_CSV_PATH)
     # block_print()
     # map_zipcode()

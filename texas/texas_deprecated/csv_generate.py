@@ -1,11 +1,7 @@
-from PowerToChoose.scrapeHelper import *
-from PowerToChoose.pdfReader import *
 import sys
-from PowerToChoose.pdfReader import getPDFasText, getTerminationFee
-from PowerToChoose.scrapeHelper import getCurrentDate, getJSON
+from texas.texas_deprecated.scrapeHelper import getJSON
 
 sys.path.append('..')
-from email_service import send_email
 
 
 def generateCSVTemplate(fileNameWithExtension, mode):

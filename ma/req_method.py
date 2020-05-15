@@ -1,10 +1,8 @@
 import requests
 import json
 import pandas as pd
-from pandas.testing import assert_frame_equal
 import os
 import csv
-import difflib
 import sys
 import traceback
 from pathlib import Path
@@ -12,18 +10,15 @@ from datetime import datetime
 import glob
 import time
 import re
+from ma.zipcodes_list import ma_zipcodes
+from csv_diff import load_csv, compare
+from email_service import send_email
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(Path(dir_path).parent)
 sys.path.append(os.getcwd())
 sys.path.append(dir_path)
-
-from email_service import send_email
-
 os.chdir(dir_path)
-
-from zipcodes_list import ma_zipcodes
-from csv_diff import load_csv, compare
 
 
 def timeit(method):
@@ -47,23 +42,14 @@ def timeit(method):
     return timed
 
 
-def df_is_equal(df1, df2):
-    """
-    This is a function that uses pandas.testing to check if two dataframes are equals
-    :param df1: first dataframe
-    :param df2: second dataframe
-    :return: bool
-    """
-    assert_frame_equal(left=df1, right=df2)
-
-
 def check_unique():
     """
-    Returns a tuple with the original merged zipcode supplier companies and the number of unique suppliers
+    Returns a tuple with the original merged zipcode supplier companies and the number of
+    unique suppliers.
     :return:
     """
 
-    path = r'results_MA'  # use your path
+    path = r'results_MA'
     all_files = glob.glob(path + "/*.csv")
 
     li = []
@@ -88,38 +74,6 @@ def check_unique():
     print(f"\nMerged {len(all_files)} zipcodes rows :: ", all_df_shape)
     print(f"Unqiue {len(all_files)} zipcodes rows :: ", unique_df_shape)
     return all_df_shape, unique_df_shape
-
-
-# Function to try to quantify the similarity of two files - UNUSED
-def diff_checker(old_file, new_file):
-    """
-    Returns boolean if the two files are similar
-    :param filename1: filepath for first file
-    :param filename2: filepath for second file
-    :return: boolean true or false
-    """
-    from difflib import SequenceMatcher
-    print(old_file)
-    print(new_file)
-    exit()
-
-    text1 = open(old_file).read()
-    text2 = open(new_file).read()
-    for line in open(new_file).readlines()[:-2]:
-        print(line)
-        lineSplit = line.split(',')
-        lineSplit = lineSplit.pop(17)
-        print(lineSplit)
-    words_text1 = text1.split(',')
-    words_text2 = text2.split(',')
-    # del words_text1[16::17]
-    # del words_text2[16::17]
-    remove_list = words_text2[17::20]
-    # print(words_text1)
-    # print(words_text2)
-    m = SequenceMatcher(None, text1, text2)
-    print(f"\t Similarity between {old_file} and {new_file} :: {m.ratio()}")
-    exit()
 
 
 def convert_cents_to_dollars(x):
@@ -325,8 +279,8 @@ def get_suppliers(zipcode):
 @timeit
 def scrape():
     """
-    This is the main function to scrape the results
-    :return: None
+    This is the main function to scrape the results.
+    :return: None.
     """
     # Creates a file if it does not exist to append the timestamp of each script run
 
@@ -372,8 +326,7 @@ def scrape():
 try:
     # [ACTION REQUIRED] Select which function you want to run
     scrape()
-    # check_unique()
+    check_unique()
 except Exception as err:
-    # Send email
     error_traceback = traceback.extract_tb(err.__traceback__)
     send_email(body=f"Traceback at {datetime.today().strftime('%m/%d/%y %H:%M:%S')} from Scheduler: {error_traceback}")
