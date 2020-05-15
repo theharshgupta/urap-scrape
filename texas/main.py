@@ -9,9 +9,10 @@ from requests.exceptions import Timeout
 import json
 import urllib.request
 import logging
-from texas.pdf import download_pdf
-import texas.utils as utils
+import pdf
+import utils
 from tqdm import tqdm
+from csv_diff import load_csv, compare
 
 
 logging.basicConfig(format="%(asctime)s: %(message)s")
@@ -140,7 +141,7 @@ def download(csv_filepath):
         plan = Plan(d)
         if "PULSE" in plan.rep_company:
             logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
-            download_pdf(pdf_url=plan.facts_url, plan=plan)
+            pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
 
 
 def setup():
@@ -156,7 +157,7 @@ def setup():
         os.mkdir(utils.LOGS_DIR)
 
 
-def auto_download_csv(url, filepath):
+def auto_download_csv(url):
     """
     Download raw CSV from PTC website.
     :param url: URL to make a request.
@@ -164,13 +165,31 @@ def auto_download_csv(url, filepath):
     :return: None.
     """
 
-    if utils.exists(utils.MASTER_CSV_PATH):
-        if utils.exists(utils.MASTER_CSV_OLD):
-            os.remove(utils.MASTER_CSV_OLD)
-        utils.rename(utils.MASTER_CSV_PATH, utils.MASTER_CSV_OLD)
+    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H:%M"))
+    filepath = "./data/" + dateStr + ".csv"
     urllib.request.urlretrieve(url, filepath)
     utils.filter_spanish_rows(csv_filepath=filepath)
 
+def diff_check():
+    """
+    Checks for differences between the last downloaded CSV and the newly downloaded one, deleting the new one if there are no differences.
+    """
+    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
+    if len(files) < 2:
+        # email_error.send_email("not enough files to compare")
+        return
+    now = files[0]
+    recent = files[1]
+    diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
+    same = True
+    for i in range(len(diff['added'])):
+        for key in diff['added'][i].keys():
+            if diff['added'][i][key] != diff['removed'][i][key]:
+                same = False
+                break
+    if same:
+        os.remove("./data/" + now)
+        print('deleted')
 
 def map_zipcode():
     """
@@ -223,8 +242,9 @@ if __name__ == '__main__':
     logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
                         format='%(asctime)s:%(message)s')
     # Step 1 - Download the CSV
-    auto_download_csv(utils.CSV_LINK, utils.MASTER_CSV_PATH)
+    auto_download_csv(utils.CSV_LINK)
     # Step 2 - Run the difference checker TBD.
+    diff_check()
     # Step 3 - Run the code for the differences.
     download(csv_filepath=utils.MASTER_CSV_PATH)
     # block_print()
