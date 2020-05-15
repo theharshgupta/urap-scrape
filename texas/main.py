@@ -1,7 +1,7 @@
 import csv
 import os
 import pathlib
-
+import pickle
 import pandas as pd
 from datetime import datetime
 import requests
@@ -123,6 +123,17 @@ class Plan:
         self.rating = row_data.get("[Rating]")
         self.zipcodes = []
 
+    def equals(self, plan2):
+        """
+        Compare two plans.
+        :param plan2: The other plan.
+        :return: True or false.
+        """
+        if self.id_key == plan2.id_key:
+            return True
+
+
+
 
 def download(csv_filepath):
     """
@@ -154,6 +165,10 @@ def setup():
         os.mkdir(utils.DATA_DIR)
     if not utils.exists(utils.LOGS_DIR):
         os.mkdir(utils.LOGS_DIR)
+    if not utils.exists(utils.PLANS_DIR):
+        os.mkdir(utils.PLANS_DIR)
+    if not utils.exists(utils.MASTER_DIR):
+        os.mkdir(utils.MASTER_DIR)
 
 
 def auto_download_csv(url, filepath):
@@ -164,19 +179,26 @@ def auto_download_csv(url, filepath):
     :return: None.
     """
 
-    if utils.exists(utils.MASTER_CSV_PATH):
-        if utils.exists(utils.MASTER_CSV_OLD):
-            os.remove(utils.MASTER_CSV_OLD)
-        utils.rename(utils.MASTER_CSV_PATH, utils.MASTER_CSV_OLD)
-    urllib.request.urlretrieve(url, filepath)
-    utils.filter_spanish_rows(csv_filepath=filepath)
+    if not utils.exists(filepath):
+        urllib.request.urlretrieve(url, filepath)
+
+    if not utils.exists(utils.LATEST_CSV_PATH):
+        utils.copy(filepath, utils.LATEST_CSV_PATH)
+    else:
+        # RUN A DIFF CHECKER FOR LATEST AND FILEPATH
+        # IF LATEST AND FILEPATH ARE SAME - EXIT
+        # ELSE MAKE FILEPATH'S COPY AND SET LATEST
+        pass
+
+
+    utils.filter_spanish_rows(csv_filepath=utils.LATEST_CSV_PATH)
 
 
 def map_zipcode():
     """
     This function will be mapping zipcodes to idKey (plan_id in dict)
     So key = idKey, value = list(zipcodes with that plan)
-    for each of the plans in the input CSV -
+    for eac`h of the plans in the input CSV -
     :return: the mapping
     """
     # API key has 250 lookups per month
@@ -186,7 +208,7 @@ def map_zipcode():
     id_zipcode_map = API(all_zipcodes).id_zipcode_map
     print(id_zipcode_map)
     # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
-    edit_csv(utils.MASTER_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
+    edit_csv(utils.LATEST_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
     return id_zipcode_map
 
 
@@ -217,15 +239,16 @@ if __name__ == '__main__':
     # parse_csv("master_data.csv")
     # Step 0 - Set up folders.
     setup()
+
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
 
     logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
                         format='%(asctime)s:%(message)s')
     # Step 1 - Download the CSV
-    auto_download_csv(utils.CSV_LINK, utils.MASTER_CSV_PATH)
+    auto_download_csv(utils.CSV_LINK, os.path.join(utils.MASTER_DIR, f"{utils.get_datetime()}.csv"))
     # Step 2 - Run the difference checker TBD.
     # Step 3 - Run the code for the differences.
-    download(csv_filepath=utils.MASTER_CSV_PATH)
+    # download(csv_filepath=utils.LATEST_CSV_PATH)
     # block_print()
     # map_zipcode()
