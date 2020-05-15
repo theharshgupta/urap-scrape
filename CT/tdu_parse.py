@@ -110,7 +110,7 @@ def fill_suppliers(suppliers, soup):
 
 #writes all info into a csv
 def write_to_csv(supplier, suppliers):
-    dateStr = str(datetime.now().strftime("%m_%d_%Y"))
+    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H:%M"))
     with open("./data/TDU_" + supplier + "_" + dateStr + ".csv", mode='w') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())
@@ -151,7 +151,6 @@ def run(supplier):
         suppliers = []
         fill_suppliers(suppliers, soup)
         write_to_csv(supplier, suppliers)
-        assert False
     except Exception as e:
         print("error encountered: " + str(e))
         email_error.send_email("general error: " + str(e))
