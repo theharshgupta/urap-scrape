@@ -70,7 +70,7 @@ def filter_spanish_rows(csv_filepath):
 
 def get_datetime():
     """
-    Function to return current datetime in format MM/DD/YYYY HH:MM:SS.
+    Function to return current datetime.
     :return: the string of current datetime.
     """
     return datetime.today().astimezone(pytz.timezone('US/Pacific')).strftime('%m%d%y_%H_%M_%S')

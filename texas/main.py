@@ -2,6 +2,8 @@ import csv
 import os
 import pathlib
 import pickle
+import traceback
+from email_service import send_email
 import pandas as pd
 from datetime import datetime
 import requests
@@ -9,14 +11,13 @@ from requests.exceptions import Timeout
 import json
 import urllib.request
 import logging
-import pdf
-import utils
+import texas.pdf
+import texas.utils as utils
 from tqdm import tqdm
 from csv_diff import load_csv, compare
 
-
 logging.basicConfig(format="%(asctime)s: %(message)s")
-# Set timeout limit in seconds
+
 dataset_planids = [12820, 16606, 12822, 16612, 16761, 16690, 16769, 18359, 18361, 16759, 16765,
                    18423, 18419, 18421, 12406, 12411, 18462, 18465, 18463, 18464, 17620, 17621,
                    16146, 16141, 17622, 22032, 22034, 22029, 22039, 18735, 18736, 11561, 11547,
@@ -134,8 +135,6 @@ class Plan:
             return True
 
 
-
-
 def download(csv_filepath):
     """
     Alan Comments: df2 is a slight variation of the df object above (I think?) We're iterating
@@ -213,7 +212,7 @@ def map_zipcode():
     """
     This function will be mapping zipcodes to idKey (plan_id in dict)
     So key = idKey, value = list(zipcodes with that plan)
-    for eac`h of the plans in the input CSV -
+    for each of the plans in the input CSV -
     :return: the mapping
     """
     # API key has 250 lookups per month
@@ -261,10 +260,23 @@ if __name__ == '__main__':
     logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
                         format='%(asctime)s:%(message)s')
     # Step 1 - Download the CSV
-    auto_download_csv(utils.CSV_LINK)
-    # Step 2 - Run the difference checker TBD.
+    try:
+        auto_download_csv(utils.CSV_LINK)
+    except Exception as e:
+        error_traceback = traceback.extract_tb(e.__traceback__)
+        send_email(body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
+                   files=[utils.LOGS_PATH])
+
+
     diff_check()
+
     # Step 3 - Run the code for the differences.
-    download(csv_filepath=utils.LATEST_CSV_PATH)
+    try:
+        download(csv_filepath=utils.LATEST_CSV_PATH)
+    except Exception as e:
+        error_traceback = traceback.extract_tb(e.__traceback__)
+        send_email(body=f"Error in PDF Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
+                   files=[utils.LOGS_PATH])
+
     # block_print()
     # map_zipcode()
