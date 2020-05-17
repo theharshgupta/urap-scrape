@@ -4,11 +4,12 @@ import pandas as pd
 from datetime import datetime
 import shutil
 import pytz
+import pickle
 
 TIMEOUT_LIMIT = 5
 CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
 LATEST_CSV_PATH = os.path.join("data", "latest.csv")
-MASTER_CSV_ZIP = os.path.join("data", "raw_zipcodes.csv")
+MASTER_CSV_ZIP = os.path.join("data", "latest_codes.csv")
 DATA_DIR = "data"
 PDF_DIR = "PDFs"
 LOGS_DIR = "logs"
@@ -16,6 +17,31 @@ LOGS_PATH = os.path.join(LOGS_DIR, "download.log")
 HTML_KEYWORDS = ["Electricity Price", "Average Monthly Use"]
 PLANS_DIR = os.path.join(DATA_DIR, ".plans")
 MASTER_DIR = os.path.join(DATA_DIR, "master")
+ZIPCODE_FILE = os.path.join(DATA_DIR, ".zipcodes")
+VALID_ZIPS = os.path.join(DATA_DIR, ".valid_zip")
+ZIPCODE_MAP = os.path.join(DATA_DIR, "zipcode_plan_map.json")
+
+
+def save_pickle(object, file):
+    """
+    A function to save object to a pickle in the file location
+    :param object: what you want to pickle
+    :param file: where you want to pickle
+    :return: None
+    """
+    with open(file, 'ab') as f:
+        pickle.dump(object, f)
+
+
+def get_pickle(file):
+    """
+    Return the pickle object from the file location
+    :param file: the place where the pickle is stored
+    :return: the pickled object
+    """
+
+    with open(file, 'rb') as f:
+        return pickle.load(f)
 
 
 def block_print():
