@@ -8,6 +8,12 @@ from email.utils import formatdate
 
 
 def send_email(body: str, files: list):
+    """
+    Sends an email. Parts of this code are taken from Stack Overflow.
+    :param body: Text of the email.
+    :param files: List of files to be attached.
+    :return: True or false if the email was sent.
+    """
     with open('credentials.json') as f:
         credentials = json.load(f)
     gmail_user = credentials['email']
@@ -27,7 +33,6 @@ def send_email(body: str, files: list):
                 fil.read(),
                 Name=basename(f)
             )
-        # After the file is closed
         part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
         msg.attach(part)
 
@@ -38,5 +43,7 @@ def send_email(body: str, files: list):
         server.sendmail(gmail_user, ["harsh@berkeley.edu"], msg.as_string())
         server.close()
         print('EMAIL SENT')
+        return True
     except Exception as e:
         print("Err, something went wrong \n ", e)
+        return False
