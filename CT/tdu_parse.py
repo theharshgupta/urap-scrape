@@ -110,7 +110,7 @@ def fill_suppliers(suppliers, soup):
 
 #writes all info into a csv
 def write_to_csv(supplier, suppliers):
-    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H:%M"))
+    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H_%M"))
     with open("./data/TDU_" + supplier + "_" + dateStr + ".csv", mode='w') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())

@@ -1,7 +1,7 @@
 # from scrape import get_zipcodes, ma_download_dir, driver, NoSuchElementException
 from selenium.common.exceptions import NoSuchElementException
 
-from newyork.scrape import get_zipcodes
+from newyork.scrape import get_zipcodes, ma_download_dir
 from selenium import webdriver
 from pathlib import Path
 from datetime import datetime

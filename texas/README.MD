@@ -1,3 +1,4 @@
+
 # Texas 
 Term: Spring 2020 
 
@@ -34,3 +35,15 @@ Function: `map_zipcode()`
 2. An `API` class object is created with the input list of zip codes. The class constructors calls internal methods to create a Python dictionary (HashMap).
 3. For each zipcode, _powertochoose.com_ API is requested which returns data for all the plans in that zip code. Now each of those plans are mapped back to the original CSV, hence creating a HashMap with Plan ID as the Key and List of zip codes as the Value.  
 4. A new CSV _master_data_en_zipcodes.csv_ is saved locally that contains an additional column of a list of zip codes for each corresponding plan. 
+
+## APIs (& other ways to get data)
+Texas has multiple endpoints for their APIs. Each API returns different results, with some overlapping data. 
+
+1. http://powertochoose.com/en-us/service/v1/ : Internal API calls are made here. On PTC home screen, zipcode checking is preformed using this API. The parameters in the `post` request are: `{method: "plans/count", plan_type: 1, zip_code: "75001", include_details: false, language: 0}`. On inspection, one can see that the `method` key can take different parameters that yields different results. When this API endpoint was tested for `{"method":"plans","plan_type":1,"zip_code":"75001","include_details":True,"language":0}` it returns all the plan details. Further inspection shows that for `{"method": "TduCompaniesByZip", "zip_code": "75001", "include_details": False, "language": 0}`, the API returns the list of TDUs in that zip code. 
+2. http://api.powertochoose.org/api/PowerToChoose/plans?zip_code=: Using this end point, you can add a zipcode and it returns XML data, properly formatted which contains almost similar amount of data. It takes a little longer than the first API endpoint. 
+3. Exporting CSV: http://www.powertochoose.org/en-us/Plan/ExportToCsv downloads the most recent plan information available on the website. This is the fastest way to download formatted CSV data. However, zip code information is unavailable with this method. 
+
+
+Tools:
+5. Good markdown editor: https://stackedit.io/
+

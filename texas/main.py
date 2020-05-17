@@ -2,6 +2,8 @@ import csv
 import os
 import pathlib
 import pickle
+import traceback
+from email_service import send_email
 import pandas as pd
 from datetime import datetime
 import requests
@@ -9,14 +11,14 @@ from requests.exceptions import Timeout
 import json
 import urllib.request
 import logging
-import pdf
-import utils
+import texas.pdf as pdf
+import texas.utils as utils
 from tqdm import tqdm
 from csv_diff import load_csv, compare
-
+import texas.map_zipcodes as map_zips
 
 logging.basicConfig(format="%(asctime)s: %(message)s")
-# Set timeout limit in seconds
+
 dataset_planids = [12820, 16606, 12822, 16612, 16761, 16690, 16769, 18359, 18361, 16759, 16765,
                    18423, 18419, 18421, 12406, 12411, 18462, 18465, 18463, 18464, 17620, 17621,
                    16146, 16141, 17622, 22032, 22034, 22029, 22039, 18735, 18736, 11561, 11547,
@@ -41,50 +43,6 @@ dataset_planids = [12820, 16606, 12822, 16612, 16761, 16690, 16769, 18359, 18361
                    22761, 22602, 22575, 22594, 22586, 22607, 13151, 13141, 13140, 13150, 3200, 3199,
                    11372, 3119, 3061, 18982, 18954, 246, 18981, 21147, 19872, 21344, 20022, 18865,
                    12431, 17234, 18632, 22167, 22518, 22748, 15963, 12973, 12965, 15954]
-
-
-class API:
-    zipcodes = None
-    base_url = "http://api.powertochoose.org/api/PowerToChoose/plans?zip_code="
-    id_zipcode_map = {}
-
-    def __init__(self, zipcodes):
-        self.zipcodes = zipcodes
-        self.all_zips()
-
-    def api_data(self, zipcode):
-        """
-        Gets data and parses it as per PowerToChoose module specifications
-        :param zipcode: zipcode of the place
-        :return: None
-        """
-        timeouts = []
-        try:
-            response = requests.get(self.base_url + str(zipcode), verify=False,
-                                    timeout=(2, 5))
-        except Timeout:
-            timeouts.append(zipcode)
-            return
-        # Each data row has an plan_id that should be same to the idKey in the CSV
-        data = json.loads(response.text)['data']
-        print('Zipcode: ' + str(zipcode), " has plan data:", len(data) != 0,
-              ". Time outs:", timeouts)
-        for row in data:
-            if row['plan_id'] in self.id_zipcode_map.keys():
-                # This appends new zipcodes to the current planID.
-                self.id_zipcode_map[row['plan_id']] = self.id_zipcode_map[row['plan_id']] \
-                                                      + [zipcode]
-            else:
-                # Create a new key-value pair of planID and zipcode in the dict.
-                self.id_zipcode_map[row['plan_id']] = [zipcode]
-
-    def all_zips(self):
-        """
-        creates API object for all the zipcodes. The tqdm module is for a progress bar.
-        :return: None
-        """
-        for zipcode in tqdm(self.zipcodes, desc="Zipcode Mapping"):
-            self.api_data(zipcode)
 
 
 class Plan:
@@ -134,8 +92,6 @@ class Plan:
             return True
 
 
-
-
 def download(csv_filepath):
     """
     Alan Comments: df2 is a slight variation of the df object above (I think?) We're iterating
@@ -150,9 +106,8 @@ def download(csv_filepath):
 
     for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
         plan = Plan(d)
-        if "PULSE" in plan.rep_company:
-            logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
-            pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
+        logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
+        pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
 
 
 def setup():
@@ -180,51 +135,38 @@ def auto_download_csv(url):
     :return: None.
     """
 
-    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H_%M"))
-    filepath = "./data/" + dateStr + ".csv"
-    urllib.request.urlretrieve(url, filepath)
-    utils.filter_spanish_rows(csv_filepath=filepath)
+    filepath = f"{os.path.join(utils.MASTER_DIR, utils.get_datetime())}.csv"
+    import csv
+
+    if not utils.exists(utils.LATEST_CSV_PATH):
+        urllib.request.urlretrieve(url, filepath)
+        utils.copy(filepath, utils.LATEST_CSV_PATH)
+    else:
+        urllib.request.urlretrieve(url, filepath)
+        is_same = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
+        if is_same:
+            os.remove(filepath)
+        else:
+            utils.copy(filepath, utils.LATEST_CSV_PATH)
+
+    utils.filter_spanish_rows(csv_filepath=utils.LATEST_CSV_PATH)
 
 
-def diff_check():
+def diff_check(latest, other):
     """
     Checks for differences between the last downloaded CSV and the newly
     downloaded one, deleting the new one if there are no differences.
     """
-    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
-    if len(files) < 2:
-        # email_error.send_email("not enough files to compare")
-        return
-    now = files[0]
-    recent = files[1]
-    diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
+    now = latest
+    recent = other
+    diff = compare(load_csv(open(now, encoding="latin-1")), load_csv(open(recent, encoding="latin-1")))
     same = True
     for i in range(len(diff['added'])):
         for key in diff['added'][i].keys():
             if diff['added'][i][key] != diff['removed'][i][key]:
                 same = False
                 break
-    if same:
-        os.remove("./data/" + now)
-        print('deleted')
-
-
-def map_zipcode():
-    """
-    This function will be mapping zipcodes to idKey (plan_id in dict)
-    So key = idKey, value = list(zipcodes with that plan)
-    for eac`h of the plans in the input CSV -
-    :return: the mapping
-    """
-    # API key has 250 lookups per month
-    response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
-                            "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
-    all_zipcodes = response.json()
-    id_zipcode_map = API(all_zipcodes).id_zipcode_map
-    print(id_zipcode_map)
-    # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
-    edit_csv(utils.LATEST_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
-    return id_zipcode_map
+    return same
 
 
 def edit_csv(file: str, edited_file: str, id_zipcode_map):
@@ -260,11 +202,25 @@ if __name__ == '__main__':
 
     logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
                         format='%(asctime)s:%(message)s')
-    # Step 1 - Download the CSV
-    auto_download_csv(utils.CSV_LINK)
-    # Step 2 - Run the difference checker TBD.
-    diff_check()
+
+    try:
+        # auto_download_csv(utils.CSV_LINK)
+        pass
+    except Exception as e:
+        error_traceback = traceback.extract_tb(e.__traceback__)
+        send_email(body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
+                   files=[utils.LOGS_PATH])
+
+    # diff_check()
+
     # Step 3 - Run the code for the differences.
-    download(csv_filepath=utils.LATEST_CSV_PATH)
+    try:
+        # download(csv_filepath=utils.LATEST_CSV_PATH)
+        pass
+    except Exception as e:
+        error_traceback = traceback.extract_tb(e.__traceback__)
+        send_email(body=f"Error in PDF Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
+                   files=[utils.LOGS_PATH])
+
     # block_print()
-    # map_zipcode()
+    map_zips.main()
