@@ -154,7 +154,7 @@ def classify_pdf():
 
 def create_bucket():
     """Creates a new bucket."""
-    print("Total PDFs downloaded: ", len(os.listdir("../PDFs")))
+    print("Total PDFs downloaded: ", len(os.listdir("../data/PDFs")))
     label_pdf_folder = Path("label_pdf")
     if not label_pdf_folder.exists():
         Path.mkdir(label_pdf_folder)

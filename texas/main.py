@@ -106,9 +106,8 @@ def download(csv_filepath):
 
     for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
         plan = Plan(d)
-        if "PULSE" in plan.rep_company:
-            logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
-            pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
+        logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
+        pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
 
 
 def setup():
@@ -136,33 +135,38 @@ def auto_download_csv(url):
     :return: None.
     """
 
-    dateStr = str(datetime.now().strftime("%m_%d_%Y_%H_%M"))
-    filepath = "./data/" + dateStr + ".csv"
-    urllib.request.urlretrieve(url, filepath)
-    utils.filter_spanish_rows(csv_filepath=filepath)
+    filepath = f"{os.path.join(utils.MASTER_DIR, utils.get_datetime())}.csv"
+    import csv
+
+    if not utils.exists(utils.LATEST_CSV_PATH):
+        urllib.request.urlretrieve(url, filepath)
+        utils.copy(filepath, utils.LATEST_CSV_PATH)
+    else:
+        urllib.request.urlretrieve(url, filepath)
+        is_same = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
+        if is_same:
+            os.remove(filepath)
+        else:
+            utils.copy(filepath, utils.LATEST_CSV_PATH)
+
+    utils.filter_spanish_rows(csv_filepath=utils.LATEST_CSV_PATH)
 
 
-def diff_check():
+def diff_check(latest, other):
     """
     Checks for differences between the last downloaded CSV and the newly
     downloaded one, deleting the new one if there are no differences.
     """
-    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
-    if len(files) < 2:
-        # email_error.send_email("not enough files to compare")
-        return
-    now = files[0]
-    recent = files[1]
-    diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
+    now = latest
+    recent = other
+    diff = compare(load_csv(open(now, encoding="latin-1")), load_csv(open(recent, encoding="latin-1")))
     same = True
     for i in range(len(diff['added'])):
         for key in diff['added'][i].keys():
             if diff['added'][i][key] != diff['removed'][i][key]:
                 same = False
                 break
-    if same:
-        os.remove("./data/" + now)
-        print('deleted')
+    return same
 
 
 def edit_csv(file: str, edited_file: str, id_zipcode_map):

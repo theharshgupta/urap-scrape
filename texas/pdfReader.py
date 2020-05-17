@@ -314,4 +314,4 @@ if __name__ == "__main__":
     #print(getBEDCharges("Base charge $5 Energy $10 Delivery 0.038447"))
 
     # it fails here, they have Energy Charge:3.0¢, so use regular expressions instead of split()
-    print(getBEDCharges(getPDFasText("PDFs/Liberty Power.pdf")))
+    print(getBEDCharges(getPDFasText("data/PDFs/Liberty Power.pdf")))

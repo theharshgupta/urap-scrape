@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import bs4
-from utils import *
+from texas.utils import *
 import os
 import pdfkit
 import warnings
@@ -46,13 +46,13 @@ def download_pdf(pdf_url, plan):
     :return: Saves the pdf in the PDF folder in the texas folder
     """
     # Checks if the pdf is already downloaded before and if yes then returns 0
-    pdf_filepath = PDF_DIR + str(plan.id_key) + ".pdf"
+    pdf_filepath = f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf"
     if exists(pdf_filepath):
-        # print("PDF already downloaded, exiting ...")
+        print("PDF already downloaded, exiting ...")
         return True
 
     # url_extension = str(pdf_url).split('.')[-1].lower()
-    print(f"Trying to fetch ID {plan.id_key} and URL {pdf_url} ")
+    print(f"Trying to download {plan.id_key} at {pdf_url} ")
     try:
         try:
             try:

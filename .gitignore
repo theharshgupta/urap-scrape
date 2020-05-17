@@ -2,4 +2,4 @@
 **/*.DS_Store
 .idea
 **/__pycache__/
-/texas/PDFs/
+/texas/data/PDFs/

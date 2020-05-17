@@ -43,33 +43,21 @@ class Zipcode:
         """
         timeouts = []
         try:
-            response = requests.get(self.base_url + str(zipcode), verify=False,
-                                    timeout=(2, 5))
-        except Timeout or timeout:
+            response = requests.get(self.base_url + str(zipcode), verify=False, timeout=(2, 5))
+        except Exception as e:
             timeouts.append(zipcode)
-        # Each data row has an plan_id that should be same to the idKey in the CSV
+            return None
+
         data = json.loads(response.text)['data']
-        # print('Zipcode: ' + str(zipcode), "has plan data:", len(data),
-        #       "-> Time outs:", timeouts)
         if len(data) > 0:
             df = pd.DataFrame.from_records(data)
             self.valid_zips.append(zipcode)
-
             if "plan_id" not in df.columns:
                 print(df)
+                return None
             else:
-                # id_zipcode_map[str(zipcode)] = df["plan_id"].tolist()
-                # print(id_zipcode_map)
+                print(df["plan_id"].tolist())
                 return df["plan_id"].tolist()
-
-            # exit()
-            # for row in data:
-            #     if row['plan_id'] in self.id_zipcode_map.keys():
-            #         self.id_zipcode_map[row['plan_id']] = self.id_zipcode_map[row['plan_id']] \
-            #                                               + [zipcode]
-            #     else:
-            #         self.id_zipcode_map[row['plan_id']] = [zipcode]
-            #     print(self.id_zipcode_map)
 
     def perform(self):
         """
@@ -109,7 +97,6 @@ def check_valid_zips():
     update = False
     if exists(VALID_ZIPS):
         old_obj = get_pickle(VALID_ZIPS)
-        print(old_obj)
         last_pickle = old_obj["date"]
         if (datetime.now() - datetime.strptime(last_pickle, '%m%d%y_%H_%M_%S')) > timedelta(days=7):
             update = True
@@ -128,6 +115,7 @@ def main():
     for each of the plans in the input CSV -
     :return: the mapping
     """
+
     zipcodes = check_api_zicodes()
     valid_zipcodes = check_valid_zips()
     if valid_zipcodes and len(valid_zipcodes) > 500:
@@ -139,16 +127,14 @@ def main():
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
         for zipcode, plans in tqdm.tqdm(zip(zipcodes, executor.map(obj.api_data, zipcodes)), total=len(zipcodes)):
-            if plans:
+            if plans and len(plans) > 0:
                 id_zipcode_map[str(zipcode)] = plans
 
     print(id_zipcode_map)
     with open(ZIPCODE_MAP, 'w') as f:
         json.dump(id_zipcode_map, f, sort_keys=True, indent=4)
     update_valid_zips(list(id_zipcode_map.keys()))
-
-    # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
-    # edit_csv("data\\05_15_2020_03_59.csv", utils.MASTER_CSV_ZIP, id_zipcode_map)
+    zipcode_file()
 
 
 def zipcode_file():
@@ -169,9 +155,12 @@ def zipcode_file():
         plans_df = df[df["[idKey]"].isin(plans)]
         plans_df["Zipcode"] = zipcode
         plans_df.to_csv(os.path.join(CSV_DIR, filename), index=False, float_format="%.5f")
+        print("Saving", filename)
 
 
 if __name__ == '__main__':
     # block_print()
-    zipcode_file()
+    # Step 1 - Create the JSON with zip code to plan mapping.
+    main()
+    # Step 2 - Use that mapping to create zip code level CSVs.
     # test1()

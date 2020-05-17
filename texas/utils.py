@@ -9,9 +9,8 @@ import pickle
 TIMEOUT_LIMIT = 5
 CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
 LATEST_CSV_PATH = os.path.join("data", "latest.csv")
-MASTER_CSV_ZIP = os.path.join("data", "latest_codes.csv")
 DATA_DIR = "data"
-PDF_DIR = "PDFs"
+PDF_DIR = os.path.join(DATA_DIR, "PDFs")
 LOGS_DIR = "logs"
 LOGS_PATH = os.path.join(LOGS_DIR, "download.log")
 HTML_KEYWORDS = ["Electricity Price", "Average Monthly Use"]
@@ -111,6 +110,5 @@ def copy(curr, dest):
     :param dest: New location.
     :return: None.
     """
-    shutil.copy(src=curr, dst=dest)
-
+    shutil.copyfile(src=curr, dst=dest)
 
