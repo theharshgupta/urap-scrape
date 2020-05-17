@@ -136,6 +136,7 @@ def main():
     print(len(zipcodes))
     time.sleep(1)
     obj = Zipcode(zipcodes)
+
     with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
         for zipcode, plans in tqdm.tqdm(zip(zipcodes, executor.map(obj.api_data, zipcodes)), total=len(zipcodes)):
             if plans:
@@ -150,24 +151,27 @@ def main():
     # edit_csv("data\\05_15_2020_03_59.csv", utils.MASTER_CSV_ZIP, id_zipcode_map)
 
 
-def test1():
-    post_data_1 = dict(parameters=dict(method="plans/count",
-                                       plan_type=1,
-                                       zip_code="75001",
-                                       include_details=False,
-                                       language=0))
-    # r = requests.post(
-    #     "http://powertochoose.com/en-us/service/v1/",
-    #     data={"method":"plans","plan_type":1,"zip_code":"75001","include_details":True,"language":0})
+def zipcode_file():
+    """
+    Converts raw CSV to zipcode level CSVs
+    :return: None
+    """
+    if not exists(CSV_DIR):
+        os.mkdir(CSV_DIR)
 
-    r = requests.post(
-        "http://powertochoose.com/en-us/service/v1/",
-        data={"method": "TduCompaniesByZip", "zip_code": "75001", "include_details": False, "language": 0})
+    with open(ZIPCODE_MAP, 'r') as f:
+        data = json.load(f)
 
-    print(r.json())
+    df = pd.read_csv(LATEST_CSV_PATH)
+
+    for zipcode, plans in tqdm.tqdm(dict(data).items(), total=len(data)):
+        filename = f"{zipcode}_{get_datetime()}.csv"
+        plans_df = df[df["[idKey]"].isin(plans)]
+        plans_df["Zipcode"] = zipcode
+        plans_df.to_csv(os.path.join(CSV_DIR, filename), index=False, float_format="%.5f")
 
 
 if __name__ == '__main__':
     # block_print()
-    main()
+    zipcode_file()
     # test1()

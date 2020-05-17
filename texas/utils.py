@@ -20,6 +20,8 @@ MASTER_DIR = os.path.join(DATA_DIR, "master")
 ZIPCODE_FILE = os.path.join(DATA_DIR, ".zipcodes")
 VALID_ZIPS = os.path.join(DATA_DIR, ".valid_zip")
 ZIPCODE_MAP = os.path.join(DATA_DIR, "zipcode_plan_map.json")
+CSV_DIR = os.path.join(DATA_DIR, "csv_zipcode")
+
 
 
 def save_pickle(object, file):

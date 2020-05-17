@@ -11,10 +11,11 @@ from requests.exceptions import Timeout
 import json
 import urllib.request
 import logging
-import texas.pdf
+import texas.pdf as pdf
 import texas.utils as utils
 from tqdm import tqdm
 from csv_diff import load_csv, compare
+import texas.map_zipcodes as map_zips
 
 logging.basicConfig(format="%(asctime)s: %(message)s")
 
@@ -42,50 +43,6 @@ dataset_planids = [12820, 16606, 12822, 16612, 16761, 16690, 16769, 18359, 18361
                    22761, 22602, 22575, 22594, 22586, 22607, 13151, 13141, 13140, 13150, 3200, 3199,
                    11372, 3119, 3061, 18982, 18954, 246, 18981, 21147, 19872, 21344, 20022, 18865,
                    12431, 17234, 18632, 22167, 22518, 22748, 15963, 12973, 12965, 15954]
-
-
-class API:
-    zipcodes = None
-    base_url = "http://api.powertochoose.org/api/PowerToChoose/plans?zip_code="
-    id_zipcode_map = {}
-
-    def __init__(self, zipcodes):
-        self.zipcodes = zipcodes
-        self.all_zips()
-
-    def api_data(self, zipcode):
-        """
-        Gets data and parses it as per PowerToChoose module specifications
-        :param zipcode: zipcode of the place
-        :return: None
-        """
-        timeouts = []
-        try:
-            response = requests.get(self.base_url + str(zipcode), verify=False,
-                                    timeout=(2, 5))
-        except Timeout:
-            timeouts.append(zipcode)
-            return
-        # Each data row has an plan_id that should be same to the idKey in the CSV
-        data = json.loads(response.text)['data']
-        print('Zipcode: ' + str(zipcode), " has plan data:", len(data) != 0,
-              ". Time outs:", timeouts)
-        for row in data:
-            if row['plan_id'] in self.id_zipcode_map.keys():
-                # This appends new zipcodes to the current planID.
-                self.id_zipcode_map[row['plan_id']] = self.id_zipcode_map[row['plan_id']] \
-                                                      + [zipcode]
-            else:
-                # Create a new key-value pair of planID and zipcode in the dict.
-                self.id_zipcode_map[row['plan_id']] = [zipcode]
-
-    def all_zips(self):
-        """
-        creates API object for all the zipcodes. The tqdm module is for a progress bar.
-        :return: None
-        """
-        for zipcode in tqdm(self.zipcodes, desc="Zipcode Mapping"):
-            self.api_data(zipcode)
 
 
 class Plan:
@@ -208,24 +165,6 @@ def diff_check():
         print('deleted')
 
 
-def map_zipcode():
-    """
-    This function will be mapping zipcodes to idKey (plan_id in dict)
-    So key = idKey, value = list(zipcodes with that plan)
-    for each of the plans in the input CSV -
-    :return: the mapping
-    """
-    # API key has 250 lookups per month
-    response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
-                            "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
-    all_zipcodes = response.json()
-    id_zipcode_map = API(all_zipcodes).id_zipcode_map
-    print(id_zipcode_map)
-    # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
-    edit_csv(utils.LATEST_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
-    return id_zipcode_map
-
-
 def edit_csv(file: str, edited_file: str, id_zipcode_map):
     """
     Helper function to write zipcode HashMap to the CSV.
@@ -259,24 +198,25 @@ if __name__ == '__main__':
 
     logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
                         format='%(asctime)s:%(message)s')
-    # Step 1 - Download the CSV
+
     try:
-        auto_download_csv(utils.CSV_LINK)
+        # auto_download_csv(utils.CSV_LINK)
+        pass
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
                    files=[utils.LOGS_PATH])
 
-
-    diff_check()
+    # diff_check()
 
     # Step 3 - Run the code for the differences.
     try:
-        download(csv_filepath=utils.LATEST_CSV_PATH)
+        # download(csv_filepath=utils.LATEST_CSV_PATH)
+        pass
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(body=f"Error in PDF Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
                    files=[utils.LOGS_PATH])
 
     # block_print()
-    # map_zipcode()
+    map_zips.main()
