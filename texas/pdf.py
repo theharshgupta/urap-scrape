@@ -56,7 +56,7 @@ def download_pdf(pdf_url, plan):
     try:
         try:
             try:
-                response = requests.get(url=pdf_url, stream=True, timeout=5)
+                response = requests.get(url=pdf_url, stream=True, timeout=20)
             except Timeout:
                 logging.info(f"Timeout after {TIMEOUT_LIMIT}")
                 return
@@ -68,7 +68,7 @@ def download_pdf(pdf_url, plan):
         print(f"\t SSL Error for {plan.id_key}")
         warnings.simplefilter('ignore', InsecureRequestWarning)
         try:
-            response = requests.get(url=pdf_url, stream=True, verify=False, timeout=5)
+            response = requests.get(url=pdf_url, stream=True, verify=False, timeout=20)
         except Timeout:
             logging.info(f"Timeout after {TIMEOUT_LIMIT}")
             return False
