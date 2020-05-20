@@ -132,6 +132,8 @@ def setup():
         os.mkdir(utils.PLANS_DIR)
     if not utils.exists(utils.MASTER_DIR):
         os.mkdir(utils.MASTER_DIR)
+    if utils.exists(utils.LOGS_PATH):
+        os.remove(utils.LOGS_PATH)
 
 
 def auto_download_csv(url):
@@ -156,7 +158,8 @@ def auto_download_csv(url):
         else:
             utils.copy(filepath, utils.LATEST_CSV_PATH)
 
-    utils.filter_spanish_rows(csv_filepath=utils.LATEST_CSV_PATH)
+    utils.filter_csv(csv_filepath=utils.LATEST_CSV_PATH)
+
 
 
 def diff_check(latest, other):
