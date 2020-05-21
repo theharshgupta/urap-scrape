@@ -29,6 +29,12 @@ Authorized users can generate `credentials.json` from the Google Console and run
 ## _Zipcode Mapping_
 The raw CSV from the main website data does not contain zip code information. As a workaround, a request to an official API can be made. 
 
+Zipcode mapping process uses parallel processing (multiprocessing) to use multiple cores to accelerate the speed. With the `futures` module, we set `ProcessPool`. To get started with concurrency: 
+
+1. Install `futures` module with `pip install futures`
+2. Install `multiprocessing` module with `pip install multiprocessing`
+
+
 Function: `map_zipcode()` 
 
 1. A list of recently updated zip codes is fetched from [api.zip-codes.com]([http://api.zip-codes.com/](http://api.zip-codes.com/)) (250 monthly requests).
