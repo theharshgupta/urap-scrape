@@ -19,7 +19,7 @@ PDFs are manually labelled using AutoML dashboard UI. All the PDFs for labelling
 Authorized users can generate `credentials.json` from the Google Console and run `google.cloud` module in the script to run aforementioned functions. 
 
 ## _Scrape_
-`texas\main.py` manipulates data of a locally stored CSV of all the plans (downloaded from the main website).  First, Spanish data rows are filtered from the downloaded CSV. 
+`texas\main.py` manipulates data of a locally stored CSV of all the plans (downloaded from the main website).  First, Spanish data rows are filtered and some columns are deleted from the downloaded CSV. 
 ### PDF Downloading 
 1. The `download()` function takes the file path of the CSV.
 2. It converts it to a `pandas.Dataframe` and then to a python dictionary for iteration.
