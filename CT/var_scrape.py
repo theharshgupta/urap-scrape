@@ -76,3 +76,5 @@ def scrape(supplier):
     if matcher < 0.5:
         email_error.send_email("difference between HTML files is: ", matcher)
     print("percent match:", matcher)
+
+scrape('ES')
