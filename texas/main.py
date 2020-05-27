@@ -152,13 +152,15 @@ def auto_download_csv(url):
         utils.copy(filepath, utils.LATEST_CSV_PATH)
     else:
         urllib.request.urlretrieve(url, filepath)
-        is_same = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
-        if is_same:
+        diffPlans = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
+        if diffPlans == []:
             os.remove(filepath)
+            print('deleted')
         else:
             utils.copy(filepath, utils.LATEST_CSV_PATH)
 
     utils.filter_csv(csv_filepath=utils.LATEST_CSV_PATH)
+    return(diffPlans)
 
 
 
@@ -167,24 +169,26 @@ def diff_check(latest, other):
     Checks for differences between the last downloaded CSV and the newly
     downloaded one, deleting the new one if there are no differences.
     """
-    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
-    if len(files) < 2:
+    #files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
+    #if len(files) < 2:
         # email_error.send_email("not enough files to compare")
-        return
-    now = files[0]
-    recent = files[1]
-    diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
+        # return
+    #now = files[0]
+    #recent = files[1]
+    #diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
+    diff = compare(load_csv(open(other, encoding="latin-1")), load_csv(open(latest, encoding="latin-1")))
     print(diff)
     diffPlans = []
     for i in range(len(diff['added'])):
         for key in diff['added'][i].keys():
             if diff['added'][i][key] != diff['removed'][i][key]:
                 diffPlans.append(diff['added'][i]['[idKey]'])
-                break
+                #break
     print(diffPlans)
-    if diffPlans == []:
-        os.remove("./data/" + now)
-        print('deleted')
+#    if diffPlans == []:
+#        os.remove("./data/" + now)
+#        print('deleted')
+    return(diffPlans)
 
 
 def map_zipcode():
@@ -241,7 +245,7 @@ if __name__ == '__main__':
     # Download raw CSV from the Power to Choose website, check whether it has been updated
         # If not, delete it. Delete Spanish rows
     try:
-        auto_download_csv(utils.CSV_LINK)
+        diffPlans = auto_download_csv(utils.CSV_LINK)
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
