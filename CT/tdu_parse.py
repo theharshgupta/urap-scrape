@@ -5,6 +5,7 @@ import bs4 as bs
 from csv_diff import load_csv, compare
 import os
 import email_error
+import traceback
 
 #get's the value of an attribute using a certain offset (described below)
 def getValue(string, attribute, offset=2):
@@ -19,7 +20,7 @@ def getNum(row, attribute, value):
     try:
         content = str(row.find(attrs={attribute : value}).contents)
     except:
-        email_error("No such attribute and value exist. Attribute: " + attribute + " Value: " + value)
+        email_error.send_email("No such attribute and value exist. Attribute: " + attribute + " Value: " + value)
     s = ''.join(x for x in content if x.isdigit()) #gets all numbers within the contents
     if s:
         return int(s)
@@ -30,7 +31,7 @@ def billingCycle(row):
     try:
         mobilerateDiv = row.findAll("div", class_="mobilerate")[1]
     except:
-        email_error("There is no div with value mobilerate.")
+        email_error.send_email("There is no div with value mobilerate.")
     contractTerms = []
     for elem in mobilerateDiv.find("div", class_="companyShortData").contents:
         if "Billing Cycle" in elem:
@@ -42,7 +43,7 @@ def billingCycle(row):
 def varRate(row):
     supplyRates = row.findAll("b", class_="supply_rate")
     if supplyRates == []:
-        email_error("Empty array for supply_rate class (no variable rate corresponding to this).")
+        email_error.send_email("Empty array for supply_rate class (no variable rate corresponding to this).")
     rates = []
     for rate in supplyRates:
         stripped = str(rate.contents[0]).replace("\n", "").strip()
@@ -111,7 +112,7 @@ def fill_suppliers(suppliers, soup):
 #writes all info into a csv
 def write_to_csv(supplier, suppliers):
     dateStr = str(datetime.now().strftime("%m_%d_%Y_%H_%M"))
-    with open("./data/TDU_" + supplier + "_" + dateStr + ".csv", mode='w') as csv_file:
+    with open("./data/TDU_" + supplier + "_" + dateStr + ".csv", mode='w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())
         for s in suppliers:
@@ -152,5 +153,6 @@ def run(supplier):
         fill_suppliers(suppliers, soup)
         write_to_csv(supplier, suppliers)
     except Exception as e:
-        print("error encountered: " + str(e))
-        email_error.send_email("general error: " + str(e))
+        error_traceback = traceback.extract_tb(e.__traceback__)
+        print("error encountered: " + str(error_traceback))
+        email_error.send_email("general error: " + str(error_traceback))
