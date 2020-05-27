@@ -6,7 +6,7 @@ Links: [http://powertochoose.org/](http://powertochoose.org/)
 
 The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
 
-## _PDF Parsing_
+## _PDF Parsing_ (Incomplete)
 ### Model
 The project uses Google AutoML Vision (Entity Extraction) to build a machine learning based PDF parser. [Here](https://cloud.google.com/natural-language/automl/docs/quickstart) is a quickstart guide for AutoML. 
 
