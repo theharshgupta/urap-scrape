@@ -34,6 +34,7 @@ Zipcode mapping process uses parallel processing (multiprocessing) to use multip
 1. Install `futures` module with `pip install futures`
 2. Install `multiprocessing` module with `pip install multiprocessing`
 
+Note: if you get a BrokenProcessPool error, make sure the function where concurrent futures is used is called from `if __name__ == '__main__'` otherwise the module does not work.
 
 Function: `map_zipcode()` 
 
