@@ -132,6 +132,8 @@ def setup():
         os.mkdir(utils.PLANS_DIR)
     if not utils.exists(utils.MASTER_DIR):
         os.mkdir(utils.MASTER_DIR)
+    if utils.exists(utils.LOGS_PATH):
+        os.remove(utils.LOGS_PATH)
 
 
 def auto_download_csv(url):
@@ -156,7 +158,8 @@ def auto_download_csv(url):
         else:
             utils.copy(filepath, utils.LATEST_CSV_PATH)
 
-    utils.filter_spanish_rows(csv_filepath=utils.LATEST_CSV_PATH)
+    utils.filter_csv(csv_filepath=utils.LATEST_CSV_PATH)
+
 
 
 def diff_check(latest, other):
@@ -164,16 +167,42 @@ def diff_check(latest, other):
     Checks for differences between the last downloaded CSV and the newly
     downloaded one, deleting the new one if there are no differences.
     """
-    now = latest
-    recent = other
-    diff = compare(load_csv(open(now, encoding="latin-1")), load_csv(open(recent, encoding="latin-1")))
-    same = True
+    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
+    if len(files) < 2:
+        # email_error.send_email("not enough files to compare")
+        return
+    now = files[0]
+    recent = files[1]
+    diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
+    print(diff)
+    diffPlans = []
     for i in range(len(diff['added'])):
         for key in diff['added'][i].keys():
             if diff['added'][i][key] != diff['removed'][i][key]:
-                same = False
+                diffPlans.append(diff['added'][i]['[idKey]'])
                 break
-    return same
+    print(diffPlans)
+    if diffPlans == []:
+        os.remove("./data/" + now)
+        print('deleted')
+
+
+def map_zipcode():
+    """
+    This function will be mapping zipcodes to idKey (plan_id in dict)
+    So key = idKey, value = list(zipcodes with that plan)
+    for eac`h of the plans in the input CSV -
+    :return: the mapping
+    """
+    # API key has 250 lookups per month
+    response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
+                            "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
+    all_zipcodes = response.json()
+    id_zipcode_map = API(all_zipcodes).id_zipcode_map
+    print(id_zipcode_map)
+    # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
+    edit_csv(utils.LATEST_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
+    return id_zipcode_map
 
 
 def edit_csv(file: str, edited_file: str, id_zipcode_map):

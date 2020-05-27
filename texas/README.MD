@@ -6,7 +6,7 @@ Links: [http://powertochoose.org/](http://powertochoose.org/)
 
 The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
 
-## _PDF Parsing_
+## _PDF Parsing_ (Incomplete)
 ### Model
 The project uses Google AutoML Vision (Entity Extraction) to build a machine learning based PDF parser. [Here](https://cloud.google.com/natural-language/automl/docs/quickstart) is a quickstart guide for AutoML. 
 
@@ -19,7 +19,7 @@ PDFs are manually labelled using AutoML dashboard UI. All the PDFs for labelling
 Authorized users can generate `credentials.json` from the Google Console and run `google.cloud` module in the script to run aforementioned functions. 
 
 ## _Scrape_
-`texas\main.py` manipulates data of a locally stored CSV of all the plans (downloaded from the main website).  First, Spanish data rows are filtered from the downloaded CSV. 
+`texas\main.py` manipulates data of a locally stored CSV of all the plans (downloaded from the main website).  First, Spanish data rows are filtered and some columns are deleted from the downloaded CSV. 
 ### PDF Downloading 
 1. The `download()` function takes the file path of the CSV.
 2. It converts it to a `pandas.Dataframe` and then to a python dictionary for iteration.
@@ -28,6 +28,13 @@ Authorized users can generate `credentials.json` from the Google Console and run
 
 ## _Zipcode Mapping_
 The raw CSV from the main website data does not contain zip code information. As a workaround, a request to an official API can be made. 
+
+Zipcode mapping process uses parallel processing (multiprocessing) to use multiple cores to accelerate the speed. With the `futures` module, we set `ProcessPool`. To get started with concurrency: 
+
+1. Install `futures` module with `pip install futures`
+2. Install `multiprocessing` module with `pip install multiprocessing`
+
+Note: if you get a BrokenProcessPool error, make sure the function where concurrent futures is used is called from `if __name__ == '__main__'` otherwise the module does not work.
 
 Function: `map_zipcode()` 
 

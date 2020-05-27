@@ -46,10 +46,11 @@ def download_pdf(pdf_url, plan):
     :return: Saves the pdf in the PDF folder in the texas folder
     """
     # Checks if the pdf is already downloaded before and if yes then returns 0
-    pdf_filepath = f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf"
+    # Added timestamp to the PDF filename
+    pdf_filepath = f"{os.path.join(PDF_DIR, str(plan.id_key))}_{get_datetime()}.pdf"
     if exists(pdf_filepath):
-        print("PDF already downloaded, exiting ...")
-        return True
+        print("PDF already downloaded, removing that to download new version.")
+        os.remove(pdf_filepath)
 
     # url_extension = str(pdf_url).split('.')[-1].lower()
     print(f"Trying to download {plan.id_key} at {pdf_url} ")

@@ -84,7 +84,7 @@ def rename(current, new):
         pathlib.Path(current).rename(new)
 
 
-def filter_spanish_rows(csv_filepath):
+def filter_csv(csv_filepath):
     """
     This removes the Spanish rows from CSV and saves it to the same CSV path.
     :param csv_filepath: File path of the CSV.
@@ -92,6 +92,7 @@ def filter_spanish_rows(csv_filepath):
     """
     df = pd.DataFrame(pd.read_csv(csv_filepath))
     df_english = df[df['[Language]'] == 'English']
+    df.drop(["[Language]", "[EnrollURL]", "[EnrollPhone]", "[Website]"], axis=1, inplace=True)
     df_english.to_csv(csv_filepath, index=False)
 
 
