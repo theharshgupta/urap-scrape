@@ -161,31 +161,26 @@ def auto_download_csv(url):
     utils.filter_csv(csv_filepath=utils.LATEST_CSV_PATH)
 
 
-
 def diff_check(latest, other):
     """
     Checks for differences between the last downloaded CSV and the newly
     downloaded one, deleting the new one if there are no differences.
     """
-    files = sorted([x for x in os.listdir("./data/") if x.endswith(".csv")], key=lambda x: os.path.getmtime("./data/" + x), reverse=True)
-    if len(files) < 2:
-        # email_error.send_email("not enough files to compare")
-        return
-    now = files[0]
-    recent = files[1]
-    diff = compare(load_csv(open("./data/" + now)), load_csv(open("./data/" + recent)))
-    print(diff)
-    diffPlans = []
-    for i in range(len(diff['added'])):
-        for key in diff['added'][i].keys():
-            if diff['added'][i][key] != diff['removed'][i][key]:
-                diffPlans.append(diff['added'][i]['[idKey]'])
-                break
-    print(diffPlans)
-    if diffPlans == []:
-        os.remove("./data/" + now)
-        print('deleted')
-
+    new = pd.read_csv(latest)
+    old = pd.read_csv(other)
+    diff_plans = []
+    for i in range(len(new)):
+        latestRow = new.iloc[i]
+        idKey = new.iloc[i][0]
+        try:
+            otherRow = other.loc[other['[idKey]'] == idKey].squeeze()
+            for i in range(len(latestRow)):
+                if str(latestRow[i]) != str(otherRow[i]):
+                    diff_plans.append(idKey)
+                    break;
+        except:
+            diff_plans.append(idKey)
+    return diff_plans
 
 def map_zipcode():
     """
