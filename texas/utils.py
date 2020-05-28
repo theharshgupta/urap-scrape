@@ -92,7 +92,7 @@ def filter_csv(csv_filepath):
     """
     df = pd.DataFrame(pd.read_csv(csv_filepath))
     df_english = df[df['[Language]'] == 'English']
-    df.drop(["[Language]", "[EnrollURL]", "[EnrollPhone]", "[Website]"], axis=1, inplace=True)
+    df_english = df_english.drop(["[Language]", "[EnrollURL]", "[EnrollPhone]", "[Website]"], axis=1) #jkl
     df_english.to_csv(csv_filepath, index=False)
 
 

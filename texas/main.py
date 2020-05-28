@@ -145,13 +145,13 @@ def auto_download_csv(url):
     """
 
     filepath = f"{os.path.join(utils.MASTER_DIR, utils.get_datetime())}.csv"
-    import csv
+
+    urllib.request.urlretrieve(url, filepath)
+    utils.filter_csv(csv_filepath=filepath)
 
     if not utils.exists(utils.LATEST_CSV_PATH):
-        urllib.request.urlretrieve(url, filepath)
         utils.copy(filepath, utils.LATEST_CSV_PATH)
     else:
-        urllib.request.urlretrieve(url, filepath)
         diffPlans = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
         if diffPlans == []:
             os.remove(filepath)
@@ -159,8 +159,8 @@ def auto_download_csv(url):
         else:
             utils.copy(filepath, utils.LATEST_CSV_PATH)
 
-    utils.filter_csv(csv_filepath=utils.LATEST_CSV_PATH)
     return(diffPlans)
+
 
 
 def diff_check(latest, other):
@@ -175,9 +175,15 @@ def diff_check(latest, other):
         latestRow = new.iloc[i]
         idKey = new.iloc[i][0]
         try:
-            otherRow = other.loc[other['[idKey]'] == idKey].squeeze()
-            for i in range(len(latestRow)):
-                if str(latestRow[i]) != str(otherRow[i]):
+            otherRow = old.loc[old['[idKey]'] == idKey].squeeze()
+            for c in range(len(latestRow)):
+                if isinstance(latestRow[c], float):
+                    val_new = round(latestRow[c],6)
+                    val_old = round(otherRow[c],6)
+                else:
+                    val_new = latestRow[c]
+                    val_old = otherRow[c]
+                if str(val_new) != str(val_old):
                     diff_plans.append(idKey)
                     break;
         except:
@@ -255,3 +261,5 @@ if __name__ == '__main__':
                    files=[utils.LOGS_PATH])
 
     map_zips.main()
+        
+    logging.shutdown()
