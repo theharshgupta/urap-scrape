@@ -2,7 +2,9 @@ import bs4 as bs
 from datetime import date
 import csv
 import datetime
+import re
 import email_error
+import traceback
 
 class Supplier:
     info = {}
@@ -23,7 +25,7 @@ def getValue(string, sub, offset=2):
 
 
 def write_to_csv(supplier, suppliers):
-    with open("./data/"+ "PVD_" + supplier +"_"+ str(datetime.date.today()) + ".csv", mode='w') as csv_file:
+    with open("./data/"+ "PVD_" + supplier +"_"+ str(datetime.date.today()) + ".csv", mode='w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(suppliers[0].info.keys())
         for supplier in suppliers:
@@ -81,9 +83,9 @@ def fill_suppliers(soup, suppliers):
             indexes_2 = find_all_indexes(curr_low['value'],str(year+1))
             low_list = []
             for i in indexes:
-                low_list.append('{0:g}'.format(float(curr_low['value'][i + 19: i + 23]) / 100))
+                low_list.append('{0:g}'.format(float(re.findall('\d*\.?\d+',curr_low['value'][i + 19: i + 24])[0]) / 100))
             for i in indexes_2:
-                low_list.append('{0:g}'.format(float(curr_low['value'][i + 19: i + 23]) / 100))
+                low_list.append('{0:g}'.format(float(re.findall('\d*\.?\d+',curr_low['value'][i + 19: i + 24])[0]) / 100))
             if len(low_list) > 12:
                 low_list = low_list[-12:]
             while len(low_list) < 12:
@@ -94,12 +96,12 @@ def fill_suppliers(soup, suppliers):
             high_list = []
             for i in indexes:
                 try:
-                    high_list.append('{0:g}'.format(float(curr_high[i + 19: i + 23]) / 100))
+                    high_list.append('{0:g}'.format(float(re.findall('\d*\.?\d+',curr_high[i + 19: i + 24])[0]) / 100))
                 except Exception as e:
                     email_error.send_email("Format of website changed, the value of high value is not numeric")
             for i in indexes_2:
                 try:
-                    high_list.append('{0:g}'.format(float(curr_high[i + 19: i + 23]) / 100))
+                    high_list.append('{0:g}'.format(float(re.findall('\d*\.?\d+',curr_high[i + 19: i + 24])[0]) / 100))
                 except Exception as e:
                     email_error.send_email("Format of website changed, the value of low value is not numeric")
             if len(high_list) > 12:
@@ -111,7 +113,7 @@ def fill_suppliers(soup, suppliers):
                 info["High_lag" + str(i + 1)] = high_list[11 - i]
             planNum += 1
             first = False
-            if 0 not in low_list :
+            if 0 not in low_list:
                 suppliers.append(Supplier(info))
 
 def run(supplier):
@@ -119,10 +121,9 @@ def run(supplier):
         with open("./data/" + supplier + "_PVD.html") as html:
             soup = bs.BeautifulSoup(html, 'html.parser')
         suppliers = []
-        fill_suppliers(soup, suppliers)
+        fill_suppliers(soup, suppliers)      
         write_to_csv(supplier, suppliers)
     except Exception as e:
-        print("error encountered: " + str(e))
-        email_error.send_email("general error: " + str(e))
-
-run("UI")
+        error_traceback = traceback.extract_tb(e.__traceback__)
+        print("error encountered: " + str(error_traceback))
+        email_error.send_email("general error: " + str(error_traceback))

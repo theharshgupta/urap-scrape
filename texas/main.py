@@ -152,13 +152,15 @@ def auto_download_csv(url):
         utils.copy(filepath, utils.LATEST_CSV_PATH)
     else:
         urllib.request.urlretrieve(url, filepath)
-        is_same = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
-        if is_same:
+        diffPlans = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
+        if diffPlans == []:
             os.remove(filepath)
+            print('deleted')
         else:
             utils.copy(filepath, utils.LATEST_CSV_PATH)
 
     utils.filter_csv(csv_filepath=utils.LATEST_CSV_PATH)
+    return(diffPlans)
 
 
 def diff_check(latest, other):
@@ -236,7 +238,7 @@ if __name__ == '__main__':
     # Download raw CSV from the Power to Choose website, check whether it has been updated
         # If not, delete it. Delete Spanish rows
     try:
-        auto_download_csv(utils.CSV_LINK)
+        diffPlans = auto_download_csv(utils.CSV_LINK)
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",

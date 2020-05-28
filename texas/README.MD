@@ -6,7 +6,7 @@ Links: [http://powertochoose.org/](http://powertochoose.org/)
 
 The `texas` module folder contains all the files for scraping plans. `texas\efl` contains scripts for PDF parsing.
 
-## _PDF Parsing_
+## _PDF Parsing_ (Incomplete)
 ### Model
 The project uses Google AutoML Vision (Entity Extraction) to build a machine learning based PDF parser. [Here](https://cloud.google.com/natural-language/automl/docs/quickstart) is a quickstart guide for AutoML. 
 
@@ -34,6 +34,7 @@ Zipcode mapping process uses parallel processing (multiprocessing) to use multip
 1. Install `futures` module with `pip install futures`
 2. Install `multiprocessing` module with `pip install multiprocessing`
 
+Note: if you get a BrokenProcessPool error, make sure the function where concurrent futures is used is called from `if __name__ == '__main__'` otherwise the module does not work.
 
 Function: `map_zipcode()` 
 

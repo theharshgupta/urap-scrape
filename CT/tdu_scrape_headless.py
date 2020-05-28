@@ -9,12 +9,18 @@ import time
 import bs4 as bs
 
 options = webdriver.ChromeOptions()
-options.add_argument("--start-maximized")
+options.add_argument("--headless")
+options.add_argument("--window-size=1440, 900")
 
 def scrape(supplier):
-    oldHTML = open("./data/" + supplier + ".html").read()
+    try:
+        oldHTML = open("./data/" + supplier + ".html").read()
+        flag_first = 0
+    except:
+        print("No old HTML file found")
+        flag_first = 1
     #driver = webdriver.Chrome()
-    driver = webdriver.Chrome(r'C:/Program Files/Chromedriver/chromedriver.exe', chrome_options=options)
+    driver = webdriver.Chrome(r'/usr/lib/chromium-browser/chromedriver', options=options)
     driver.get("https://www.energizect.com/compare-energy-suppliers")  # get the page
 
     if (supplier == "ui"):
@@ -26,7 +32,7 @@ def scrape(supplier):
 
     #TEMPERORARY FOR THE POPUP ABOUT STANDARD PRICES
     try:
-        WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.CLASS_NAME, "ui-dialog-titlebar-close")))
+        WebDriverWait(driver,30).until(EC.visibility_of_element_located((By.CLASS_NAME, "ui-dialog-titlebar-close")))
         close_button = driver.find_element_by_class_name("ui-dialog-titlebar-close")
         close_button.click()
     except: 
@@ -34,7 +40,7 @@ def scrape(supplier):
 
     # Wait *up to* 20 seconds for the popup to show up 
     try:
-        WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.CLASS_NAME, "close_anchor")))
+        WebDriverWait(driver,30).until(EC.visibility_of_element_located((By.CLASS_NAME, "close_anchor")))
     except: 
         email_error.send_email("no close anchor")
 
@@ -47,17 +53,25 @@ def scrape(supplier):
 
     #writing to a file
     soup = bs.BeautifulSoup(html, 'html.parser')
-    html = soup.prettify() 
+    html = soup.prettify()
+    error_chrs = []
     with open("./data/" + supplier + ".html","w") as out:
         for i in range(0, len(html)):
             try:
                 out.write(html[i])
             except Exception:
                 1+1
-    newHTML = open("./data/" + supplier + ".html").read()
-
-    #calculates percentage difference between this and the last relevant HTML file
-    matcher = SequenceMatcher(None, oldHTML, newHTML).quick_ratio()
-    if matcher < 0.5:
-        email_error.send_email("difference between HTML files is: ", matcher)
-    print("percent match:", matcher)
+                error_chrs.append(html[i])
+    #print("Wrote all characters to HTML file for past variable rates scrape except:")
+    #print(set(error_chrs))
+                
+    # Calculate percentage difference between this and the last relevant HTML file
+    if flag_first == 0:
+        newHTML = open("./data/" + supplier + ".html").read()
+        matcher = SequenceMatcher(None, oldHTML, newHTML).quick_ratio()
+        if matcher < 0.5:
+            email_error.send_email("difference between HTML files is: ", matcher)
+        print("percent match:", matcher)
+        
+    # End webdriver session
+    driver.quit()
