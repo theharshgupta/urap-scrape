@@ -25,6 +25,7 @@ There are five levels of Logs
 def html_to_pdf(url, filepath):
     """
     Executed for URLs that have HTML table.
+    :param filepath: Path of the PDF where converted page is saved.
     :param url: URL of the page.
     :return: None.
     """
@@ -47,10 +48,9 @@ def download_pdf(pdf_url, plan):
     """
     # Checks if the pdf is already downloaded before and if yes then returns 0
     # Added timestamp to the PDF filename
-    pdf_filepath = f"{os.path.join(PDF_DIR, str(plan.id_key))}_{get_datetime()}.pdf"
-    if exists(pdf_filepath):
-        print("PDF already downloaded, removing that to download new version.")
-        os.remove(pdf_filepath)
+    # Even if the pdf is downlaoded, we still need to download the pdf for the new plan. Because
+    # if the plan is updated then it's PDF will also be updated.
+    pdf_filepath = f"{os.path.join(PDF_DIR, str(plan.id_key))}-{get_datetime().replace('_', '-')}.pdf"
 
     # url_extension = str(pdf_url).split('.')[-1].lower()
     print(f"Trying to download {plan.id_key} at {pdf_url} ")
@@ -97,15 +97,23 @@ def download_pdf(pdf_url, plan):
                 logging.info(f"Extracting in frame PDF at {plan.facts_url} calling recursively.")
                 download_pdf(pdf_url=pdf_url, plan=plan)
             elif table_exists and (soup.body.findAll(text=HTML_KEYWORDS[0] or soup.body.findAll(text=HTML_KEYWORDS[1]))):
-                html_to_pdf(url=pdf_url, filepath=f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf")
+                # html_to_pdf(url=pdf_url, filepath=f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf")
+                html_to_pdf(url=pdf_url, filepath=pdf_filepath)
                 logging.info(f"Converting HTML for {plan.facts_url} to PDF")
             else:
                 print("\t HTML nothing found.")
 
     elif 'application/pdf' in content_type:
         if len(response.content) > 0:
-            with open(f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf", 'wb') as f:
+            # with open(f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf", 'wb') as f:
+            with open(pdf_filepath, 'wb') as f:
                 f.write(response.content)
         else:
             logging.info(f"ERROR - 0 BYTES IN THE PDF CONTENT {plan.id_key} URL {plan.facts_url}")
+
+    if exists(pdf_filepath):
+        print("\t Downloaded Successfully.")
+        return pdf_filepath
+    else:
+        return
 

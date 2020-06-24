@@ -56,7 +56,7 @@ class Zipcode:
                 print(df)
                 return None
             else:
-                print(df["plan_id"].tolist())
+                # print(df["plan_id"].tolist())
                 return df["plan_id"].tolist()
 
     def perform(self):
@@ -115,7 +115,6 @@ def main():
     for each of the plans in the input CSV -
     :return: the mapping
     """
-
     zipcodes = check_api_zicodes()
     valid_zipcodes = check_valid_zips()
     if valid_zipcodes and len(valid_zipcodes) > 500:

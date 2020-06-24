@@ -9,10 +9,11 @@ import pickle
 TIMEOUT_LIMIT = 5
 CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
 LATEST_CSV_PATH = os.path.join("data", "latest.csv")
+DIFFPLANS_CSV_PATH = os.path.join("data", "diffPlans.csv")
 DATA_DIR = "data"
 PDF_DIR = os.path.join(DATA_DIR, "PDFs")
 LOGS_DIR = "logs"
-LOGS_PATH = os.path.join(LOGS_DIR, "download.log")
+LOGS_PATH = os.path.join(LOGS_DIR, "download-experimental.log")
 HTML_KEYWORDS = ["Electricity Price", "Average Monthly Use"]
 PLANS_DIR = os.path.join(DATA_DIR, ".plans")
 MASTER_DIR = os.path.join(DATA_DIR, "master")

@@ -3,7 +3,8 @@ from pathlib import Path
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(Path(dir_path).parent)
-
+# [2014, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
+# [59, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
 import csv
 import pickle
 import traceback
@@ -25,31 +26,6 @@ import texas.map_zipcodes as map_zips
 os.chdir(dir_path)
 
 logging.basicConfig(format="%(asctime)s: %(message)s")
-
-#dataset_planids = [12820, 16606, 12822, 16612, 16761, 16690, 16769, 18359, 18361, 16759, 16765,
-#                   18423, 18419, 18421, 12406, 12411, 18462, 18465, 18463, 18464, 17620, 17621,
-#                   16146, 16141, 17622, 22032, 22034, 22029, 22039, 18735, 18736, 11561, 11547,
-#                   11502, 11512, 11513, 11535, 11536, 11528, 20854, 20864, 20866, 20859, 20861,
-#                   20846, 20848, 4152, 1883, 1986, 1879, 1820, 2859, 1821, 1987, 22845, 22120,
-#                   22290, 22419, 22210, 21834, 22413, 22647, 5506, 22624, 6165, 6168, 5503, 6163,
-#                   5886, 355, 456, 59, 132, 16822, 16826, 11119, 11115, 16823, 16821, 11118, 4125,
-#                   142, 250, 2023, 1874, 2027, 66, 4118, 21197, 22172, 9628, 16466, 16442, 16426,
-#                   16469, 22772, 17319, 17317, 22771, 20509, 20516, 20515, 20505, 18540, 16539,
-#                   16531, 16509, 16523, 22783, 22451, 21694, 22454, 22455, 21496, 18374, 17577,
-#                   18370, 11681, 18373, 18367, 21855, 21857, 20724, 22397, 20090, 22719, 22708,
-#                   22721, 22703, 22712, 21869, 21792, 21636, 21520, 21790, 20474, 20472, 19452,
-#                   21934, 20215, 20200, 20738, 20744, 20743, 20735, 21211, 21213, 22221, 22732,
-#                   22243, 22512, 22261, 22254, 22730, 22744, 22258, 19845, 22689, 22687, 21371,
-#                   21124, 19025, 21370, 21486, 22544, 22547, 22013, 22012, 22018, 21921, 21329,
-#                   12060, 18860, 21016, 18779, 18786, 18774, 18772, 12292, 22674, 22909, 17279,
-#                   17301, 18521, 18537, 18536, 18520, 20789, 20805, 20793, 20798, 20788, 13322,
-#                   13333, 619, 620, 20850, 20867, 22445, 22443, 20178, 20408, 20373, 21944, 21943,
-#                   21931, 20670, 20668, 20673, 20655, 20678, 20664, 16771, 20929, 20927, 20935,
-#                   20904, 20944, 20920, 19787, 22890, 21629, 20959, 22841, 22237, 22364, 22825,
-#                   15958, 12885, 13014, 13017, 13021, 22411, 22429, 22431, 22762, 17257, 17255,
-#                   22761, 22602, 22575, 22594, 22586, 22607, 13151, 13141, 13140, 13150, 3200, 3199,
-#                   11372, 3119, 3061, 18982, 18954, 246, 18981, 21147, 19872, 21344, 20022, 18865,
-#                   12431, 17234, 18632, 22167, 22518, 22748, 15963, 12973, 12965, 15954]
 
 
 class Plan:
@@ -110,11 +86,18 @@ def download(csv_filepath):
     """
     df = pd.read_csv(csv_filepath)
     data_dict = df.to_dict('records')
-
+    result = []
     for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
         plan = Plan(d)
         logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
-        pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
+        pdf_filepath = pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
+        if pdf_filepath:
+            d['pdf_filepath'] = pdf_filepath
+        else:
+            d['pdf_filepath'] = "None"
+        result.append(d)
+    df = pd.DataFrame(result)
+    print(df.to_string())
 
 
 def setup():
@@ -122,6 +105,7 @@ def setup():
     Sets up the folders for all functions to run.
     :return: None.
     """
+    print("Running the presetupm to check for folders and create them. ")
     if not utils.exists(utils.DATA_DIR):
         os.mkdir(utils.DATA_DIR)
     if not utils.exists(utils.PDF_DIR):
@@ -134,33 +118,47 @@ def setup():
         os.mkdir(utils.MASTER_DIR)
     if utils.exists(utils.LOGS_PATH):
         os.remove(utils.LOGS_PATH)
+    if utils.exists(utils.DIFFPLANS_CSV_PATH):
+        os.remove(utils.DIFFPLANS_CSV_PATH)
+
+    print("Pre setup completed. ")
 
 
 def auto_download_csv(url):
     """
-    Download raw CSV from PTC website.
+    Download raw CSV from PTC website. The function makes sure that a diffPlans.csv is
+    created that contains all the plans that need to be "considered" -- i.e. to be downloaded,
+    worked with, mapped, etc.
     :param url: URL to make a request.
-    :param filepath: file path to save the CSV.
     :return: None.
     """
-
-    filepath = f"{os.path.join(utils.MASTER_DIR, utils.get_datetime())}.csv"
+    print("\nRunning Auto Download CSV to download the MASTER CSV.")
+    filepath = f"{os.path.join(utils.MASTER_DIR, utils.get_datetime().replace('_', '-'))}.csv"
 
     urllib.request.urlretrieve(url, filepath)
     utils.filter_csv(csv_filepath=filepath)
 
+    # If latest.csv file does not exist, then rename the file downloaded to latest.csv
     if not utils.exists(utils.LATEST_CSV_PATH):
         utils.copy(filepath, utils.LATEST_CSV_PATH)
+        utils.copy(utils.LATEST_CSV_PATH, utils.DIFFPLANS_CSV_PATH)
+        return
     else:
-        diffPlans = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
-        if diffPlans == []:
+        # DOUBT - does it return new plans that were added to the new csv
+        diff_plans = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
+        print(diff_plans)
+        if not diff_plans:
             os.remove(filepath)
-            print('deleted')
+            print('No new plans, so recently downloaded MASTER file was deleted.')
+            return
         else:
+            # Gets CSV rows that have changed in a Pandas Dataframe.
+            df = pd.read_csv(filepath)
+            df = df.loc[df['[idKey]'].isin(diff_plans)]
+            print(df.to_string())
             utils.copy(filepath, utils.LATEST_CSV_PATH)
-
-    return(diffPlans)
-
+            df.to_csv(utils.DIFFPLANS_CSV_PATH, index=False)
+            return df
 
 
 def diff_check(latest, other):
@@ -178,17 +176,19 @@ def diff_check(latest, other):
             otherRow = old.loc[old['[idKey]'] == idKey].squeeze()
             for c in range(len(latestRow)):
                 if isinstance(latestRow[c], float):
-                    val_new = round(latestRow[c],6)
-                    val_old = round(otherRow[c],6)
+                    val_new = round(latestRow[c], 6)
+                    val_old = round(otherRow[c], 6)
                 else:
                     val_new = latestRow[c]
                     val_old = otherRow[c]
                 if str(val_new) != str(val_old):
                     diff_plans.append(idKey)
-                    break;
-        except:
+                    break
+        except Exception as err:
             diff_plans.append(idKey)
+            print(err)
     return diff_plans
+
 
 def map_zipcode():
     """
@@ -218,7 +218,7 @@ def edit_csv(file: str, edited_file: str, id_zipcode_map):
     :@author: Alan
     """
     with open(file, 'r', encoding='utf-8') as read_obj, \
-            open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
+      open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
         csv_reader = csv.reader(read_obj, delimiter=',')
         csv_writer = csv.writer(write_obj)
         for row in csv_reader:
@@ -232,34 +232,41 @@ def edit_csv(file: str, edited_file: str, id_zipcode_map):
 
 
 if __name__ == '__main__':
-    # Step 0 - Set up folders.
+
+    # Step 1 - Set up folders.
     setup()
 
+    # Logger set up
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
 
     logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
                         format='%(asctime)s:%(message)s')
 
+    # Step 2 - Download the master CSV and check new plans.
     # Download raw CSV from the Power to Choose website, check whether it has been updated
-        # If not, delete it. Delete Spanish rows
+    # If not, delete it. Delete Spanish rows
     try:
-        diffPlans = auto_download_csv(utils.CSV_LINK)
+        plans = auto_download_csv(utils.CSV_LINK)
+        if plans is None:
+            exit()
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
-        send_email(body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
-                   files=[utils.LOGS_PATH])
+        raise e
+        # send_email(
+        #     body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
+        #     files=[utils.LOGS_PATH])
 
     # Step 3 - Run the code for the differences.
     # JKL: I believe this is downloading the PDFs for ALL plans right now
-        # When the difference checker is finished, it should be updated to run for only new plans
+    # When the difference checker is finished, it should be updated to run for only new plans
     try:
-        download(csv_filepath=utils.LATEST_CSV_PATH)
+        download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
-        send_email(body=f"Error in PDF Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
-                   files=[utils.LOGS_PATH])
+        send_email(
+            body=f"Error in PDF Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
+            files=[utils.LOGS_PATH])
 
-    map_zips.main()
-        
+    # map_zips.main()
     logging.shutdown()
