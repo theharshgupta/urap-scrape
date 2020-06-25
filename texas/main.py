@@ -135,7 +135,7 @@ def auto_download_csv(url):
     :param url: URL to make a request.
     :return: None.
     """
-    print("\nRunning Auto Download CSV to download the MASTER CSV.")
+    print("\nRunning Auto Download CSV to download the MASTER CSV...")
     filepath = f"{os.path.join(utils.MASTER_DIR, utils.get_datetime().replace('_', '-'))}.csv"
 
     urllib.request.urlretrieve(url, filepath)
@@ -193,24 +193,6 @@ def diff_check(latest, other):
     return diff_plans
 
 
-def map_zipcode():
-    """
-    This function will be mapping zipcodes to idKey (plan_id in dict)
-    So key = idKey, value = list(zipcodes with that plan)
-    for eac`h of the plans in the input CSV -
-    :return: the mapping
-    """
-    # API key has 250 lookups per month
-    response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
-                            "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
-    all_zipcodes = response.json()
-    id_zipcode_map = API(all_zipcodes).id_zipcode_map
-    print(id_zipcode_map)
-    # edit_csv('master_data_en.csv', 'master_data_en_zipcodes.csv', id_zipcode_map)
-    edit_csv(utils.LATEST_CSV_PATH, utils.MASTER_CSV_ZIP, id_zipcode_map)
-    return id_zipcode_map
-
-
 def edit_csv(file: str, edited_file: str, id_zipcode_map):
     """
     Helper function to write zipcode HashMap to the CSV.
@@ -218,7 +200,7 @@ def edit_csv(file: str, edited_file: str, id_zipcode_map):
     :param edited_file: Name of the edited file.
     :param id_zipcode_map: Python dictionary of the zipcode HashMap.
     :return: None.
-    :@author: Alan
+    @author Alan
     """
     with open(file, 'r', encoding='utf-8') as read_obj, \
       open(edited_file, 'w', newline='', encoding='utf-8') as write_obj:
@@ -238,7 +220,7 @@ if __name__ == '__main__':
 
     # Step 1 - Set up folders.
     setup()
-    exit()
+
     # Logger set up
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
@@ -255,10 +237,9 @@ if __name__ == '__main__':
             exit()
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
-        raise e
-        # send_email(
-        #     body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
-        #     files=[utils.LOGS_PATH])
+        send_email(
+            body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
+            files=[utils.LOGS_PATH])
 
     # Step 3 - Run the code for the differences.
     # JKL: I believe this is downloading the PDFs for ALL plans right now

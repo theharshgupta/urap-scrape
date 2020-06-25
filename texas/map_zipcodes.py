@@ -133,7 +133,6 @@ def main():
     with open(ZIPCODE_MAP, 'w') as f:
         json.dump(id_zipcode_map, f, sort_keys=True, indent=4)
     update_valid_zips(list(id_zipcode_map.keys()))
-    zipcode_file()
 
 
 def zipcode_file():
@@ -144,17 +143,20 @@ def zipcode_file():
     if not exists(CSV_DIR):
         os.mkdir(CSV_DIR)
 
+    # We want to create a new folder with the new iterations.
+    timestamp_dir = os.path.join(CSV_DIR, get_datetime().replace("_", "-"))
+    os.mkdir(timestamp_dir)
     with open(ZIPCODE_MAP, 'r') as f:
         data = json.load(f)
 
     df = pd.read_csv(LATEST_CSV_PATH)
 
-    for zipcode, plans in tqdm.tqdm(dict(data).items(), total=len(data)):
-        filename = f"{zipcode}_{get_datetime()}.csv"
+    for zipcode, plans in tqdm.tqdm(dict(data).items(), total=len(data), disable=True):
+        filepath = os.path.join(timestamp_dir, f"{zipcode}_{get_datetime()}.csv")
         plans_df = df[df["[idKey]"].isin(plans)]
         plans_df["Zipcode"] = zipcode
-        plans_df.to_csv(os.path.join(CSV_DIR, filename), index=False, float_format="%.5f")
-        print("Saving", filename)
+        plans_df.to_csv(filepath, index=False)
+        print("Saving", filepath)
 
 
 if __name__ == '__main__':
@@ -162,4 +164,4 @@ if __name__ == '__main__':
     # Step 1 - Create the JSON with zip code to plan mapping.
     main()
     # Step 2 - Use that mapping to create zip code level CSVs.
-    # test1()
+    zipcode_file()
