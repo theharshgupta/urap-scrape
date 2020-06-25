@@ -149,19 +149,19 @@ def zipcode_file():
     with open(ZIPCODE_MAP, 'r') as f:
         data = json.load(f)
 
-    df = pd.read_csv(LATEST_CSV_PATH)
+    df = pd.read_csv(RESULT_CSV)
 
-    for zipcode, plans in tqdm.tqdm(dict(data).items(), total=len(data), disable=True):
+    for zipcode, plans in tqdm.tqdm(dict(data).items(), total=len(data)):
         filepath = os.path.join(timestamp_dir, f"{zipcode}_{get_datetime()}.csv")
-        plans_df = df[df["[idKey]"].isin(plans)]
+        plans_df = df[df["id_key"].isin(plans)]
         plans_df["Zipcode"] = zipcode
         plans_df.to_csv(filepath, index=False)
-        print("Saving", filepath)
+        # print("Saving", filepath)
 
 
 if __name__ == '__main__':
     # block_print()
     # Step 1 - Create the JSON with zip code to plan mapping.
-    main()
+    # main()
     # Step 2 - Use that mapping to create zip code level CSVs.
     zipcode_file()

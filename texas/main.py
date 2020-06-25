@@ -76,6 +76,23 @@ class Plan:
             return True
 
 
+def combine_results():
+    """
+    This subroutine will be run after the PDF downloading is finished and before the zipcode mapping
+    process has started. Combines the new-plans.csv and result.csv files.
+    :return: None
+    """
+
+    updated_plans = pd.read_csv(utils.NEW_PLANS_RESULT_CSV)
+    updated_plan_ids = updated_plans['id_key'].values
+    result = pd.read_csv(utils.RESULT_CSV)
+    old = result.loc[~result['id_key'].isin(updated_plan_ids)]
+    merged = pd.DataFrame(old).append(updated_plans)
+    print(merged.to_string())
+    merged.to_csv(utils.RESULT_CSV, index=False)
+    print("Find your results at:", utils.RESULT_CSV)
+
+
 def download(csv_filepath):
     """
     Alan Comments: df2 is a slight variation of the df object above (I think?) We're iterating
@@ -100,36 +117,6 @@ def download(csv_filepath):
     df = pd.DataFrame(result)
     df.to_csv(os.path.join(utils.RESULT_DIR, "new-plans.csv"), index=False)
     print(df.to_string())
-
-
-def download_concurrent(csv_filepath):
-    df = pd.read_csv(csv_filepath)
-    data_dict = df.to_dict('records')
-    plans = []
-    result = []
-
-    for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
-        plan = Plan(d)
-        plans.append(plan)
-
-    with concurrent.futures.ProcessPoolExecutor(max_workers=3) as executor:
-        for plan_obj, pdf_filepath in tqdm(zip(plans, executor.map(pdf.download_pdf_concurrent, plans)), total=len(plans)):
-            if pdf_filepath:
-                setattr(plan_obj, "pdf_filepath", pdf_filepath)
-                # d['pdf_filepath'] = pdf_filepath
-            else:
-                setattr(plan_obj, "pdf_filepath", "None")
-                # d['pdf_filepath'] = "None"
-
-            d = json.dumps(plan_obj.__dict__)
-            result.append(d)
-
-    df = pd.DataFrame(result)
-    df.to_csv(os.path.join(utils.RESULT_DIR, "new-plans.csv"), index=False)
-    print(df.to_string())
-
-
-
 
 
 def setup():
@@ -252,6 +239,9 @@ def edit_csv(file: str, edited_file: str, id_zipcode_map):
 
 if __name__ == '__main__':
 
+    combine_results()
+    exit(1)
+
     # Step 1 - Set up folders.
     setup()
 
@@ -276,11 +266,9 @@ if __name__ == '__main__':
             files=[utils.LOGS_PATH])
 
     # Step 3 - Run the code for the differences.
-    # JKL: I believe this is downloading the PDFs for ALL plans right now
-    # When the difference checker is finished, it should be updated to run for only new plans
     try:
         # download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
-        download_concurrent(csv_filepath=utils.DIFFPLANS_CSV_PATH)
+        download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(

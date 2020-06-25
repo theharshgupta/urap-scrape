@@ -41,7 +41,13 @@ def html_to_pdf(url, filepath):
 
 
 def download_pdf_concurrent(plan):
-    return download_pdf(pdf_url=plan.facts_url, plan=plan)
+    try:
+        result = download_pdf(pdf_url=plan.facts_url, plan=plan)
+        return result
+    except Exception as e:
+        print(e)
+        return
+
 
 
 def download_pdf(pdf_url, plan):
