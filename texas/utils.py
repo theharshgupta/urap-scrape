@@ -23,7 +23,6 @@ ZIPCODE_MAP = os.path.join(DATA_DIR, "zipcode_plan_map.json")
 CSV_DIR = os.path.join(DATA_DIR, "csv_zipcode")
 
 
-
 def save_pickle(object, file):
     """
     A function to save object to a pickle in the file location

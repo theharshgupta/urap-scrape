@@ -120,7 +120,7 @@ def main():
     if valid_zipcodes and len(valid_zipcodes) > 500:
         zipcodes = valid_zipcodes
     zipcodes = sorted([int(x) for x in zipcodes])
-    print(len(zipcodes))
+    print(zipcodes)
     time.sleep(1)
     obj = Zipcode(zipcodes)
 

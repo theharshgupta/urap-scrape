@@ -118,6 +118,9 @@ def setup():
         os.mkdir(utils.MASTER_DIR)
     if utils.exists(utils.LOGS_PATH):
         os.remove(utils.LOGS_PATH)
+    if not utils.exists(utils.CSV_DIR):
+        os.mkdir(utils.CSV_DIR)
+
     if utils.exists(utils.DIFFPLANS_CSV_PATH):
         os.remove(utils.DIFFPLANS_CSV_PATH)
 
@@ -235,7 +238,7 @@ if __name__ == '__main__':
 
     # Step 1 - Set up folders.
     setup()
-
+    exit()
     # Logger set up
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
