@@ -1,12 +1,8 @@
 import os
 from pathlib import Path
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-os.chdir(Path(dir_path).parent)
-# [2014, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
-# [59, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
 import csv
 import pickle
+import concurrent.futures
 import traceback
 import pathlib
 from email_service import send_email
@@ -22,6 +18,11 @@ import texas.utils as utils
 from tqdm import tqdm
 from csv_diff import load_csv, compare
 import texas.map_zipcodes as map_zips
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(Path(dir_path).parent)
+# [2014, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
+# [59, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
 
 os.chdir(dir_path)
 
@@ -97,7 +98,38 @@ def download(csv_filepath):
             d['pdf_filepath'] = "None"
         result.append(d)
     df = pd.DataFrame(result)
+    df.to_csv(os.path.join(utils.RESULT_DIR, "new-plans.csv"), index=False)
     print(df.to_string())
+
+
+def download_concurrent(csv_filepath):
+    df = pd.read_csv(csv_filepath)
+    data_dict = df.to_dict('records')
+    plans = []
+    result = []
+
+    for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
+        plan = Plan(d)
+        plans.append(plan)
+
+    with concurrent.futures.ProcessPoolExecutor(max_workers=3) as executor:
+        for plan_obj, pdf_filepath in tqdm(zip(plans, executor.map(pdf.download_pdf_concurrent, plans)), total=len(plans)):
+            if pdf_filepath:
+                setattr(plan_obj, "pdf_filepath", pdf_filepath)
+                # d['pdf_filepath'] = pdf_filepath
+            else:
+                setattr(plan_obj, "pdf_filepath", "None")
+                # d['pdf_filepath'] = "None"
+
+            d = json.dumps(plan_obj.__dict__)
+            result.append(d)
+
+    df = pd.DataFrame(result)
+    df.to_csv(os.path.join(utils.RESULT_DIR, "new-plans.csv"), index=False)
+    print(df.to_string())
+
+
+
 
 
 def setup():
@@ -112,6 +144,8 @@ def setup():
         os.mkdir(utils.PDF_DIR)
     if not utils.exists(utils.LOGS_DIR):
         os.mkdir(utils.LOGS_DIR)
+    if not utils.exists(utils.RESULT_DIR):
+        os.mkdir(utils.RESULT_DIR)
     if not utils.exists(utils.PLANS_DIR):
         os.mkdir(utils.PLANS_DIR)
     if not utils.exists(utils.MASTER_DIR):
@@ -145,7 +179,7 @@ def auto_download_csv(url):
     if not utils.exists(utils.LATEST_CSV_PATH):
         utils.copy(filepath, utils.LATEST_CSV_PATH)
         utils.copy(utils.LATEST_CSV_PATH, utils.DIFFPLANS_CSV_PATH)
-        return
+        return 1
     else:
         # DOUBT - does it return new plans that were added to the new csv
         diff_plans = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
@@ -232,8 +266,8 @@ if __name__ == '__main__':
     # Download raw CSV from the Power to Choose website, check whether it has been updated
     # If not, delete it. Delete Spanish rows
     try:
-        plans = auto_download_csv(utils.CSV_LINK)
-        if plans is None:
+        new_plans = auto_download_csv(utils.CSV_LINK)
+        if new_plans is None:
             exit()
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
@@ -245,7 +279,8 @@ if __name__ == '__main__':
     # JKL: I believe this is downloading the PDFs for ALL plans right now
     # When the difference checker is finished, it should be updated to run for only new plans
     try:
-        download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
+        # download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
+        download_concurrent(csv_filepath=utils.DIFFPLANS_CSV_PATH)
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(

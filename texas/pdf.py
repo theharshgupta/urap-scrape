@@ -40,6 +40,10 @@ def html_to_pdf(url, filepath):
         pdfkit.from_url(url, filepath, options={'quiet': ''})
 
 
+def download_pdf_concurrent(plan):
+    return download_pdf(pdf_url=plan.facts_url, plan=plan)
+
+
 def download_pdf(pdf_url, plan):
     """
     Function to download pdf from the URL supplied
@@ -54,33 +58,32 @@ def download_pdf(pdf_url, plan):
 
     # url_extension = str(pdf_url).split('.')[-1].lower()
     print(f"Trying to download {plan.id_key} at {pdf_url} ")
-    if "sparkenergy.com" in pdf_url and ".pdf" in pdf_url[-4:]:
-        from selenium import webdriver
-        download_dir = "X:/Python/urap-scrape/texas"
-        options = webdriver.ChromeOptions()
-        profile = {"plugins.plugins_list": [{"enabled": False, "name": "Chrome PDF Viewer"}],
-                   "download.default_directory": download_dir, "download.extensions_to_open": "applications/pdf",
-                   'download.prompt_for_download': False, 'download.directory_upgrage': True,
-                   'profile.default_content_settings.popups': 0,
-                   }
-
-        options.add_experimental_option("prefs", profile)
-        driver = webdriver.Chrome('C:\\chromedriver.exe',
-                                  chrome_options=options)  # Optional argument, if not specified will search path.
-
-        driver.get(pdf_url)
-        exit()
-
-        # response = requests.get(pdf_url)
-        # print(response.status_code)
-        # print(response.content)
-        # print(len(response.content))
-        # if len(response.content) > 0:
-        #     with open(f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf", 'wb') as f:
-        #         f.write(response.content)
-        # else:
-        #     logging.info(f"ERROR - 0 BYTES IN THE PDF CONTENT {plan.id_key} URL {plan.facts_url}")
-        # return
+    # if "sparkenergy.com" in pdf_url and ".pdf" in pdf_url[-4:]:
+    #     from selenium import webdriver
+    #     download_dir = "X:/Python/urap-scrape/texas"
+    #     options = webdriver.ChromeOptions()
+    #     profile = {"plugins.plugins_list": [{"enabled": False, "name": "Chrome PDF Viewer"}],
+    #                "download.default_directory": download_dir, "download.extensions_to_open": "applications/pdf",
+    #                'download.prompt_for_download': False, 'download.directory_upgrage': True,
+    #                'profile.default_content_settings.popups': 0,
+    #                }
+    #
+    #     options.add_experimental_option("prefs", profile)
+    #     driver = webdriver.Chrome('C:\\chromedriver.exe',
+    #                               chrome_options=options)  # Optional argument, if not specified will search path.
+    #
+    #     driver.get(pdf_url)
+    #
+    #     # response = requests.get(pdf_url)
+    #     # print(response.status_code)
+    #     # print(response.content)
+    #     # print(len(response.content))
+    #     # if len(response.content) > 0:
+    #     #     with open(f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf", 'wb') as f:
+    #     #         f.write(response.content)
+    #     # else:
+    #     #     logging.info(f"ERROR - 0 BYTES IN THE PDF CONTENT {plan.id_key} URL {plan.facts_url}")
+    #     # return
 
     try:
         try:
