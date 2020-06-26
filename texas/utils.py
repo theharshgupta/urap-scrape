@@ -17,10 +17,12 @@ LOGS_PATH = os.path.join(LOGS_DIR, "download-experimental.log")
 HTML_KEYWORDS = ["Electricity Price", "Average Monthly Use"]
 PLANS_DIR = os.path.join(DATA_DIR, ".plans")
 MASTER_DIR = os.path.join(DATA_DIR, "master")
-ZIPCODE_FILE = os.path.join(DATA_DIR, ".zipcodes")
-VALID_ZIPS = os.path.join(DATA_DIR, ".valid_zip")
+
+ZIPCODE_FILE = os.path.join(DATA_DIR, ".texas-zipcodes")
+VALID_ZIPS = os.path.join(DATA_DIR, ".ptc-valid-zipcodes")
 ZIPCODE_MAP = os.path.join(DATA_DIR, "zipcode_plan_map.json")
 CSV_DIR = os.path.join(DATA_DIR, "csv_zipcode")
+
 RESULT_DIR = os.path.join(DATA_DIR, "result")
 RESULT_CSV = os.path.join(RESULT_DIR, "result.csv")
 NEW_PLANS_RESULT_CSV = os.path.join(RESULT_DIR, "new-plans.csv")

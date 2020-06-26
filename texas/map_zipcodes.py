@@ -70,10 +70,13 @@ class Zipcode:
 
 def check_api_zicodes():
     """
-    Pickle checker for API for zipcodes. Gets all the zipcodes
+    This makes a call to the API which gets TEXAS zipcodes. Currently, if the last API call
+    was made more than 5 days ago, a new call is made. Otherwise, old API results are used. This
+    is to prevent uneccesary API calls that increases run time. Using pickle.
     :return:
     """
     update = False
+    print("Checking for TEXAS Zipcode list locally ...")
     if exists(ZIPCODE_FILE):
         old_obj = get_pickle(ZIPCODE_FILE)
         last_pickle = old_obj["date"]
@@ -82,18 +85,30 @@ def check_api_zicodes():
         else:
             zipcodes = old_obj["data"]
     if update or not exists(ZIPCODE_FILE):
+        print("\tNeeds update or list not found, fetching from the API.")
         response = requests.get("https://api.zip-codes.com/ZipCodesAPI.svc/1.0/GetAllZipCodes?state"
                                 "=TX&country=US&key=BKSM84KBBL8CIIAYIYIP")
         zipcodes = response.json()
         new_obj = {"date": get_datetime(),
                    "data": zipcodes}
+        if exists(ZIPCODE_FILE):
+            os.remove(ZIPCODE_FILE)
         save_pickle(new_obj, ZIPCODE_FILE)
-        print("Zipcode list updated!")
+        print("\tZipcode list updated!")
+    else:
+        print("\tLast fetch within 5 days, returning results from local file.")
 
     return zipcodes
 
 
 def check_valid_zips():
+    """
+    Checks the last saved object of the valid zipcodes for Power To Choose website. This is
+    basically a list of all zipcodes in PowerToChoose that have some sort of data. Zipcodes
+    that return a 404 or empty data are excluded from the list.
+    :return:  PTC valid zipcodes or None.
+    """
+    print("\nChecking for PowerToChoose valid zipcode list locally ...")
     update = False
     if exists(VALID_ZIPS):
         old_obj = get_pickle(VALID_ZIPS)
@@ -102,9 +117,11 @@ def check_valid_zips():
             update = True
         else:
             valid_zipcodes = old_obj["data"]
+            print("\tList found, returning data.")
             return valid_zipcodes
 
     if not exists(VALID_ZIPS) or update:
+        print("\tList is either NOT found, or needs to be updated.")
         return None
 
 
@@ -113,25 +130,24 @@ def main():
     This function will be mapping zipcodes to idKey (plan_id in dict)
     So key = idKey, value = list(zipcodes with that plan)
     for each of the plans in the input CSV -
-    :return: the mapping
+    :return: the mapping is saved to ZIPCODE_MAP
     """
     zipcodes = check_api_zicodes()
     valid_zipcodes = check_valid_zips()
     if valid_zipcodes and len(valid_zipcodes) > 500:
         zipcodes = valid_zipcodes
     zipcodes = sorted([int(x) for x in zipcodes])
-    print(zipcodes)
-    time.sleep(1)
     obj = Zipcode(zipcodes)
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
-        for zipcode, plans in tqdm.tqdm(zip(zipcodes, executor.map(obj.api_data, zipcodes)), total=len(zipcodes)):
+        for zipcode, plans in tqdm.tqdm(zip(zipcodes, executor.map(obj.api_data, zipcodes)), total=len(zipcodes), desc="Zipcode Mapping"):
             if plans and len(plans) > 0:
                 id_zipcode_map[str(zipcode)] = plans
 
     print(id_zipcode_map)
     with open(ZIPCODE_MAP, 'w') as f:
         json.dump(id_zipcode_map, f, sort_keys=True, indent=4)
+
     update_valid_zips(list(id_zipcode_map.keys()))
 
 
@@ -162,6 +178,6 @@ def zipcode_file():
 if __name__ == '__main__':
     # block_print()
     # Step 1 - Create the JSON with zip code to plan mapping.
-    # main()
+    main()
     # Step 2 - Use that mapping to create zip code level CSVs.
-    zipcode_file()
+    # zipcode_file()
