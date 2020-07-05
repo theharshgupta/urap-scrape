@@ -72,7 +72,7 @@ def check_api_zicodes():
     """
     This makes a call to the API which gets TEXAS zipcodes. Currently, if the last API call
     was made more than 5 days ago, a new call is made. Otherwise, old API results are used. This
-    is to prevent uneccesary API calls that increases run time. Using pickle.
+    is to prevent unnecessary API calls that increases run time. Using pickle.
     :return:
     """
     update = False
@@ -117,7 +117,7 @@ def check_valid_zips():
             update = True
         else:
             valid_zipcodes = old_obj["data"]
-            print("\tList found, returning data.")
+            print(f"\tList found from {datetime.strptime(last_pickle, '%m%d%y_%H_%M_%S')}, returning data.")
             return valid_zipcodes
 
     if not exists(VALID_ZIPS) or update:
@@ -153,7 +153,7 @@ def main():
 
 def zipcode_file():
     """
-    Converts raw CSV to zipcode level CSVs
+    Converts raw CSV to zipcode level CSVs.
     :return: None
     """
     if not exists(CSV_DIR):
@@ -180,4 +180,4 @@ if __name__ == '__main__':
     # Step 1 - Create the JSON with zip code to plan mapping.
     main()
     # Step 2 - Use that mapping to create zip code level CSVs.
-    # zipcode_file()
+    zipcode_file()

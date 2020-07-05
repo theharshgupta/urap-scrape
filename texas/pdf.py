@@ -58,11 +58,10 @@ def download_pdf(pdf_url, plan):
     """
     # Checks if the pdf is already downloaded before and if yes then returns 0
     # Added timestamp to the PDF filename
-    # Even if the pdf is downlaoded, we still need to download the pdf for the new plan. Because
+    # Even if the pdf is downloaded, we still need to download the pdf for the new plan. Because
     # if the plan is updated then it's PDF will also be updated.
     pdf_filepath = f"{os.path.join(PDF_DIR, str(plan.id_key))}-{get_datetime().replace('_', '-')}.pdf"
 
-    # url_extension = str(pdf_url).split('.')[-1].lower()
     print(f"Trying to download {plan.id_key} at {pdf_url} ")
     # if "sparkenergy.com" in pdf_url and ".pdf" in pdf_url[-4:]:
     #     from selenium import webdriver
@@ -96,7 +95,7 @@ def download_pdf(pdf_url, plan):
             try:
                 response = requests.get(url=pdf_url, stream=True, timeout=20)
             except Timeout:
-                logging.info(f"Timeout after {TIMEOUT_LIMIT}")
+                # logging.info(f"Timeout after {TIMEOUT_LIMIT}")
                 return
         except MissingSchema:
             print("\t Invalid URL: ", pdf_url)
@@ -108,7 +107,7 @@ def download_pdf(pdf_url, plan):
         try:
             response = requests.get(url=pdf_url, stream=True, verify=False, timeout=20)
         except Timeout:
-            logging.info(f"Timeout after {TIMEOUT_LIMIT}")
+            # logging.info(f"Timeout after {TIMEOUT_LIMIT}")
             return False
 
     # content type for finding if its HTML or PDF
@@ -132,12 +131,12 @@ def download_pdf(pdf_url, plan):
             table_exists = soup.find("table")
             if frame_element:
                 pdf_url = frame_element.attrs["src"]
-                logging.info(f"Extracting in frame PDF at {plan.facts_url} calling recursively.")
+                # logging.info(f"Extracting in frame PDF at {plan.facts_url} calling recursively.")
                 download_pdf(pdf_url=pdf_url, plan=plan)
             elif table_exists and (soup.body.findAll(text=HTML_KEYWORDS[0] or soup.body.findAll(text=HTML_KEYWORDS[1]))):
                 # html_to_pdf(url=pdf_url, filepath=f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf")
                 html_to_pdf(url=pdf_url, filepath=pdf_filepath)
-                logging.info(f"Converting HTML for {plan.facts_url} to PDF")
+                # logging.info(f"Converting HTML for {plan.facts_url} to PDF")
             else:
                 print("\t HTML nothing found.")
 
@@ -151,7 +150,9 @@ def download_pdf(pdf_url, plan):
 
     if exists(pdf_filepath):
         print("\t Downloaded Successfully.")
+        logging.info(f"Successfully downloaded {plan.id_key}.")
         return pdf_filepath
     else:
+        logging.info(f"Could not download {plan.id_key}.")
         return
 
