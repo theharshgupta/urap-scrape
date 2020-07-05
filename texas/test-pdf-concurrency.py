@@ -12,12 +12,13 @@ import texas.pdf as pdf
 import texas.utils as utils
 from email_service import send_email
 
+utils.block_print()
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(Path(dir_path).parent)
-
 os.chdir(dir_path)
-
-logging.basicConfig(format="%(asctime)s: %(message)s")
+logging.basicConfig(filename=utils.LOGS_PATH, level=logging.DEBUG,
+                    format='%(asctime)s:%(message)s')
 
 
 class Plan:
@@ -78,7 +79,7 @@ def download_concurrent(csv_filepath):
         plans.append(plan)
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
-        for plan_obj, pdf_filepath in zip(plans, executor.map(pdf.download_pdf_concurrent, plans)):
+        for plan_obj, pdf_filepath in tqdm(zip(plans, executor.map(pdf.download_pdf_concurrent, plans)), total=len(plans)):
             if pdf_filepath:
                 setattr(plan_obj, "pdf_filepath", pdf_filepath)
                 # d['pdf_filepath'] = pdf_filepath
@@ -96,4 +97,5 @@ def download_concurrent(csv_filepath):
 
 
 if __name__ == '__main__':
+    utils.block_print()
     download_concurrent(csv_filepath=utils.DIFFPLANS_CSV_PATH)

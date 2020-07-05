@@ -8,6 +8,8 @@ import pickle
 
 TIMEOUT_LIMIT = 5
 CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
+
+CWD = os.curdir
 LATEST_CSV_PATH = os.path.join("data", "latest.csv")
 DIFFPLANS_CSV_PATH = os.path.join("data", "diffPlans.csv")
 DATA_DIR = "data"
@@ -27,16 +29,18 @@ RESULT_DIR = os.path.join(DATA_DIR, "result")
 RESULT_CSV = os.path.join(RESULT_DIR, "result.csv")
 NEW_PLANS_RESULT_CSV = os.path.join(RESULT_DIR, "new-plans.csv")
 
+RUN_HISTORY_FILE = os.path.join(CWD, 'run_history.txt')
 
-def save_pickle(object, file):
+
+def save_pickle(obj, file):
     """
     A function to save object to a pickle in the file location
-    :param object: what you want to pickle
+    :param obj: what you want to pickle
     :param file: where you want to pickle
     :return: None
     """
     with open(file, 'ab') as f:
-        pickle.dump(object, f)
+        pickle.dump(obj, f)
 
 
 def get_pickle(file):
@@ -101,12 +105,12 @@ def filter_csv(csv_filepath):
     df_english.to_csv(csv_filepath, index=False)
 
 
-def get_datetime():
+def get_datetime(datetime_format='%m%d%y_%H_%M_%S'):
     """
     Function to return current datetime.
     :return: the string of current datetime.
     """
-    return datetime.today().astimezone(pytz.timezone('US/Pacific')).strftime('%m%d%y_%H_%M_%S')
+    return datetime.today().astimezone(pytz.timezone('US/Pacific')).strftime(datetime_format)
 
 
 def copy(curr, dest):

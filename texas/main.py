@@ -107,7 +107,7 @@ def download(csv_filepath):
     result = []
     for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
         plan = Plan(d)
-        logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
+        # logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
         pdf_filepath = pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
         if pdf_filepath:
             d['pdf_filepath'] = pdf_filepath
@@ -124,7 +124,7 @@ def setup():
     Sets up the folders for all functions to run.
     :return: None.
     """
-    print("Running the presetupm to check for folders and create them. ")
+    print("Running the presetupm to check for folders and create them ...")
     if not utils.exists(utils.DATA_DIR):
         os.mkdir(utils.DATA_DIR)
     if not utils.exists(utils.PDF_DIR):
@@ -145,7 +145,7 @@ def setup():
     if utils.exists(utils.DIFFPLANS_CSV_PATH):
         os.remove(utils.DIFFPLANS_CSV_PATH)
 
-    print("Pre setup completed. ")
+    print("\tSetup completed. ")
 
 
 def auto_download_csv(url):
@@ -154,7 +154,7 @@ def auto_download_csv(url):
     created that contains all the plans that need to be "considered" -- i.e. to be downloaded,
     worked with, mapped, etc.
     :param url: URL to make a request.
-    :return: None.
+    :return: Dataframe of new plans else None.
     """
     print("\nRunning Auto Download CSV to download the MASTER CSV...")
     filepath = f"{os.path.join(utils.MASTER_DIR, utils.get_datetime().replace('_', '-'))}.csv"
@@ -166,6 +166,7 @@ def auto_download_csv(url):
     if not utils.exists(utils.LATEST_CSV_PATH):
         utils.copy(filepath, utils.LATEST_CSV_PATH)
         utils.copy(utils.LATEST_CSV_PATH, utils.DIFFPLANS_CSV_PATH)
+        print("\tLatest CSV file did not exists, so all plans will be added. ")
         return 1
     else:
         # DOUBT - does it return new plans that were added to the new csv
@@ -182,6 +183,7 @@ def auto_download_csv(url):
             print(df.to_string())
             utils.copy(filepath, utils.LATEST_CSV_PATH)
             df.to_csv(utils.DIFFPLANS_CSV_PATH, index=False)
+            print("\tAdding different plans to DIFF plans CSV.")
             return df
 
 
@@ -237,10 +239,29 @@ def edit_csv(file: str, edited_file: str, id_zipcode_map):
             csv_writer.writerow(row)
 
 
-if __name__ == '__main__':
+def update_run_file(num_new_plans: int):
+    """
+    File should contain two columns with timestamp and number of unique plans found for each row.
+    Updates on each run.
+    :param num_new_plans: For second column of the file. New plans found on that run.
+    :return: None
+    """
+    row = f"{utils.get_datetime(datetime_format='%m/%d/%y %H:%M:%S')}, {num_new_plans}"
 
-    combine_results()
-    exit(1)
+    if not utils.exists(utils.RUN_HISTORY_FILE):
+        with open(utils.RUN_HISTORY_FILE, 'w') as run_file:
+            run_file.write(row)
+    else:
+        with open(utils.RUN_HISTORY_FILE) as contents:
+            curr_contents = contents.read()
+        with open(utils.RUN_HISTORY_FILE, 'a', newline='') as run_file:
+            if len(curr_contents) == 0:
+                run_file.write(row)
+            else:
+                run_file.write("\n" + row)
+
+
+if __name__ == '__main__':
 
     # Step 1 - Set up folders.
     setup()
@@ -258,13 +279,17 @@ if __name__ == '__main__':
     try:
         new_plans = auto_download_csv(utils.CSV_LINK)
         if new_plans is None:
+            update_run_file(num_new_plans=0)
             exit()
+        else:
+            update_run_file(num_new_plans=len(new_plans.index))
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(
             body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
             files=[utils.LOGS_PATH])
 
+    exit()
     # Step 3 - Run the code for the differences.
     try:
         # download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
