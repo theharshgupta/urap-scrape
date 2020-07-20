@@ -1,11 +1,10 @@
 import os
+import sys
 from pathlib import Path
 import csv
 import pickle
-import concurrent.futures
 import traceback
 import pathlib
-from email_service import send_email
 import pandas as pd
 from datetime import datetime
 import requests
@@ -13,14 +12,19 @@ from requests.exceptions import Timeout
 import json
 import urllib.request
 import logging
-import texas.pdf as pdf
-import texas.utils as utils
 from tqdm import tqdm
 from csv_diff import load_csv, compare
-import texas.map_zipcodes as map_zips
+import numpy as np
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(Path(dir_path).parent)
+sys.path.append(os.getcwd())
+sys.path.append(dir_path)
+
+from email_service_TX import send_email
+import texas.pdf as pdf
+import texas.utils as utils
+import texas.map_zipcodes as map_zips
 # [2014, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
 # [59, 19775, 21834, 21983, 22018, 22029, 22544, 23515, 23753, 23517, 22549, 22039, 22013, 21993, 19776, 11371, 9721, 18736, 22006, 22016, 22027, 22543, 22469, 23442, 23513, 23960, 9581, 18735, 20186, 23514, 22545, 22210, 22032, 21986, 22034, 22120, 22547, 23516, 19777, 19785]
 
@@ -77,23 +81,56 @@ class Plan:
 
 
 def combine_results():
+
     """
     This subroutine will be run after the PDF downloading is finished and before the zipcode mapping
     process has started. Combines the new-plans.csv and result.csv files.
     :return: None
     """
-
+    # Read in new/updated plans
     updated_plans = pd.read_csv(utils.NEW_PLANS_RESULT_CSV)
-    updated_plan_ids = updated_plans['id_key'].values
+    updated_plan_ids = updated_plans['[idKey]'].values
+    
+    # Identify all currently active Plan IDs
+    current_plans = pd.read_csv(utils.LATEST_CSV_PATH)
+    current_plan_ids = current_plans['[idKey]'].values
+    
+    # Combine updated plans with plans that were not updated or deleted since last scrape
     result = pd.read_csv(utils.RESULT_CSV)
-    old = result.loc[~result['id_key'].isin(updated_plan_ids)]
+    old = result.loc[(~result['[idKey]'].isin(updated_plan_ids)) & 
+                     (result['[idKey]'].isin(current_plan_ids))]
     merged = pd.DataFrame(old).append(updated_plans)
-    print(merged.to_string())
-    merged.to_csv(utils.RESULT_CSV, index=False)
+    #print(merged.to_string())
+    
+    # Update PDF filepaths for any plans that have not been updated but have newly downloaded EFLs
+    check_plans = pd.read_csv(utils.CHECK_PLANS_RESULT_CSV)
+    check_plans = check_plans[['[FactsURL]','pdf_filepath']]
+    check_plans.columns = ['[FactsURL]','pdf_filepath2']
+    merged2 = merged.merge(check_plans, on='[FactsURL]', how='left')
+    merged2['pdf_filepath3'] = np.where((merged2['pdf_filepath2']).isna(), merged2['pdf_filepath'], merged2['pdf_filepath2'])
+    merged2.drop(['pdf_filepath', 'pdf_filepath2'], axis=1, inplace=True)
+    merged2.rename(columns={'pdf_filepath3':'pdf_filepath'}, inplace=True)
+    
+    # Check for any missing/extra plans
+    if len(current_plans.index) != len(merged.index):
+        result_plan_ids = result['[idKey]'].values
+        test = current_plans.loc[~current_plans['[idKey]'].isin(result_plan_ids)]
+        test2 = merged2.loc[~merged2['[idKey]'].isin(current_plan_ids)]
+        if len(test.index) > 0:
+            send_email(
+                body=f"There are plan ID(s) in the raw CSV downloaded from PowerToChoose that are not in the outputs",
+                files=[utils.LOGS_PATH])
+        if len(test2.index) > 0:
+            send_email(
+                body=f"There are plan ID(s) in the outputs that are not in the raw CSV downloaded from PowerToChoose",
+                files=[utils.LOGS_PATH])
+    
+    # Export to CSV
+    merged2.to_csv(utils.RESULT_CSV, index=False)
     print("Find your results at:", utils.RESULT_CSV)
 
 
-def download(csv_filepath):
+def download(csv_filepath, output_fname):
     """
     Alan Comments: df2 is a slight variation of the df object above (I think?) We're iterating
     over each of the plans in df2, using their FactsURL to download the pdfs (with idKey as the
@@ -107,15 +144,21 @@ def download(csv_filepath):
     result = []
     for d in tqdm(data_dict, desc="PDF Downloading", disable=True):
         plan = Plan(d)
-        # logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
-        pdf_filepath = pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
+        logging.info(f"Checking PDF for {plan.id_key} at {plan.facts_url}")
+        try:
+            pdf_filepath = pdf.download_pdf(pdf_url=plan.facts_url, plan=plan)
+        except Exception as e:
+            error_traceback = traceback.extract_tb(e.__traceback__)
+            send_email(
+                body=f"Error in PDF downloading while attempting to download from {plan.facts_url} \n Traceback at {utils.get_datetime()}:\n{error_traceback}",
+                files=[utils.LOGS_PATH])
         if pdf_filepath:
             d['pdf_filepath'] = pdf_filepath
         else:
             d['pdf_filepath'] = "None"
         result.append(d)
     df = pd.DataFrame(result)
-    df.to_csv(os.path.join(utils.RESULT_DIR, "new-plans.csv"), index=False)
+    df.to_csv(os.path.join(utils.RESULT_DIR, output_fname), index=False)
     print(df.to_string())
 
 
@@ -167,7 +210,8 @@ def auto_download_csv(url):
         utils.copy(filepath, utils.LATEST_CSV_PATH)
         utils.copy(utils.LATEST_CSV_PATH, utils.DIFFPLANS_CSV_PATH)
         print("\tLatest CSV file did not exists, so all plans will be added. ")
-        return 1
+        df = pd.read_csv(filepath)
+        return df
     else:
         # DOUBT - does it return new plans that were added to the new csv
         diff_plans = diff_check(latest=utils.LATEST_CSV_PATH, other=filepath)
@@ -280,7 +324,7 @@ if __name__ == '__main__':
         new_plans = auto_download_csv(utils.CSV_LINK)
         if new_plans is None:
             update_run_file(num_new_plans=0)
-            exit()
+            sys.exit("No new plans")
         else:
             update_run_file(num_new_plans=len(new_plans.index))
     except Exception as e:
@@ -289,16 +333,35 @@ if __name__ == '__main__':
             body=f"Error in Auto Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
             files=[utils.LOGS_PATH])
 
-    exit()
     # Step 3 - Run the code for the differences.
     try:
         # download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
-        download(csv_filepath=utils.DIFFPLANS_CSV_PATH)
+        download(csv_filepath=utils.DIFFPLANS_CSV_PATH, output_fname = "new-plans.csv")
     except Exception as e:
         error_traceback = traceback.extract_tb(e.__traceback__)
         send_email(
             body=f"Error in PDF Downloading.\nTraceback at {utils.get_datetime()}:\n{error_traceback}",
             files=[utils.LOGS_PATH])
 
-    # map_zips.main()
+    # Also try to download missing PDFs for continued plans
+    result = pd.read_csv(utils.RESULT_CSV)
+    check_plans = result.loc[result['pdf_filepath'] == 'None']
+    check_plans.drop('pdf_filepath', axis=1, inplace=True)
+    check_plans.to_csv(utils.CHECKPLANS_CSV_PATH, index=False)
+    try:
+        download(csv_filepath=utils.CHECKPLANS_CSV_PATH, output_fname = "check-plans.csv")
+    except:
+        print('Downloading missing PDFs for unchanged plans failed')
+        
+
+    # Combine the new-plans.csv and result.csv files
+    combine_results()
+    
+    # Create the JSON with zip code to plan mapping
+    map_zips.main()
+    
+    # Use that mapping to create zip code level CSVs
+    map_zips.zipcode_file()
+    
+    # Stop logging
     logging.shutdown()

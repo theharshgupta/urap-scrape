@@ -5,6 +5,16 @@ from datetime import datetime
 import shutil
 import pytz
 import pickle
+import io
+from pathlib import Path
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(Path(dir_path).parent)
+sys.path.append(os.getcwd())
+sys.path.append(dir_path)
+
+from email_service_TX import send_email
+import texas.utils as utils
 
 TIMEOUT_LIMIT = 5
 CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
@@ -12,6 +22,7 @@ CSV_LINK = "http://www.powertochoose.org/en-us/Plan/ExportToCsv"
 CWD = os.curdir
 LATEST_CSV_PATH = os.path.join("data", "latest.csv")
 DIFFPLANS_CSV_PATH = os.path.join("data", "diffPlans.csv")
+CHECKPLANS_CSV_PATH = os.path.join("data", "CheckPDFPlans.csv")
 DATA_DIR = "data"
 PDF_DIR = os.path.join(DATA_DIR, "PDFs")
 LOGS_DIR = "logs"
@@ -28,6 +39,7 @@ CSV_DIR = os.path.join(DATA_DIR, "csv_zipcode")
 RESULT_DIR = os.path.join(DATA_DIR, "result")
 RESULT_CSV = os.path.join(RESULT_DIR, "result.csv")
 NEW_PLANS_RESULT_CSV = os.path.join(RESULT_DIR, "new-plans.csv")
+CHECK_PLANS_RESULT_CSV = os.path.join(RESULT_DIR, "check-plans.csv")
 
 RUN_HISTORY_FILE = os.path.join(CWD, 'run_history.txt')
 
@@ -92,6 +104,21 @@ def rename(current, new):
     else:
         pathlib.Path(current).rename(new)
 
+def add_delimiters(fpath, delimiter=','):
+
+    s_data = ''
+    max_num_delimiters = 0
+
+    with open(fpath, 'r') as f:
+        for line in f:
+            s_data += line
+            delimiter_count = line.count(delimiter)
+            if delimiter_count > max_num_delimiters:
+                max_num_delimiters = delimiter_count
+
+    s_delimiters = delimiter * max_num_delimiters + '\n'
+
+    return io.StringIO(s_delimiters + s_data)
 
 def filter_csv(csv_filepath):
     """
@@ -99,7 +126,22 @@ def filter_csv(csv_filepath):
     :param csv_filepath: File path of the CSV.
     :return: None.
     """
-    df = pd.DataFrame(pd.read_csv(csv_filepath))
+    try:
+        df = pd.DataFrame(pd.read_csv(csv_filepath))
+    except: # work-around for error on 7/16
+        df_erred = pd.DataFrame(pd.read_csv(add_delimiters(csv_filepath)))
+        new_header = df_erred.iloc[0] #grab the first row for the header
+        df_erred = df_erred[1:] #take the data less the header row
+        df_erred.columns = new_header
+        df = df_erred.copy()
+        error_rows = df_erred.index[(df_erred['[Rating]'] == 'Spanish') | (df_erred['[Rating]'] == 'English')].tolist()
+        if len(error_rows) == 0:
+            send_email(
+            body=f"Trouble parsing the CSV downloaded from Power to Choose",
+            files=[utils.LOGS_PATH])
+        for i in error_rows:
+            df.iloc[i,23:28] = df_erred.iloc[i,24:29]
+        df = df[df.columns.dropna()]
     df_english = df[df['[Language]'] == 'English']
     df_english = df_english.drop(["[Language]", "[EnrollURL]", "[EnrollPhone]", "[Website]"], axis=1) #jkl
     df_english.to_csv(csv_filepath, index=False)

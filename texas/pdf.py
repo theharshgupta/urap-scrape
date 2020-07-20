@@ -93,9 +93,9 @@ def download_pdf(pdf_url, plan):
     try:
         try:
             try:
-                response = requests.get(url=pdf_url, stream=True, timeout=20)
+                response = requests.get(url=pdf_url, stream=True, timeout=60)
             except Timeout:
-                # logging.info(f"Timeout after {TIMEOUT_LIMIT}")
+                logging.info(f"Timeout after {TIMEOUT_LIMIT}")
                 return
         except MissingSchema:
             print("\t Invalid URL: ", pdf_url)
@@ -105,9 +105,9 @@ def download_pdf(pdf_url, plan):
         print(f"\t SSL Error for {plan.id_key}")
         warnings.simplefilter('ignore', InsecureRequestWarning)
         try:
-            response = requests.get(url=pdf_url, stream=True, verify=False, timeout=20)
+            response = requests.get(url=pdf_url, stream=True, verify=False, timeout=60)
         except Timeout:
-            # logging.info(f"Timeout after {TIMEOUT_LIMIT}")
+            logging.info(f"Timeout after {TIMEOUT_LIMIT}")
             return False
 
     # content type for finding if its HTML or PDF
@@ -131,12 +131,12 @@ def download_pdf(pdf_url, plan):
             table_exists = soup.find("table")
             if frame_element:
                 pdf_url = frame_element.attrs["src"]
-                # logging.info(f"Extracting in frame PDF at {plan.facts_url} calling recursively.")
+                logging.info(f"Extracting in frame PDF at {plan.facts_url} calling recursively.")
                 download_pdf(pdf_url=pdf_url, plan=plan)
             elif table_exists and (soup.body.findAll(text=HTML_KEYWORDS[0] or soup.body.findAll(text=HTML_KEYWORDS[1]))):
                 # html_to_pdf(url=pdf_url, filepath=f"{os.path.join(PDF_DIR, str(plan.id_key))}.pdf")
                 html_to_pdf(url=pdf_url, filepath=pdf_filepath)
-                # logging.info(f"Converting HTML for {plan.facts_url} to PDF")
+                logging.info(f"Converting HTML for {plan.facts_url} to PDF")
             else:
                 print("\t HTML nothing found.")
 

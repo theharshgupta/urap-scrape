@@ -169,7 +169,7 @@ def zipcode_file():
 
     for zipcode, plans in tqdm.tqdm(dict(data).items(), total=len(data)):
         filepath = os.path.join(timestamp_dir, f"{zipcode}_{get_datetime()}.csv")
-        plans_df = df[df["id_key"].isin(plans)]
+        plans_df = df[df["[idKey]"].isin(plans)]
         plans_df["Zipcode"] = zipcode
         plans_df.to_csv(filepath, index=False)
         # print("Saving", filepath)
