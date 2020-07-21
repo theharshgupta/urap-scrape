@@ -96,33 +96,39 @@ def combine_results():
     current_plan_ids = current_plans['[idKey]'].values
     
     # Combine updated plans with plans that were not updated or deleted since last scrape
-    result = pd.read_csv(utils.RESULT_CSV)
-    old = result.loc[(~result['[idKey]'].isin(updated_plan_ids)) & 
-                     (result['[idKey]'].isin(current_plan_ids))]
-    merged = pd.DataFrame(old).append(updated_plans)
-    #print(merged.to_string())
-    
-    # Update PDF filepaths for any plans that have not been updated but have newly downloaded EFLs
-    check_plans = pd.read_csv(utils.CHECK_PLANS_RESULT_CSV)
-    check_plans = check_plans[['[FactsURL]','pdf_filepath']]
-    check_plans.columns = ['[FactsURL]','pdf_filepath2']
-    merged2 = merged.merge(check_plans, on='[FactsURL]', how='left')
-    merged2['pdf_filepath3'] = np.where((merged2['pdf_filepath2']).isna(), merged2['pdf_filepath'], merged2['pdf_filepath2'])
-    merged2.drop(['pdf_filepath', 'pdf_filepath2'], axis=1, inplace=True)
-    merged2.rename(columns={'pdf_filepath3':'pdf_filepath'}, inplace=True)
+    if not utils.exists(utils.RESULT_CSV):
+        merged2 = updated_plans
+        send_email(
+            body=f"Warning: result.csv does not exist",
+            files = [utils.LOGS_PATH])
+    else:
+        result = pd.read_csv(utils.RESULT_CSV)
+        old = result.loc[(~result['[idKey]'].isin(updated_plan_ids)) & 
+                         (result['[idKey]'].isin(current_plan_ids))]
+        merged = pd.DataFrame(old).append(updated_plans)
+        #print(merged.to_string())
+        
+        # Update PDF filepaths for any plans that have not been updated but have newly downloaded EFLs
+        check_plans = pd.read_csv(utils.CHECK_PLANS_RESULT_CSV)
+        check_plans = check_plans[['[FactsURL]','pdf_filepath']]
+        check_plans.columns = ['[FactsURL]','pdf_filepath2']
+        merged2 = merged.merge(check_plans, on='[FactsURL]', how='left')
+        merged2['pdf_filepath3'] = np.where((merged2['pdf_filepath2']).isna(), merged2['pdf_filepath'], merged2['pdf_filepath2'])
+        merged2.drop(['pdf_filepath', 'pdf_filepath2'], axis=1, inplace=True)
+        merged2.rename(columns={'pdf_filepath3':'pdf_filepath'}, inplace=True)
     
     # Check for any missing/extra plans
-    if len(current_plans.index) != len(merged.index):
+    if len(current_plans.index) != len(merged2.index):
         result_plan_ids = result['[idKey]'].values
         test = current_plans.loc[~current_plans['[idKey]'].isin(result_plan_ids)]
         test2 = merged2.loc[~merged2['[idKey]'].isin(current_plan_ids)]
         if len(test.index) > 0:
             send_email(
-                body=f"There are plan ID(s) in the raw CSV downloaded from PowerToChoose that are not in the outputs",
+                body="There are plan ID(s) in the raw CSV downloaded from PowerToChoose that are not in the outputs",
                 files=[utils.LOGS_PATH])
         if len(test2.index) > 0:
             send_email(
-                body=f"There are plan ID(s) in the outputs that are not in the raw CSV downloaded from PowerToChoose",
+                body="There are plan ID(s) in the outputs that are not in the raw CSV downloaded from PowerToChoose",
                 files=[utils.LOGS_PATH])
     
     # Export to CSV
