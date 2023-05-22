@@ -10,4 +10,4 @@ csv_diff == 0.6
 pandas == 0.24.2
 
 # X:\Python\urap-scrape\ma\req_method.py: 1
-requests == 2.22.0
+requests == 2.31.0
