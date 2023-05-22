@@ -1,4 +1,4 @@
-requests==2.22.0
+requests==2.31.0
 PyPDF2==1.26.0
 beautifulsoup4==4.8.1
 pandas==0.25.2
