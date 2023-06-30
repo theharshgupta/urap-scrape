@@ -1,5 +1,5 @@
 requests==2.22.0
-PyPDF2==1.26.0
+PyPDF2==1.27.9
 beautifulsoup4==4.8.1
 pandas==0.25.2
 pdfkit==0.6.1
